@@ -1,48 +1,81 @@
-body
-	font-family: Open Sans
+#wrapper
+  padding-left: 0
+  -webkit-transition: all 0.5s ease
+  -moz-transition: all 0.5s ease
+  -o-transition: all 0.5s ease
+  transition: all 0.5s ease
+  &.toggled
+    padding-left: 200px
 
-.container-meeter
-	margin-top: 75px
-	width: 70%
+#sidebar-wrapper
+  z-index: 1000
+  position: fixed
+  left: 200px
+  width: 0
+  height: 100%
+  margin-left: -200px
+  overflow-y: auto
+  background: #333
+  -webkit-transition: all 0.5s ease
+  -moz-transition: all 0.5s ease
+  -o-transition: all 0.5s ease
+  transition: all 0.5s ease
 
-.container-navbar
-    width: 70%
+#wrapper.toggled #sidebar-wrapper
+  width: 200px
 
-.right 
-  	float: right !important
+#page-content-wrapper
+  width: 100%
+  position: absolute
+  padding: 15px
 
-.left 
-  	float: left !important
+#wrapper.toggled #page-content-wrapper
+  position: absolute
+  margin-right: -200px
 
-.top
-	top: 0 !important
 
-.bottom
-	bottom: 0 !important
-
-.center
-	left: 50% !important
-	top: 50% !important
-	margin: auto
-
-.no-padding
+.sidebar-nav
+  position: absolute
+  top: 0
+  width: 200px
+  margin: 0
   padding: 0
-
-.tools
-	padding-left: 30px
-	padding-right: 30px
-
-@media (max-width: 768px)
-	.container-meeter
-		width: 100%
-	.container-navbar
-		width: 100%
+  list-style: none
+  li
+    text-indent: 20px
+    line-height: 40px
+    a
+      display: block
+      text-decoration: none
+      color: #999999
+      &:hover
+        text-decoration: none
+        color: #fff
+        background: rgba(255, 255, 255, 0.2)
+      &:active, &:focus
+        text-decoration: none
+  > .sidebar-brand
+    height: 65px
+    font-size: 18px
+    line-height: 60px
+    a
+      color: #999999
+      &:hover
+        color: #fff
+        background: none
 
 @media (min-width: 768px)
-	.container-meeter
-		width: 70%
-	.container-navbar
-		width: 70%
-
-.dropdown:hover .dropdown-menu
-    display: block
+  #wrapper
+    padding-left: 200px
+    &.toggled
+      padding-left: 0
+  #sidebar-wrapper
+    width: 200px
+  #wrapper.toggled #sidebar-wrapper
+    width: 0
+  #page-content-wrapper
+    padding: 20px
+    position: relative
+  #wrapper.toggled #page-content-wrapper
+    position: relative
+    margin-right: 0

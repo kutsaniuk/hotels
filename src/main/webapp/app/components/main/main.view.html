@@ -1,41 +1,39 @@
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container-fluid container-navbar tools">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/feed">meeter</a>
-    </div>
-    <div id="bs-example-navbar-collapse-1">
-      <div class="btn-group right">
-        <img class="right navbar-avatar" src="dist/img/profile.default.avatar.png" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <ul class="dropdown-menu dropdown-menu-right">
-          <li><a href="/profile">Profile</a></li>
-          <li><a href="#">Settings</a></li>
-          <li><a href="#">Followers</a></li>
-          <li role="separator" class="divider"></li>
-          <li><a href="/login">Log out</a></li>
-        </ul>
-      </div>
-      <form class="navbar-form navbar-right " role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-      </form>
-    </div>
-  </div>
-</nav>
-<center><button class="btn btn-default glyphicon glyphicon-plus add-event" ng-click="eventAddShow = true"></button></center>
-  
-  <ui-view></ui-view>
+<div id="wrapper">
 
-<div class="event-add-container show-hide" ng-show="eventAddShow" ng-init="eventAddShow = false">
-  <div class="event-form-group">
-    <input type="text" placeholder="Name event" autofocus><br>
-    <textarea placeholder="Description"></textarea>
+  <!-- Navigation -->
+  <nav id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+      <li class="sidebar-brand">
+        <a href="/">
+          Hotels
+        </a>
+      </li>
+      <li class="{{active}}">
+        <a href="/tables"><i class="glyphicon glyphicon-th"></i> <b>TABLES</b></a>
+      </li>
+      <li class="{{active}}">
+        <a href="/hotels"><i class="glyphicon glyphicon-home"></i> Hotels</a>
+      </li>
+      <li class="{{active}}">
+        <a href="/workers"><i class="glyphicon glyphicon-user"></i> Workers</a>
+      </li>
+      <li class="{{active}}">
+        <a href="/rooms"><i class="glyphicon glyphicon-th-large"></i> Rooms</a>
+      </li>
+    </ul>
+  </nav>
+
+  <div id="page-content-wrapper">
+
+    <div class="container-fluid">
+
+      <ui-view></ui-view>
+
+    </div>
+    <!-- /.container-fluid -->
+
   </div>
-  <span class="glyphicon glyphicon-remove event-add-close" ng-click="eventAddShow = false"></span>
+  <!-- /#page-wrapper -->
+
 </div>
+<!-- /#wrapper -->
