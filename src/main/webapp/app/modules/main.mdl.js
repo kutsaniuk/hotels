@@ -5,7 +5,9 @@
 		'hotels',
 		'workers',
 		'rooms',
-		'ui.router'
+		'ui.router',
+		'ui.bootstrap',
+		'ngResource'
 		])
 	.config(configure);
 
@@ -15,20 +17,21 @@
 
 		$urlRouterProvider.otherwise(function ($injector) {
 			var $state = $injector.get("$state");
-			$state.go('main.tables');
+			$state.go('main.home');
 		});
 
 		$stateProvider
 		.state('main', {
 			url: '/',
 			abstract: true,
-			templateUrl: '/app/components/main/main.view.html'
+			templateUrl: '/app/components/main/main.view.html',
+			controller: 'SidebarCtrl'
 		})
-		.state('main.tables', {
-			url: 'tables',
+		.state('main.home', {
+			url: 'home',
 			views: {
 				'': {
-					templateUrl: '/app/components/tables/tables.view.html'
+					templateUrl: '/app/components/home/home.view.html'
 				}
 			}
 		});

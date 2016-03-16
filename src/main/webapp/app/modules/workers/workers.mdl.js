@@ -19,6 +19,15 @@
 					controller: 'WorkersCtrl',
 				}
 			}
+		})
+		.state('main.workers.add', {
+			url: '/add',
+			views: {
+				'add': {
+					templateUrl: '/app/modules/workers/add/worker.add.view.html',
+					controller: 'WorkersCtrl'
+				}
+			}
 		});
 
 		$locationProvider.html5Mode(true);

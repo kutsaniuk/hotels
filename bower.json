@@ -8,6 +8,7 @@
     "angular": "~1.4.x",  
     "angular-bootstrap": "~1.1.x",
     "angular-route": "~1.4.x",
+    "angular-resource": "1.4.x",
     "angular-ui-router":"0.2.x",
     "angular-animate": "~1.4.x",
     "angular-translate":"2.9.x",
@@ -17,4 +18,4 @@
     "jscs":"~2.0.0"
   }
 }
-
+ 

@@ -1,89 +1,72 @@
-<!-- Page Heading -->
-<div class="row">
-  <div class="col-lg-12">
-    <ol class="breadcrumb">
-      <li>
-        <i class="fa fa-dashboard"></i>  <a href="/tables">Tables</a>
-      </li>
-      <li class="active">
-        <i class="fa fa-table"></i> {{table}}
-      </li>
-    </ol>
-  </div>
-</div>
 <!-- /.row -->
-
 <div class="row">
   <div class="col-lg-9">
-    <div class="table-responsive">
-      <table class="table table-hover table-striped">
-        <thead>
-          <tr>
-            <th ng-repeat="column in tableHeader">{{column}}</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody ng-switch="tableDataRows">
-          <tr ng-switch-when="hotels" ng-repeat="row in tableData">
-            <td>{{row.name}}</td>
-            <td>{{row.country}}</td>
-            <td>{{row.city}}</td>
-            <td>{{row.adress}}</td>
-            <td>{{row.director}}</td>
-            <td>{{row.email}}</td>
-            <td>{{row.phoneOfDirector}}</td>
-            <td>{{row.phoneOrders}}</td>
-            <td>
-              <button class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></button>
-              <button class="btn btn-default"><i class="glyphicon glyphicon-remove"></i></button>
-            </td>
-          </tr>
-          <tr ng-switch-when="workers" ng-repeat="row in tableData">
-            <td>{{row.fullName}}</td>
-            <td>{{row.position}}</td>
-            <td>{{row.birthday}}</td>
-            <td>{{row.age}}</td>
-            <td>{{row.sex}}</td>
-            <td>{{row.experience}}</td>
-            <td>{{row.previousPosition}}</td>
-            <td>{{row.date}}</td>
-            <td>
-              <button class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></button>
-              <button class="btn btn-default"><i class="glyphicon glyphicon-remove"></i></button>
-            </td>
-          </tr>
-          <tr ng-switch-when="rooms" ng-repeat="row in tableData">
-            <td>{{row.roomType}}</td>
-            <td>{{row.numberOfRooms}}</td>
-            <td>{{row.typeOfBed}}</td>
-            <td>{{row.breakfast}}</td>
-            <td>{{row.price}}</td>
-            <td>
-              <button class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></button>
-              <button class="btn btn-default"><i class="glyphicon glyphicon-remove"></i></button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <nav>
-        <ul class="pagination">
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading" style="padding: 0">
+        <ol class="breadcrumb" style="margin: 0">
           <li>
-            <a href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
+            <i class="fa fa-dashboard"></i>  <a href="/tables">Home</a>
           </li>
-          <li class="active"><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">4</a></li>
-          <li><a href="#">5</a></li>
-          <li>
-            <a href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
+          <li class="active">
+            <i class="fa fa-table"></i> {{table}}
           </li>
-        </ul>
-      </nav>
+        </ol>
+      </div>
+      <div class="table-responsive" ng-controller="TableCtrl">
+        <table class="table table-hover table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th ng-repeat="column in tableHeader" ng-click="sort(column)"><i ng-class = "{'glyphicon glyphicon-arrow-up':isSortUp(column), 'glyphicon glyphicon-arrow-down':isSortDown(column)}"></i>{{column}}</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody ng-switch="table">
+            <tr ng-switch-when="hotels" ng-repeat="row in tableData.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage)) | orderBy: fieldName:reverse">
+              <td>{{$index + 1}}</td>
+              <td>{{row.name}}</td>
+              <td>{{row.country}}</td>
+              <td>{{row.city}}</td>
+              <td>{{row.adress}}</td>
+              <td>{{row.director}}</td>
+              <td>{{row.email}}</td>
+              <td>{{row.phoneOfDirector}}</td>
+              <td>{{row.phoneOrders}}</td>
+              <td>
+                <i class="glyphicon glyphicon-pencil" ng-click="openEdit($index)"></i>
+                <i class="glyphicon glyphicon-remove" ng-click="delete($index)"></i>
+              </td>
+            </tr>
+            <tr ng-switch-when="workers" ng-repeat="row in tableData.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))">
+              <td>{{row.fullName}}</td>
+              <td>{{row.position}}</td>
+              <td>{{row.birthday}}</td>
+              <td>{{row.age}}</td>
+              <td>{{row.sex}}</td>
+              <td>{{row.experience}}</td>
+              <td>{{row.previousPosition}}</td>
+              <td>{{row.date}}</td>
+              <td>
+                <button class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></button>
+                <button class="btn btn-default"><i class="glyphicon glyphicon-remove"></i></button>
+              </td>
+            </tr>
+            <tr ng-switch-when="rooms" ng-repeat="row in tableData.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))">
+              <td>{{row.roomType}}</td>
+              <td>{{row.numberOfRooms}}</td>
+              <td>{{row.typeOfBed}}</td>
+              <td>{{row.breakfast}}</td>
+              <td>{{row.price}}</td>
+              <td>
+                <button class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></button>
+                <button class="btn btn-default"><i class="glyphicon glyphicon-remove"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" class="pagination-sm" items-per-page="itemsPerPage" style="margin: 25px"></uib-pagination>
+      </div>
     </div>
   </div>
   <div class="col-lg-3">
@@ -113,6 +96,8 @@
         </div>
       </div>
     </div>
-    <button class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> Add item</button>
+    <button class="btn btn-success full-width" ng-click="openAdd()"><i class="glyphicon glyphicon-plus" ></i> Add item</button>
   </div>
 </div>
+
+<div ui-view="action"></div>

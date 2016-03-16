@@ -35,22 +35,21 @@ gulp.task('sass', function () {
 });
  
 gulp.task('js', function() {
-  return gulp.src(src.public + 'app/**/*.js')
+  return gulp.src(src.public + 'app/**/**/*.js')
     .pipe(concat('main.js'))
     .pipe(gulp.dest(src.public + 'dist/js/'));
 });
 
 gulp.task('watch', function () {
   gulp.watch(src.public + 'sass/*.sass', ['sass']);
-  gulp.watch(src.public + 'app/**/*.js', ['js']);
+  gulp.watch(src.public + 'app/**/**/*.js', ['js']);
   gulp.watch('bower.json', ['bower']);
 });
 
 gulp.task('bower', function () {
   gulp.src(src.public + 'index.html')
     .pipe(wiredep({
-      directory: src.public + 'bower_components',
-      ignorePath: /^(\.\.\/)*\.\./
+      directory: src.public + 'bower_components'
     }))
     .pipe(gulp.dest(src.public));
 });

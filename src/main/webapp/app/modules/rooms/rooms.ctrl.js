@@ -8,37 +8,37 @@
 	function RoomsCtrl($scope) {
 		var sc = $scope;
 		sc.table = 'Rooms';
-		sc.tableDataRows = 'rooms'
+		sc.base = 'rooms';
 
 		sc.tableHeader = 
 		[
-			'Room type', 
-			'Number of rooms',
-			'Type of bed',
-			'Breakfast',
-			'Price'
+		'Room type', 
+		'Number of rooms',
+		'Type of bed',
+		'Breakfast',
+		'Price'
 		];
 
 		sc.tableData = 
 		[
-			{
-				'roomType': '3', 
-				'numberOfRooms': 'aaa',
-				'typeOfBed': 'aaa',
-				'breakfast': 'aaa',
-				'price': 'aaa'
-			},
-			{
-				'roomType': '3', 
-				'numberOfRooms': 'aaa',
-				'typeOfBed': 'aaa',
-				'breakfast': 'aaa',
-				'price': 'aaa'
-			}
+		{
+			'roomType': '3', 
+			'numberOfRooms': 'aaa',
+			'typeOfBed': 'aaa',
+			'breakfast': 'aaa',
+			'price': 'aaa'
+		},
+		{
+			'roomType': '3', 
+			'numberOfRooms': 'aaa',
+			'typeOfBed': 'aaa',
+			'breakfast': 'aaa',
+			'price': 'aaa'
+		}
 
 		];
 
-
-	};
+		sc.totalItems = $scope.tableData.length;
+    };
 
 })();

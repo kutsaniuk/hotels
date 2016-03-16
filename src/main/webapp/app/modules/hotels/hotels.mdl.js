@@ -19,6 +19,24 @@
 					controller: 'HotelsCtrl',
 				}
 			}
+		})
+		.state('main.hotels.new', {
+			url: '/new',
+			views: {
+				'action': {
+					templateUrl: '/app/modules/hotels/new/hotel.new.view.html',
+					controller: 'HotelsCtrl'
+				}
+			}
+		})
+		.state('main.hotels.edit', {
+			url: '/edit',
+			views: {
+				'action': {
+					templateUrl: '/app/modules/hotels/new/hotel.new.view.html',
+					controller: 'HotelsCtrl'
+				}
+			}
 		});
 
 		$locationProvider.html5Mode(true);

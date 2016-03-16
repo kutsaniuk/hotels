@@ -19,6 +19,15 @@
 					controller: 'RoomsCtrl',
 				}
 			}
+		})
+		.state('main.rooms.add', {
+			url: '/add',
+			views: {
+				'add': {
+					templateUrl: '/app/modules/rooms/add/room.add.view.html',
+					controller: 'RoomsCtrl'
+				}
+			}
 		});
 
 		$locationProvider.html5Mode(true);
