@@ -23,7 +23,7 @@
             </tr>
           </thead>
           <tbody ng-switch="table">
-            <tr ng-switch-when="hotels" ng-repeat="row in tableData.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage)) | orderBy: fieldName:reverse">
+            <tr ng-switch-when="hotels" ng-repeat="row in tableData.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage)) | orderBy: fieldName:reverse" ng-dblclick="openEdit($index)">
               <td>{{$index + 1}}</td>
               <td>{{row.name}}</td>
               <td>{{row.country}}</td>
@@ -34,8 +34,8 @@
               <td>{{row.phoneOfDirector}}</td>
               <td>{{row.phoneOrders}}</td>
               <td>
-                <i class="glyphicon glyphicon-pencil" ng-click="openEdit($index)"></i>
-                <i class="glyphicon glyphicon-remove" ng-click="delete($index)"></i>
+                <i class="glyphicon glyphicon-pencil action" ng-click="openEdit($index)"></i>
+                <i class="glyphicon glyphicon-remove action" ng-click="openDelete($index)"></i>
               </td>
             </tr>
             <tr ng-switch-when="workers" ng-repeat="row in tableData.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))">
@@ -65,7 +65,9 @@
             </tr>
           </tbody>
         </table>
-        <uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" class="pagination-sm" items-per-page="itemsPerPage" style="margin: 25px"></uib-pagination>
+        <center>
+          <uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" class="pagination-sm" items-per-page="itemsPerPage" style="margin: 25px"></uib-pagination>
+        </center>
       </div>
     </div>
   </div>

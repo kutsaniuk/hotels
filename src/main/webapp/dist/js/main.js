@@ -47,7 +47,7 @@
 	.module('main')
 	.controller('HotelsCtrl', HotelsCtrl);
 
-	function HotelsCtrl($scope, $state, $location, HotelsService) {
+	function HotelsCtrl ($scope, $state, $location, HotelsService) {
 		var sc = $scope;
 		var activeTable = $location.path();
 
@@ -72,86 +72,22 @@
 			sc.totalItems = sc.tableData.length;
 		});
 
-		sc.openAdd = function () {
-			$state.go('main.hotels.new');
-			sc.name = null;
-			sc.country = null;
-			sc.city = null;
-			sc.adress = null;
-			sc.director = null;
-			sc.email = null;
-			sc.phoneOfDirector = null;
-			sc.phoneOrders = null;
-		}
-
 		sc.openEdit = function (id) {
 			$state.go('main.hotels.edit');
-
-			HotelsService.get(id)
-			.success(function (data) {
-				sc.hotel = data;
-				sc.id = id;
-				sc.name = sc.hotel.name;
-				sc.country = sc.hotel.country;
-				sc.city = sc.hotel.city;
-				sc.adress = sc.hotel.adress;
-				sc.director = sc.hotel.director;
-				sc.email = sc.hotel.email;
-				sc.phoneOfDirector = sc.hotel.phoneOfDirector;
-				sc.phoneOrders = sc.hotel.phoneOrders;
-			});
+			sc.id = id;
 		}
 
-		sc.save = function () {
-			sc.hotel = 
-			{
-				'name': sc.name, 
-				'country': sc.country,
-				'city': sc.city,
-				'adress': sc.adress,
-				'director': sc.director,
-				'email': sc.email,
-				'phoneOfDirector': sc.phoneOfDirector,
-				'phoneOrders': sc.phoneOrders
-			};
-
-			switch(activeTable) {
-				case sc.base + '/new': {
-					HotelsService.new(sc.hotel)
-					.success(function (data) {
-						alert('added!');
-					});
-					break;
-				}
-				case sc.base + '/edit': {
-					HotelsService.update(sc.id, sc.hotel)
-					.success(function (data) {
-						alert('updated!');
-						sc.hotel = null;
-					});
-					break;
-				}
-			}
+		sc.openAdd = function () {
+			$state.go('main.hotels.new');
 		}
 
-		sc.delete = function (id) {
-			sc.hotel = 
-			{
-				'name': sc.name, 
-				'country': sc.country,
-				'city': sc.city,
-				'adress': sc.adress,
-				'director': sc.director,
-				'email': sc.email,
-				'phoneOfDirector': sc.phoneOfDirector,
-				'phoneOrders': sc.phoneOrders
-			};
+		sc.openDelete = function (id) {
+			$state.go('main.hotels.delete');
+			sc.id = id;
+		}
 
-			HotelsService.delete(id, sc.hotel)
-			.success(function (data) {
-				alert('deleted!');
-				sc.hotel = null;
-			});
+		sc.close = function () {
+			$state.go('main.' + sc.table);
 		}
 	};
 })();
@@ -182,8 +118,8 @@
 			url: '/new',
 			views: {
 				'action': {
-					templateUrl: '/app/modules/hotels/new/hotel.new.view.html',
-					controller: 'HotelsCtrl'
+					templateUrl: '/app/modules/hotels/action/hotel.action.view.html',
+					controller: 'HotelNewCtrl'
 				}
 			}
 		})
@@ -191,8 +127,17 @@
 			url: '/edit',
 			views: {
 				'action': {
-					templateUrl: '/app/modules/hotels/new/hotel.new.view.html',
-					controller: 'HotelsCtrl'
+					templateUrl: '/app/modules/hotels/action/hotel.action.view.html',
+					controller: 'HotelEditCtrl'
+				}
+			}
+		})
+		.state('main.hotels.delete', {
+			url: '/delete',
+			views: {
+				'action': {
+					templateUrl: '/app/modules/hotels/action/hotel.action.delete.view.html',
+					controller: 'HotelDeleteCtrl'
 				}
 			}
 		});
@@ -456,4 +401,129 @@
         	return sc.fieldName === fieldName && sc.reverse;
         };
     }
+})();
+
+(function () {
+	'use strict';
+
+	angular
+	.module('main')
+	.controller('ActionCtrl', ActionCtrl);
+
+	function ActionCtrl ($scope, $state, $location, HotelsService) {
+		var sc = $scope;
+
+		// sc.close = function (table)
+		// 	$state.go('main.' + table);
+		// }
+	};
+})();
+
+(function () {
+	'use strict';
+
+	angular
+	.module('main')
+	.controller('HotelEditCtrl', HotelEditCtrl);
+
+	function HotelEditCtrl ($scope, $state, $location, HotelsService) {
+		var sc = $scope;
+
+		sc.action = 'Edit';
+
+		HotelsService.get(sc.id)
+		.success(function (data) {
+			sc.hotel = data;
+			sc.name = sc.hotel.name;
+			sc.country = sc.hotel.country;
+			sc.city = sc.hotel.city;
+			sc.adress = sc.hotel.adress;
+			sc.director = sc.hotel.director;
+			sc.email = sc.hotel.email;
+			sc.phoneOfDirector = sc.hotel.phoneOfDirector;
+			sc.phoneOrders = sc.hotel.phoneOrders;
+
+			sc.save = function () {
+				sc.hotel = {
+					'name': sc.name,
+					'country':sc.country,
+					'city': sc.city,
+					'adress': sc.adress,
+					'director': sc.director,
+					'email': sc.email,
+					'phoneOfDirector': sc.phoneOfDirector,
+					'phoneOrders': sc.phoneOrders
+				}
+
+				HotelsService.update(sc.id, sc.hotel)
+				.success(function (data) {
+					alert('updated!');
+					sc.hotel = null;
+				});
+			}
+		});
+	}
+})();
+
+(function () {
+	'use strict';
+
+	angular
+	.module('main')
+	.controller('HotelDeleteCtrl', HotelDeleteCtrl);
+
+	function HotelDeleteCtrl ($scope, $state, $location, HotelsService) {
+		var sc = $scope;
+
+		sc.delete = function () {
+			HotelsService.delete(sc.id)
+			.success(function (data) {
+				alert('deleted' + sc.id);
+				sc.hotel = null;
+			});
+		}
+	};
+})();
+
+(function () {
+	'use strict';
+
+	angular
+	.module('main')
+	.controller('HotelNewCtrl', HotelNewCtrl);
+
+	function HotelNewCtrl ($scope, $state, $location, HotelsService) {
+		var sc = $scope;
+
+		sc.action = 'Add';
+
+		sc.name = null;
+		sc.country = null;
+		sc.city = null;
+		sc.adress = null;
+		sc.director = null;
+		sc.email = null;
+		sc.phoneOfDirector = null;
+		sc.phoneOrders = null;
+
+		
+		sc.save = function () {
+			sc.hotel = {
+				'name': sc.name,
+				'country':sc.country,
+				'city': sc.city,
+				'adress': sc.adress,
+				'director': sc.director,
+				'email': sc.email,
+				'phoneOfDirector': sc.phoneOfDirector,
+				'phoneOrders': sc.phoneOrders
+			}
+
+			HotelsService.new(sc.hotel)
+			.success(function (data) {
+				alert('added!');
+				sc.hotel = null;
+			});
+		}
+	};
 })();
