@@ -8,10 +8,15 @@
 	margin: 0 auto
 	.tools
 		margin-top: 25px 
-		margin-right: 25px
+	.dropdown-menu
+	    overflow-y: scroll
+	.dropdown-menu
+		max-height: 340px
+	.uib-datepicker-popup
+		overflow-y: hidden
 
 .popup-container
-	position: absolute
+	position: fixed
 	z-index: 2000
 	top: 0
 	left: 0
@@ -19,10 +24,21 @@
 	height: 100%
 	background: rgba(34, 34, 34, 0.5)
 
-#hotel-add
-	height: 615px
-	width: 600px
+@media (min-width: 768px)
+	#hotel-add
+		height: 400px
+		width: 660px
+
+@media (max-width: 768px)
+	#hotel-add
+		height: 660px
+		width: 80%
 
 #hotel-delete
 	height: 200px
 	width: 400px
+
+#room-add
+	height: 460px
+	width: 380px
+

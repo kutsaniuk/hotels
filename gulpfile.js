@@ -9,7 +9,8 @@ var gulp = require('gulp'),
     minifyCSS = require('gulp-minify-css'),
     concatCss = require('gulp-concat-css'),
     concat = require('gulp-concat'),
-    wiredep = require('wiredep').stream;
+    wiredep = require('wiredep').stream,
+    autoprefixer = require('gulp-autoprefixer');
  
 gulp.task('default', ['watch'], function() {
   gulp.src(src.public)
@@ -31,6 +32,7 @@ gulp.task('sass', function () {
     .pipe(sass().on('error', sass.logError))
     .pipe(minifyCSS())
     .pipe(concat('main.min.css'))
+    .pipe(autoprefixer())
     .pipe(gulp.dest('src/main/webapp/dist/css'));
 });
  

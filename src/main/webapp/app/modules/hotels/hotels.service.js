@@ -11,7 +11,7 @@
         };
 
         this.get = function (id) {
-            return $http.get(urlBase + id);
+            return $http.get(urlBase + id + '.json');
         };
 
         this.new = function (hotel) {
@@ -24,6 +24,14 @@
 
         this.delete = function (id) {
             return $http.delete(urlBase + id);
+        };
+
+        this.searchByField = function (field, value) {
+            return $http.get(urlBase + 'hotels_search_' + field + '=' + value + '.json');
+        };
+
+        this.getPage = function (currentPage, size) {
+            return $http.get(urlBase + 'hotels_page=' + currentPage + '_size=' + size + '.json');
         };
 
     });

@@ -5,14 +5,15 @@
 	.module('main')
 	.controller('TableCtrl', TableCtrl);
 
-	function TableCtrl($scope, $state) {  
+	function TableCtrl($scope, $state, $http, HotelsService) {  
 		var sc = $scope;
 		
-		// Pagination
-		sc.viewby = 8;
-		sc.currentPage = 1;
-		sc.itemsPerPage = sc.viewby;
-		sc.maxSize = 5;
+    	sc.field = undefined
+
+        sc.setField = function(field) {
+            sc.field = field;
+            alert();
+        }
 
         //Sort 
         sc.fieldName = undefined;

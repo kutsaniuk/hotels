@@ -20,12 +20,30 @@
 				}
 			}
 		})
-		.state('main.rooms.add', {
-			url: '/add',
+		.state('main.rooms.new', {
+			url: '/new',
 			views: {
-				'add': {
-					templateUrl: '/app/modules/rooms/add/room.add.view.html',
-					controller: 'RoomsCtrl'
+				'action': {
+					templateUrl: '/app/modules/rooms/action/rooms.action.view.html',
+					controller: 'RoomNewCtrl'
+				}
+			}
+		})
+		.state('main.rooms.edit', {
+			url: '/edit',
+			views: {
+				'action': {
+					templateUrl: '/app/modules/rooms/action/rooms.action.view.html',
+					controller: 'RoomEditCtrl'
+				}
+			}
+		})
+		.state('main.rooms.delete', {
+			url: '/delete',
+			views: {
+				'action': {
+					templateUrl: '/app/modules/rooms/action/rooms.action.delete.view.html',
+					controller: 'RoomDeleteCtrl'
 				}
 			}
 		});

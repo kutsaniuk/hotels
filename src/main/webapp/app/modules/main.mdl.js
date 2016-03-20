@@ -8,7 +8,7 @@
 		'ui.router',
 		'ui.bootstrap',
 		'ngResource'
-		])
+	])
 	.config(configure);
 
 

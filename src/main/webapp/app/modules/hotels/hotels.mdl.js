@@ -24,7 +24,7 @@
 			url: '/new',
 			views: {
 				'action': {
-					templateUrl: '/app/modules/hotels/action/hotel.action.view.html',
+					templateUrl: '/app/modules/hotels/action/hotels.action.view.html',
 					controller: 'HotelNewCtrl'
 				}
 			}
@@ -33,7 +33,7 @@
 			url: '/edit',
 			views: {
 				'action': {
-					templateUrl: '/app/modules/hotels/action/hotel.action.view.html',
+					templateUrl: '/app/modules/hotels/action/hotels.action.view.html',
 					controller: 'HotelEditCtrl'
 				}
 			}
@@ -42,7 +42,7 @@
 			url: '/delete',
 			views: {
 				'action': {
-					templateUrl: '/app/modules/hotels/action/hotel.action.delete.view.html',
+					templateUrl: '/app/modules/hotels/action/hotels.action.delete.view.html',
 					controller: 'HotelDeleteCtrl'
 				}
 			}

@@ -8,7 +8,7 @@
 		'ui.router',
 		'ui.bootstrap',
 		'ngResource'
-		])
+	])
 	.config(configure);
 
 
@@ -47,9 +47,8 @@
 	.module('main')
 	.controller('HotelsCtrl', HotelsCtrl);
 
-	function HotelsCtrl ($scope, $state, $location, HotelsService) {
+	function HotelsCtrl ($scope, $state, $http, HotelsService) {
 		var sc = $scope;
-		var activeTable = $location.path();
 
 		sc.table = 'hotels';
 		sc.base = '/' + sc.table;
@@ -57,8 +56,6 @@
 		sc.tableHeader = 
 		[
 		'name', 
-		'country',
-		'city',
 		'adress',
 		'director',
 		'email',
@@ -66,29 +63,49 @@
 		'phoneOrders'
 		];
 
-		HotelsService.getAll()
-		.success(function (data) {
-			sc.tableData = data;
-			sc.totalItems = sc.tableData.length;
-		});
-
 		sc.openEdit = function (id) {
 			$state.go('main.hotels.edit');
 			sc.id = id;
-		}
+		};
 
 		sc.openAdd = function () {
 			$state.go('main.hotels.new');
-		}
+		};
 
 		sc.openDelete = function (id) {
 			$state.go('main.hotels.delete');
 			sc.id = id;
-		}
+		};
 
 		sc.close = function () {
 			$state.go('main.' + sc.table);
-		}
+		};
+
+		sc.loadPage = function(currentPage) {
+			HotelsService.getPage(currentPage, 10)
+			.success(function (data){
+				sc.main = data;
+			});
+		};
+
+		sc.searchByField = function(field, value) {
+			if (value != '') {
+				HotelsService.searchByField(field, value)
+				.success(function (data){
+					sc.main = data;
+				});
+			}
+			else sc.loadPage(1); 
+		};
+
+		sc.loadPage(1); 
+
+		$http.get('app/shared/dropdown/countries/countries.json').success(function (data) {
+			sc.countriesWithFlags = data;
+		});
+
+		// sc.keys = Object.keys(sc.country);
+		
 	};
 })();
 
@@ -118,7 +135,7 @@
 			url: '/new',
 			views: {
 				'action': {
-					templateUrl: '/app/modules/hotels/action/hotel.action.view.html',
+					templateUrl: '/app/modules/hotels/action/hotels.action.view.html',
 					controller: 'HotelNewCtrl'
 				}
 			}
@@ -127,7 +144,7 @@
 			url: '/edit',
 			views: {
 				'action': {
-					templateUrl: '/app/modules/hotels/action/hotel.action.view.html',
+					templateUrl: '/app/modules/hotels/action/hotels.action.view.html',
 					controller: 'HotelEditCtrl'
 				}
 			}
@@ -136,7 +153,7 @@
 			url: '/delete',
 			views: {
 				'action': {
-					templateUrl: '/app/modules/hotels/action/hotel.action.delete.view.html',
+					templateUrl: '/app/modules/hotels/action/hotels.action.delete.view.html',
 					controller: 'HotelDeleteCtrl'
 				}
 			}
@@ -160,7 +177,7 @@
         };
 
         this.get = function (id) {
-            return $http.get(urlBase + id);
+            return $http.get(urlBase + id + '.json');
         };
 
         this.new = function (hotel) {
@@ -175,6 +192,14 @@
             return $http.delete(urlBase + id);
         };
 
+        this.searchByField = function (field, value) {
+            return $http.get(urlBase + 'hotels_search_' + field + '=' + value + '.json');
+        };
+
+        this.getPage = function (currentPage, size) {
+            return $http.get(urlBase + 'hotels_page=' + currentPage + '_size=' + size + '.json');
+        };
+
     });
 
 })();
@@ -186,41 +211,58 @@
 	.module('main')
 	.controller('RoomsCtrl', RoomsCtrl);
 
-	function RoomsCtrl($scope) {
+	function RoomsCtrl($scope, $state, RoomsService) {
 		var sc = $scope;
-		sc.table = 'Rooms';
-		sc.base = 'rooms';
+		
+		sc.table = 'rooms';
+		sc.base = '/' + sc.table;
 
 		sc.tableHeader = 
 		[
-		'Room type', 
-		'Number of rooms',
-		'Type of bed',
-		'Breakfast',
-		'Price'
+		'roomOfType', 
+		'numberOfRooms',
+		'typeOfBed',
+		'breakfast',
+		'price'
 		];
 
-		sc.tableData = 
-		[
-		{
-			'roomType': '3', 
-			'numberOfRooms': 'aaa',
-			'typeOfBed': 'aaa',
-			'breakfast': 'aaa',
-			'price': 'aaa'
-		},
-		{
-			'roomType': '3', 
-			'numberOfRooms': 'aaa',
-			'typeOfBed': 'aaa',
-			'breakfast': 'aaa',
-			'price': 'aaa'
+		sc.openEdit = function (id) {
+			$state.go('main.rooms.edit');
+			sc.id = id;
 		}
 
-		];
+		sc.openAdd = function () {
+			$state.go('main.rooms.new');
+		}
 
-		sc.totalItems = $scope.tableData.length;
-    };
+		sc.openDelete = function (id) {
+			$state.go('main.rooms.delete');
+			sc.id = id;
+		}
+
+		sc.close = function () {
+			$state.go('main.' + sc.table);
+		}
+
+		sc.loadPage = function(currentPage) {
+			RoomsService.getPage(currentPage, 10)
+			.success(function(data){
+				sc.main = data;
+			});
+		};
+
+		sc.searchByField = function(field, value) {
+			if (value != '') {
+				RoomsService.searchByField(field, value)
+				.success(function(data){
+					sc.main = data;
+				});
+			}
+			else sc.loadPage(1); 
+		};
+
+		sc.loadPage(1); 
+	};
 
 })();
 
@@ -246,12 +288,30 @@
 				}
 			}
 		})
-		.state('main.rooms.add', {
-			url: '/add',
+		.state('main.rooms.new', {
+			url: '/new',
 			views: {
-				'add': {
-					templateUrl: '/app/modules/rooms/add/room.add.view.html',
-					controller: 'RoomsCtrl'
+				'action': {
+					templateUrl: '/app/modules/rooms/action/rooms.action.view.html',
+					controller: 'RoomNewCtrl'
+				}
+			}
+		})
+		.state('main.rooms.edit', {
+			url: '/edit',
+			views: {
+				'action': {
+					templateUrl: '/app/modules/rooms/action/rooms.action.view.html',
+					controller: 'RoomEditCtrl'
+				}
+			}
+		})
+		.state('main.rooms.delete', {
+			url: '/delete',
+			views: {
+				'action': {
+					templateUrl: '/app/modules/rooms/action/rooms.action.delete.view.html',
+					controller: 'RoomDeleteCtrl'
 				}
 			}
 		});
@@ -262,16 +322,65 @@
 })();
 
 (function () {
+    'use strict';
+
+    angular.module('main')
+    .service('RoomsService', function ($http) {
+
+        var urlBase = '../data/rooms/';
+
+        this.getAll = function () {
+            return $http.get(urlBase + 'rooms.list.json');
+        };
+
+        this.get = function (id) {
+            return $http.get(urlBase + id + '.json');
+        };
+
+        this.new = function (room) {
+            return $http.post(urlBase, room);
+        };
+
+        this.update = function (id, room) {
+            return $http.put(urlBase + id, room)
+        };
+
+        this.delete = function (id) {
+            return $http.delete(urlBase + id);
+        };
+
+        this.searchByField = function (field, value) {
+            return $http.get(urlBase + 'rooms_search_' + field + '=' + value + '.json');
+        };
+
+        this.getPage = function (currentPage, size) {
+            return $http.get(urlBase + 'rooms_page=' + currentPage + '_size=' + size + '.json');
+        };
+
+    });
+
+})();
+
+(function () {
 	'use strict';
 
 	angular
 	.module('main')
 	.controller('WorkersCtrl', WorkersCtrl);
 
-	function WorkersCtrl($scope) {
+	function WorkersCtrl($scope, $state, WorkersService) {
 		var sc = $scope;
-		sc.table = 'Workers';
-		sc.base = 'workers'
+
+		sc.table = 'workers';
+		sc.base = '/' + sc.table;
+
+		sc.currentDate = new Date().getFullYear();
+
+		sc.getAge = function () {
+			
+			if (sc.birthday != '') alert(sc.birthday);
+			else sc.age = null;
+		}
 
 		sc.tableHeader = 
 		[
@@ -285,33 +394,43 @@
 		'Date'
 		];
 
-		sc.tableData = 
-		[
-		{
-			'fullName': '2', 
-			'position': 'aaa',
-			'birthday': 'aaa',
-			'age': 'aaa',
-			'sex': 'aaa',
-			'experience': 'aaa',
-			'previousPosition': 'aaa',
-			'date': 'aaa'
-		},
-		{
-			'fullName': '2', 
-			'position': 'aaa',
-			'birthday': 'aaa',
-			'age': 'aaa',
-			'sex': 'aaa',
-			'experience': 'aaa',
-			'previousPosition': 'aaa',
-			'date': 'aaa'
-		}
+		sc.openEdit = function (id) {
+			$state.go('main.workers.edit');
+			sc.id = id;
+		};
 
-		];
-		// Pagination
-		sc.totalItems = $scope.tableData.length;
-    };
+		sc.openAdd = function () {
+			$state.go('main.workers.new');
+		};
+
+		sc.openDelete = function (id) {
+			$state.go('main.workers.delete');
+			sc.id = id;
+		};
+
+		sc.close = function () {
+			$state.go('main.' + sc.table);
+		};
+
+		sc.loadPage = function(currentPage) {
+			WorkersService.getPage(currentPage, 10)
+			.success(function (data){
+				sc.main = data;
+			});
+		};
+
+		sc.searchByField = function(field, value) {
+			if (value != '') {
+				WorkersService.searchByField(field, value)
+				.success(function (data){
+					sc.main = data;
+				});
+			}
+			else sc.loadPage(1); 
+		};
+
+		sc.loadPage(1); 
+	};
 
 })();
 
@@ -337,18 +456,128 @@
 				}
 			}
 		})
-		.state('main.workers.add', {
-			url: '/add',
+		.state('main.workers.new', {
+			url: '/new',
 			views: {
-				'add': {
-					templateUrl: '/app/modules/workers/add/worker.add.view.html',
-					controller: 'WorkersCtrl'
+				'action': {
+					templateUrl: '/app/modules/workers/action/workers.action.view.html',
+					controller: 'WorkersNewCtrl'
+				}
+			}
+		})
+		.state('main.workers.edit', {
+			url: '/edit',
+			views: {
+				'action': {
+					templateUrl: '/app/modules/workers/action/workers.action.view.html',
+					controller: 'WorkersEditCtrl'
+				}
+			}
+		})
+		.state('main.workers.delete', {
+			url: '/delete',
+			views: {
+				'action': {
+					templateUrl: '/app/modules/workers/action/workers.action.delete.view.html',
+					controller: 'WorkersDeleteCtrl'
 				}
 			}
 		});
 
 		$locationProvider.html5Mode(true);
 	}
+
+})();
+
+(function () {
+    'use strict';
+
+    angular.module('main')
+    .service('WorkersService', function ($http) {
+
+        var urlBase = '../data/workers/';
+
+        this.getAll = function () {
+            return $http.get(urlBase + 'workers.list.json');
+        };
+
+        this.get = function (id) {
+            return $http.get(urlBase + id + '.json');
+        };
+
+        this.new = function (hotel) {
+            return $http.post(urlBase, hotel);
+        };
+
+        this.update = function (id, hotel) {
+            return $http.put(urlBase + id, hotel)
+        };
+
+        this.delete = function (id) {
+            return $http.delete(urlBase + id);
+        };
+
+        this.searchByField = function (field, value) {
+            return $http.get(urlBase + 'workers_search_' + field + '=' + value + '.json');
+        };
+
+        this.getPage = function (currentPage, size) {
+            return $http.get(urlBase + 'workers_page=' + currentPage + '_size=' + size + '.json');
+        };
+
+    });
+
+})();
+
+(function () {
+    'use strict';
+
+    angular
+    .module('main')
+    .filter('phone', function () {
+        return function (tel) {
+            if (!tel) { return ''; }
+
+            var value = tel.toString().trim().replace(/^\+/, '');
+
+            if (value.match(/[^0-9]/)) {
+                return tel;
+            }
+
+            var country, city, number;
+
+            switch (value.length) {
+            case 10: // +1PPP####### -> C (PPP) ###-####
+            country = 1;
+            city = value.slice(0, 3);
+            number = value.slice(3);
+            break;
+
+            case 11: // +CPPP####### -> CCC (PP) ###-####
+            country = value[0];
+            city = value.slice(1, 4);
+            number = value.slice(4);
+            break;
+
+            case 12: // +CCCPP####### -> CCC (PP) ###-####
+            country = value.slice(0, 3);
+            city = value.slice(3, 5);
+            number = value.slice(5);
+            break;
+
+            default:
+            return tel;
+        }
+
+        if (country == 1) {
+            country = "";
+        }
+
+        number = number.slice(0, 3) + '-' + number.slice(3);
+
+        return (country + " (" + city + ") " + number).trim();
+    };
+});
 
 })();
 
@@ -375,14 +604,15 @@
 	.module('main')
 	.controller('TableCtrl', TableCtrl);
 
-	function TableCtrl($scope, $state) {  
+	function TableCtrl($scope, $state, $http, HotelsService) {  
 		var sc = $scope;
 		
-		// Pagination
-		sc.viewby = 8;
-		sc.currentPage = 1;
-		sc.itemsPerPage = sc.viewby;
-		sc.maxSize = 5;
+    	sc.field = undefined
+
+        sc.setField = function(field) {
+            sc.field = field;
+            alert();
+        }
 
         //Sort 
         sc.fieldName = undefined;
@@ -424,11 +654,30 @@
 
 	angular
 	.module('main')
+	.controller('HotelDeleteCtrl', HotelDeleteCtrl);
+
+	function HotelDeleteCtrl ($scope, $state, $location, HotelsService) {
+		var sc = $scope;
+
+		sc.delete = function () {
+			HotelsService.delete(sc.id)
+			.success(function (data) {
+				alert('deleted' + sc.id);
+				sc.hotel = null;
+			});
+		}
+	};
+})();
+
+(function () {
+	'use strict';
+
+	angular
+	.module('main')
 	.controller('HotelEditCtrl', HotelEditCtrl);
 
 	function HotelEditCtrl ($scope, $state, $location, HotelsService) {
 		var sc = $scope;
-
 		sc.action = 'Edit';
 
 		HotelsService.get(sc.id)
@@ -470,26 +719,6 @@
 
 	angular
 	.module('main')
-	.controller('HotelDeleteCtrl', HotelDeleteCtrl);
-
-	function HotelDeleteCtrl ($scope, $state, $location, HotelsService) {
-		var sc = $scope;
-
-		sc.delete = function () {
-			HotelsService.delete(sc.id)
-			.success(function (data) {
-				alert('deleted' + sc.id);
-				sc.hotel = null;
-			});
-		}
-	};
-})();
-
-(function () {
-	'use strict';
-
-	angular
-	.module('main')
 	.controller('HotelNewCtrl', HotelNewCtrl);
 
 	function HotelNewCtrl ($scope, $state, $location, HotelsService) {
@@ -523,6 +752,253 @@
 			.success(function (data) {
 				alert('added!');
 				sc.hotel = null;
+			});
+		}
+	};
+})();
+
+(function () {
+	'use strict';
+
+	angular
+	.module('main')
+	.controller('RoomEditCtrl', RoomEditCtrl);
+
+	function RoomEditCtrl ($scope, $state, $location, RoomsService) {
+		var sc = $scope;
+		sc.action = 'Edit';
+
+		RoomsService.get(sc.id)
+		.success(function (data) {
+			sc.room = data;
+			sc.roomType = sc.room.roomType;
+			sc.numberOfRooms = sc.room.numberOfRooms;
+			sc.typeOfBed = sc.room.typeOfBed;
+			sc.breakfast = sc.room.breakfast;
+			sc.price = sc.room.price;
+
+			sc.save = function () {
+				sc.room = {
+					'room': sc.name,
+					'roomType':sc.roomType,
+					'numberOfRooms': sc.numberOfRooms,
+					'typeOfBed': sc.typeOfBed,
+					'breakfast': sc.breakfast,
+					'price': sc.price
+				}
+
+				RoomsService.update(sc.id, sc.room)
+				.success(function (data) {
+					alert('updated!');
+					sc.room = null;
+				});
+			}
+		});
+	}
+})();
+
+(function () {
+	'use strict';
+
+	angular
+	.module('main')
+	.controller('RoomNewCtrl', RoomNewCtrl);
+
+	function RoomNewCtrl ($scope, $state, $location, RoomsService) {
+		var sc = $scope;
+		sc.action = 'Edit';
+
+		RoomsService.get(sc.id)
+		.success(function (data) {
+			sc.room = data;
+			sc.roomType = sc.room.roomType;
+			sc.numberOfRooms = sc.room.numberOfRooms;
+			sc.typeOfBed = sc.room.typeOfBed;
+			sc.breakfast = sc.room.breakfast;
+			sc.price = sc.room.price;
+
+			sc.save = function () {
+				sc.room = {
+					'room': sc.name,
+					'roomType':sc.roomType,
+					'numberOfRooms': sc.numberOfRooms,
+					'typeOfBed': sc.typeOfBed,
+					'breakfast': sc.breakfast,
+					'price': sc.price
+				}
+
+				RoomsService.update(sc.id, sc.room)
+				.success(function (data) {
+					alert('updated!');
+					sc.room = null;
+				});
+			}
+		});
+	}
+})();
+
+(function () {
+	'use strict';
+
+	angular
+	.module('main')
+	.controller('RoomNewCtrl', RoomNewCtrl);
+
+	function RoomNewCtrl ($scope, $state, $location, RoomsService) {
+		var sc = $scope;
+
+		sc.action = 'Add';
+
+		sc.roomType = null;
+		sc.numberOfRooms = null;
+		sc.typeOfBed = null;
+		sc.breakfast = null;
+		sc.price = null;
+
+
+		sc.save = function () {
+			sc.room = {
+				'room': sc.name,
+				'roomType':sc.roomType,
+				'numberOfRooms': sc.numberOfRooms,
+				'typeOfBed': sc.typeOfBed,
+				'breakfast': sc.breakfast,
+				'price': sc.price
+			}
+
+			RoomsService.new(sc.room)
+			.success(function (data) {
+				alert('added!');
+				sc.room = null;
+			});
+		}
+	}
+})();
+
+(function () {
+	'use strict';
+
+	angular
+	.module('main')
+	.controller('RoomDeleteCtrl', RoomDeleteCtrl);
+
+	function RoomDeleteCtrl ($scope, $state, $location, RoomsService) {
+		var sc = $scope;
+
+		sc.delete = function () {
+			RoomsService.delete(sc.id)
+			.success(function (data) {
+				alert('deleted' + sc.id);
+				sc.room = null;
+			});
+		}
+	};
+})();
+
+(function () {
+	'use strict';
+
+	angular
+	.module('main')
+	.controller('WorkersDeleteCtrl', WorkersDeleteCtrl);
+
+	function WorkersDeleteCtrl ($scope, $state, $location, WorkersService) {
+		var sc = $scope;
+
+		sc.delete = function () {
+			WorkersService.delete(sc.id)
+			.success(function (data) {
+				alert('deleted' + sc.id);
+				sc.hotel = null;
+			});
+		}
+	};
+})();
+
+(function () {
+	'use strict';
+
+	angular
+	.module('main')
+	.controller('WorkersEditCtrl', WorkersEditCtrl);
+
+	function WorkersEditCtrl ($scope, $state, $location, WorkersService) {
+		var sc = $scope;
+		sc.action = 'Edit';
+
+		WorkersService.get(sc.id)
+		.success(function (data) {
+			sc.worker = data;
+
+			sc.fullName = sc.worker.name;
+			sc.position = sc.worker.position;
+			sc.birthday = sc.worker.birthday;
+			sc.age = sc.worker.age;
+			sc.sex = sc.worker.sex;
+			sc.experience = sc.worker.experience;
+			sc.previousPosition = sc.worker.previousPosition;
+			sc.date = sc.worker.date;
+
+			sc.save = function () {
+				sc.worker = {
+					'fullName': sc.fullName,
+					'position':sc.position,
+					'birthday': sc.birthday,
+					'age': sc.age,
+					'sex': sc.sex,
+					'experience': sc.experience,
+					'previousPosition': sc.previousPosition,
+					'date': sc.date,
+				}
+
+				WorkersService.update(sc.id, sc.worker)
+				.success(function (data) {
+					alert('updated!');
+					sc.worker = null;
+				});
+			}
+		});
+	}
+})();
+
+(function () {
+	'use strict';
+
+	angular
+	.module('main')
+	.controller('WorkersNewCtrl', WorkersNewCtrl);
+
+	function WorkersNewCtrl ($scope, $state, $location, WorkersService) {
+		var sc = $scope;
+
+		sc.action = 'Add';
+
+		sc.fullName = null;
+		sc.position = null;
+		sc.birthday = null;
+		sc.age = null;
+		sc.sex = null;
+		sc.experience = null;
+		sc.previousPosition = null;
+		sc.date = null;
+
+		
+		sc.save = function () {
+			sc.worker = {
+				'fullName': sc.fullName,
+				'position':sc.position,
+				'birthday': sc.birthday,
+				'age': sc.age,
+				'sex': sc.sex,
+				'experience': sc.experience,
+				'previousPosition': sc.previousPosition,
+				'date': sc.date,
+			}
+
+			WorkersService.new(sc.worker)
+			.success(function (data) {
+				alert('added!');
+				sc.worker = null;
 			});
 		}
 	};

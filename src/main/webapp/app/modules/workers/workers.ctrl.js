@@ -5,10 +5,19 @@
 	.module('main')
 	.controller('WorkersCtrl', WorkersCtrl);
 
-	function WorkersCtrl($scope) {
+	function WorkersCtrl($scope, $state, WorkersService) {
 		var sc = $scope;
-		sc.table = 'Workers';
-		sc.base = 'workers'
+
+		sc.table = 'workers';
+		sc.base = '/' + sc.table;
+
+		sc.currentDate = new Date().getFullYear();
+
+		sc.getAge = function () {
+			
+			if (sc.birthday != '') alert(sc.birthday);
+			else sc.age = null;
+		}
 
 		sc.tableHeader = 
 		[
@@ -22,32 +31,42 @@
 		'Date'
 		];
 
-		sc.tableData = 
-		[
-		{
-			'fullName': '2', 
-			'position': 'aaa',
-			'birthday': 'aaa',
-			'age': 'aaa',
-			'sex': 'aaa',
-			'experience': 'aaa',
-			'previousPosition': 'aaa',
-			'date': 'aaa'
-		},
-		{
-			'fullName': '2', 
-			'position': 'aaa',
-			'birthday': 'aaa',
-			'age': 'aaa',
-			'sex': 'aaa',
-			'experience': 'aaa',
-			'previousPosition': 'aaa',
-			'date': 'aaa'
-		}
+		sc.openEdit = function (id) {
+			$state.go('main.workers.edit');
+			sc.id = id;
+		};
 
-		];
-		// Pagination
-		sc.totalItems = $scope.tableData.length;
-    };
+		sc.openAdd = function () {
+			$state.go('main.workers.new');
+		};
+
+		sc.openDelete = function (id) {
+			$state.go('main.workers.delete');
+			sc.id = id;
+		};
+
+		sc.close = function () {
+			$state.go('main.' + sc.table);
+		};
+
+		sc.loadPage = function(currentPage) {
+			WorkersService.getPage(currentPage, 10)
+			.success(function (data){
+				sc.main = data;
+			});
+		};
+
+		sc.searchByField = function(field, value) {
+			if (value != '') {
+				WorkersService.searchByField(field, value)
+				.success(function (data){
+					sc.main = data;
+				});
+			}
+			else sc.loadPage(1); 
+		};
+
+		sc.loadPage(1); 
+	};
 
 })();

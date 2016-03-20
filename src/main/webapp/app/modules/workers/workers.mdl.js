@@ -20,12 +20,30 @@
 				}
 			}
 		})
-		.state('main.workers.add', {
-			url: '/add',
+		.state('main.workers.new', {
+			url: '/new',
 			views: {
-				'add': {
-					templateUrl: '/app/modules/workers/add/worker.add.view.html',
-					controller: 'WorkersCtrl'
+				'action': {
+					templateUrl: '/app/modules/workers/action/workers.action.view.html',
+					controller: 'WorkersNewCtrl'
+				}
+			}
+		})
+		.state('main.workers.edit', {
+			url: '/edit',
+			views: {
+				'action': {
+					templateUrl: '/app/modules/workers/action/workers.action.view.html',
+					controller: 'WorkersEditCtrl'
+				}
+			}
+		})
+		.state('main.workers.delete', {
+			url: '/delete',
+			views: {
+				'action': {
+					templateUrl: '/app/modules/workers/action/workers.action.delete.view.html',
+					controller: 'WorkersDeleteCtrl'
 				}
 			}
 		});
