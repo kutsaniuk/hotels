@@ -8,11 +8,10 @@
 	function TableCtrl($scope, $state, $http, HotelsService) {  
 		var sc = $scope;
 		
-    	sc.field = undefined
+    	sc.field = sc.tableHeader[0];
 
         sc.setField = function(field) {
             sc.field = field;
-            alert();
         }
 
         //Sort 

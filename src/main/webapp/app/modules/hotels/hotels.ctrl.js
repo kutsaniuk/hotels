@@ -5,7 +5,7 @@
 	.module('main')
 	.controller('HotelsCtrl', HotelsCtrl);
 
-	function HotelsCtrl ($scope, $state, $http, HotelsService) {
+	function HotelsCtrl ($scope, $state, $http, $translate, HotelsService) {
 		var sc = $scope;
 
 		sc.table = 'hotels';

@@ -14,21 +14,20 @@
 		sc.currentDate = new Date().getFullYear();
 
 		sc.getAge = function () {
-			
 			if (sc.birthday != '') alert(sc.birthday);
 			else sc.age = null;
 		}
 
 		sc.tableHeader = 
 		[
-		'Full name', 
-		'Position',
-		'Birthday',
-		'Age',
-		'Sex',
-		'Experience',
-		'Previous position',
-		'Date'
+		'fullName', 
+		'position',
+		'birthday',
+		'age',
+		'sex',
+		'experience',
+		'previousPosition',
+		'date'
 		];
 
 		sc.openEdit = function (id) {

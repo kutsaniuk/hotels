@@ -12,7 +12,7 @@
         <label>Country</label>
         <input name="country" type="text" ng-model="country" placeholder="Enter country" uib-typeahead="country as country.name for country in countriesWithFlags | filter:{name:$viewValue}" typeahead-template-url="app/shared/dropdown/countries/dropdown.countries.html" class="form-control" typeahead-show-hint="true" typeahead-min-length="0">
         <label>City</label>
-        <input name="city" type="text" class="form-control" ng-model="city" placeholder="Enter city" pattern="^[A-Za-z]+$" maxlength="35" uib-tooltip="Only numbers" tooltip-is-open="hotelsForm.city.$invalid" tooltip-trigger="none">
+        <input name="city" type="text" class="form-control" ng-model="city" placeholder="Enter city" pattern="[A-z^\s]*" maxlength="35" uib-tooltip="Only numbers" tooltip-is-open="hotelsForm.city.$invalid" tooltip-trigger="none">
         <label>Adress</label>
         <input type="text" class="form-control" ng-model="adress" placeholder="Enter adress" maxlength="100"> 
       </form>

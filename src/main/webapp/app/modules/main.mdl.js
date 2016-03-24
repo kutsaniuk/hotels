@@ -7,13 +7,15 @@
 		'rooms',
 		'ui.router',
 		'ui.bootstrap',
-		'ngResource'
-	])
-	.config(configure);
+		'ngResource',
+		'pascalprecht.translate'
+		])
+	.config(configure).
+	run(run);
 
 
-	configure.$inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider'];
-	function configure($locationProvider, $stateProvider, $urlRouterProvider) {
+	configure.$inject = ['$stateProvider', '$urlRouterProvider', '$translateProvider'];
+	function configure($stateProvider, $urlRouterProvider, $translateProvider) {
 
 		$urlRouterProvider.otherwise(function ($injector) {
 			var $state = $injector.get("$state");
@@ -36,7 +38,13 @@
 			}
 		});
 
-		$locationProvider.html5Mode(true);
+		$translateProvider.useStaticFilesLoader({
+            prefix: '/app/resources/lang/',
+            suffix: '.json'
+          });
 	}
 
+	function run($translate) {
+		$translate.use('uk');
+	}
 })();

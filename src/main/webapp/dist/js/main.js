@@ -7,13 +7,15 @@
 		'rooms',
 		'ui.router',
 		'ui.bootstrap',
-		'ngResource'
-	])
-	.config(configure);
+		'ngResource',
+		'pascalprecht.translate'
+		])
+	.config(configure).
+	run(run);
 
 
-	configure.$inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider'];
-	function configure($locationProvider, $stateProvider, $urlRouterProvider) {
+	configure.$inject = ['$stateProvider', '$urlRouterProvider', '$translateProvider'];
+	function configure($stateProvider, $urlRouterProvider, $translateProvider) {
 
 		$urlRouterProvider.otherwise(function ($injector) {
 			var $state = $injector.get("$state");
@@ -36,9 +38,15 @@
 			}
 		});
 
-		$locationProvider.html5Mode(true);
+		$translateProvider.useStaticFilesLoader({
+            prefix: '/app/resources/lang/',
+            suffix: '.json'
+          });
 	}
 
+	function run($translate) {
+		$translate.use('uk');
+	}
 })();
 (function () {
 	'use strict';
@@ -47,7 +55,7 @@
 	.module('main')
 	.controller('HotelsCtrl', HotelsCtrl);
 
-	function HotelsCtrl ($scope, $state, $http, HotelsService) {
+	function HotelsCtrl ($scope, $state, $http, $translate, HotelsService) {
 		var sc = $scope;
 
 		sc.table = 'hotels';
@@ -159,7 +167,6 @@
 			}
 		});
 
-		$locationProvider.html5Mode(true);
 	}
 
 })();
@@ -316,7 +323,6 @@
 			}
 		});
 
-		$locationProvider.html5Mode(true);
 	}
 
 })();
@@ -377,21 +383,20 @@
 		sc.currentDate = new Date().getFullYear();
 
 		sc.getAge = function () {
-			
 			if (sc.birthday != '') alert(sc.birthday);
 			else sc.age = null;
 		}
 
 		sc.tableHeader = 
 		[
-		'Full name', 
-		'Position',
-		'Birthday',
-		'Age',
-		'Sex',
-		'Experience',
-		'Previous position',
-		'Date'
+		'fullName', 
+		'position',
+		'birthday',
+		'age',
+		'sex',
+		'experience',
+		'previousPosition',
+		'date'
 		];
 
 		sc.openEdit = function (id) {
@@ -484,7 +489,6 @@
 			}
 		});
 
-		$locationProvider.html5Mode(true);
 	}
 
 })();
@@ -607,11 +611,10 @@
 	function TableCtrl($scope, $state, $http, HotelsService) {  
 		var sc = $scope;
 		
-    	sc.field = undefined
+    	sc.field = sc.tableHeader[0];
 
         sc.setField = function(field) {
             sc.field = field;
-            alert();
         }
 
         //Sort 
@@ -631,6 +634,26 @@
         	return sc.fieldName === fieldName && sc.reverse;
         };
     }
+})();
+
+(function () {
+	'use strict';
+
+	angular
+	.module('main')
+	.controller('TranslateCtrl', TranslateCtrl);
+
+	function TranslateCtrl ($scope, $translate) {
+		var sc = $scope;
+		
+		$translate.use('en');
+
+		sc.setLang = function(language) {
+			$translate.use(language.toString());
+			alert();
+		};
+		
+	};
 })();
 
 (function () {
