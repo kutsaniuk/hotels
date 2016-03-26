@@ -1,4 +1,4 @@
-package hotels.bussines.descriptions.domain;
+package hotels.business.descriptions.domain;
 
 /**
  * Created by kutsaniuk on 11.03.16.

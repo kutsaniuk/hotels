@@ -1,4 +1,4 @@
-package hotels.bussines.hotels.service.impl;
+package hotels.business.hotels.service.impl;
 
 /**
  * Created by kutsaniuk on 11.03.16.

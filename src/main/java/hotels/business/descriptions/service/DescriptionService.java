@@ -1,4 +1,4 @@
-package hotels.bussines.descriptions.service;
+package hotels.business.descriptions.service;
 
 /**
  * Created by kutsaniuk on 11.03.16.
