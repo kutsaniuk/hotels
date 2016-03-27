@@ -1,4 +1,4 @@
-package hotels.bussines.workers.repository;
+package hotels.business.workers.repository;
 
 /**
  * Created by kutsaniuk on 11.03.16.

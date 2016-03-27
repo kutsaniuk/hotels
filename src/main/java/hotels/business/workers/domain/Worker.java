@@ -1,4 +1,4 @@
-package hotels.bussines.workers.domain;
+package hotels.business.workers.domain;
 
 /**
  * Created by kutsaniuk on 11.03.16.
