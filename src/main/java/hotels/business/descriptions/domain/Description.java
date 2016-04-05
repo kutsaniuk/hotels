@@ -1,5 +1,7 @@
 package hotels.business.descriptions.domain;
 
+import hotels.business.hotels.domain.Hotel;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -27,6 +29,11 @@ public class Description implements Serializable{
 
     @Column(name = "breakfast")
     private String breakfast;
+
+
+    @ManyToOne
+    @JoinColumn(name = "hotelsId", nullable = false)
+    private Hotel hotel;
 
     public Description() {
 
@@ -79,4 +86,11 @@ public class Description implements Serializable{
         this.bedType = bedType;
     }
 
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
 }

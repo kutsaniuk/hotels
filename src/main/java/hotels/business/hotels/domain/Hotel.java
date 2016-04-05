@@ -1,7 +1,12 @@
 package hotels.business.hotels.domain;
 
+import hotels.business.descriptions.domain.Description;
+import hotels.business.workers.domain.Worker;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by kutsaniuk on 11.03.16.
@@ -37,7 +42,14 @@ public class Hotel implements Serializable {
     @Column(name = "orderTelephoneNumber")
     private String orderTelephoneNumber;
 
+    @OneToMany(targetEntity = Description.class, cascade = CascadeType.ALL, mappedBy = "hotel")
+    private Set<Description> descriptions = new HashSet<>();
+
+    @OneToMany(targetEntity = Worker.class, cascade = CascadeType.ALL, mappedBy = "hotel")
+    private Set<Worker> workers = new HashSet<>();
+
     public Hotel() {
+
 
     }
 
@@ -114,4 +126,21 @@ public class Hotel implements Serializable {
     public void setOrderTelephoneNumber(String orderTelephoneNumber) {
         this.orderTelephoneNumber = orderTelephoneNumber;
     }
+
+    public Set<Description> getDescriptions() {
+        return descriptions;
+    }
+
+    public void setDescriptions(Set<Description> descriptions) {
+        this.descriptions = descriptions;
+    }
+
+    public Set<Worker> getWorkers() {
+        return workers;
+    }
+
+    public void setWorkers(Set<Worker> workers) {
+        this.workers = workers;
+    }
+
 }

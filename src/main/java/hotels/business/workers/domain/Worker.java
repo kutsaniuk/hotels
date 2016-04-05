@@ -1,5 +1,7 @@
 package hotels.business.workers.domain;
 
+import hotels.business.hotels.domain.Hotel;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
@@ -40,6 +42,10 @@ public class Worker implements Serializable{
 
     @Column(name = "dateOfEmployment")
     private Date dateOfEmployment;
+
+    @ManyToOne
+    @JoinColumn(name = "hotelsId", nullable = false)
+    private Hotel hotel;
 
     public Worker() {
 
@@ -127,4 +133,13 @@ public class Worker implements Serializable{
     public void setDateOfEmployment(Date dateOfEmployment) {
         this.dateOfEmployment = dateOfEmployment;
     }
+
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
+
 }
