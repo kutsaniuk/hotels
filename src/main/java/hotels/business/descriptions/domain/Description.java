@@ -10,36 +10,35 @@ import java.io.Serializable;
  */
 
 @Entity
-@Table
-public class Description implements Serializable{
+@Table( name = "descriptions" )
+public class Description implements Serializable {
 
     @Id
-    @Column(name = "id")
+    @Column( name = "id" )
     @GeneratedValue
     private Long id;
 
-    @Column(name = "roomType")
+    @Column( name = "room_type" )
     private String roomType;
 
-    @Column(name = "roomCount")
+    @Column( name = "room_count" )
     private int roomCount;
 
-    @Column(name = "bedType")
+    @Column( name = "bed_cype" )
     private String bedType;
 
-    @Column(name = "breakfast")
+    @Column( name = "breakfast" )
     private String breakfast;
 
-
     @ManyToOne
-    @JoinColumn(name = "hotelsId", nullable = false)
+    @JoinColumn( name = "hotels_id", nullable = false )
     private Hotel hotel;
 
     public Description() {
 
     }
 
-    public Description(String roomType, int roomCount, String bedType, String breakfast) {
+    public Description( String roomType, int roomCount, String bedType, String breakfast ) {
         this.roomType = roomType;
         this.roomCount = roomCount;
         this.bedType = bedType;
@@ -50,7 +49,7 @@ public class Description implements Serializable{
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId( Long id ) {
         this.id = id;
     }
 
@@ -58,7 +57,7 @@ public class Description implements Serializable{
         return roomType;
     }
 
-    public void setRoomType(String roomType) {
+    public void setRoomType( String roomType ) {
         this.roomType = roomType;
     }
 
@@ -66,7 +65,7 @@ public class Description implements Serializable{
         return roomCount;
     }
 
-    public void setRoomCount(int roomCount) {
+    public void setRoomCount( int roomCount ) {
         this.roomCount = roomCount;
     }
 
@@ -74,7 +73,7 @@ public class Description implements Serializable{
         return breakfast;
     }
 
-    public void setBreakfast(String breakfast) {
+    public void setBreakfast( String breakfast ) {
         this.breakfast = breakfast;
     }
 
@@ -82,7 +81,7 @@ public class Description implements Serializable{
         return bedType;
     }
 
-    public void setBedType(String bedType) {
+    public void setBedType( String bedType ) {
         this.bedType = bedType;
     }
 
@@ -90,7 +89,7 @@ public class Description implements Serializable{
         return hotel;
     }
 
-    public void setHotel(Hotel hotel) {
+    public void setHotel( Hotel hotel ) {
         this.hotel = hotel;
     }
 }

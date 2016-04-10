@@ -13,61 +13,65 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "hotels")
+@Table( name = "hotels" )
 public class Hotel implements Serializable {
 
     @Id
-    @Column(name = "id")
+    @Column( name = "id" )
     @GeneratedValue
     private Long id;
 
-    @Column(name = "name")
+    @Column( name = "name" )
     private String name;
 
-    @Column(name = "city")
+    @Column( name = "city" )
     private String city;
 
-    @Column(name = "address")
+    @Column( name = "address" )
     private String address;
 
-    @Column(name=  "fullDirectorName")
+    @Column( name = "full_director_name" )
     private String fullDirectorName;
 
-    @Column(name = "email")
+    @Column( name = "email" )
     private String email;
 
-    @Column(name = "DirectorTelephoneNumber")
-    private String DirectorTelephoneNumber;
+    @Column( name = "Director_phone_number" )
+    private String directorPhoneNumber;
 
-    @Column(name = "orderTelephoneNumber")
-    private String orderTelephoneNumber;
+    @Column( name = "order_phone_number" )
+    private String orderPhoneNumber;
 
-    @OneToMany(targetEntity = Description.class, cascade = CascadeType.ALL, mappedBy = "hotel")
+    @OneToMany( targetEntity = Description.class, cascade = CascadeType.ALL, mappedBy = "hotel" )
     private Set<Description> descriptions = new HashSet<>();
 
-    @OneToMany(targetEntity = Worker.class, cascade = CascadeType.ALL, mappedBy = "hotel")
+    @OneToMany( targetEntity = Worker.class, cascade = CascadeType.ALL, mappedBy = "hotel" )
     private Set<Worker> workers = new HashSet<>();
 
     public Hotel() {
-
-
     }
 
-    public Hotel(String name, String city, String address, String fullDirectorName, String email, String directorTelephoneNumber, String orderTelephoneNumber) {
+    public Hotel( String name,
+                  String city,
+                  String address,
+                  String fullDirectorName,
+                  String email,
+                  String directorPhoneNumber,
+                  String orderPhoneNumber ) {
         this.name = name;
         this.city = city;
         this.address = address;
         this.fullDirectorName = fullDirectorName;
         this.email = email;
-        DirectorTelephoneNumber = directorTelephoneNumber;
-        this.orderTelephoneNumber = orderTelephoneNumber;
+        this.directorPhoneNumber = directorPhoneNumber;
+        this.orderPhoneNumber = orderPhoneNumber;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId( Long id ) {
         this.id = id;
     }
 
@@ -75,7 +79,7 @@ public class Hotel implements Serializable {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName( String name ) {
         this.name = name;
     }
 
@@ -83,7 +87,7 @@ public class Hotel implements Serializable {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity( String city ) {
         this.city = city;
     }
 
@@ -91,7 +95,7 @@ public class Hotel implements Serializable {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress( String address ) {
         this.address = address;
     }
 
@@ -99,7 +103,7 @@ public class Hotel implements Serializable {
         return fullDirectorName;
     }
 
-    public void setFullDirectorName(String fullDirectorName) {
+    public void setFullDirectorName( String fullDirectorName ) {
         this.fullDirectorName = fullDirectorName;
     }
 
@@ -107,31 +111,31 @@ public class Hotel implements Serializable {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail( String email ) {
         this.email = email;
     }
 
-    public String getDirectorTelephoneNumber() {
-        return DirectorTelephoneNumber;
+    public String getDirectorPhoneNumber() {
+        return directorPhoneNumber;
     }
 
-    public void setDirectorTelephoneNumber(String directorTelephoneNumber) {
-        DirectorTelephoneNumber = directorTelephoneNumber;
+    public void setDirectorPhoneNumber( String directorPhoneNumber ) {
+        this.directorPhoneNumber = directorPhoneNumber;
     }
 
-    public String getOrderTelephoneNumber() {
-        return orderTelephoneNumber;
+    public String getOrderPhoneNumber() {
+        return orderPhoneNumber;
     }
 
-    public void setOrderTelephoneNumber(String orderTelephoneNumber) {
-        this.orderTelephoneNumber = orderTelephoneNumber;
+    public void setOrderPhoneNumber( String orderPhoneNumber ) {
+        this.orderPhoneNumber = orderPhoneNumber;
     }
 
     public Set<Description> getDescriptions() {
         return descriptions;
     }
 
-    public void setDescriptions(Set<Description> descriptions) {
+    public void setDescriptions( Set<Description> descriptions ) {
         this.descriptions = descriptions;
     }
 
@@ -139,7 +143,7 @@ public class Hotel implements Serializable {
         return workers;
     }
 
-    public void setWorkers(Set<Worker> workers) {
+    public void setWorkers( Set<Worker> workers ) {
         this.workers = workers;
     }
 

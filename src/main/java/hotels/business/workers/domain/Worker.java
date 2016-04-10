@@ -11,51 +11,52 @@ import java.sql.Date;
  */
 
 @Entity
-@Table
-public class Worker implements Serializable{
+@Table( name = "workers" )
+public class Worker implements Serializable {
 
     @Id
-    @Column(name = "id")
+    @Column( name = "id" )
     @GeneratedValue
     private Long id;
 
-    @Column(name = "fullWorkerName")
+    @Column( name = "full_worker_name" )
     private String fullWorkerName;
 
-    @Column(name = "post")
+    @Column( name = "post" )
     private String post;
 
-    @Column(name = "birthday")
+    @Column( name = "birthday" )
     private Date birthday;
 
-    @Column(name = "age")
-    private int age;
-
-    @Column(name = "sex")
+    @Column( name = "sex" )
     private String sex;
 
-    @Column(name = "experience")
+    @Column( name = "experience" )
     private int experience;
 
-    @Column(name = "previousPost")
+    @Column( name = "previous_post" )
     private String previousPost;
 
-    @Column(name = "dateOfEmployment")
+    @Column( name = "date_of_employment" )
     private Date dateOfEmployment;
 
     @ManyToOne
-    @JoinColumn(name = "hotelsId", nullable = false)
+    @JoinColumn( name = "hotels_id", nullable = false )
     private Hotel hotel;
 
     public Worker() {
-
     }
 
-    public Worker(String fullWorkerName, String post, Date birthday, int age, String sex, int experience, String previousPost, Date dateOfEmployment) {
+    public Worker( String fullWorkerName,
+                   String post,
+                   Date birthday,
+                   String sex,
+                   int experience,
+                   String previousPost,
+                   Date dateOfEmployment ) {
         this.fullWorkerName = fullWorkerName;
         this.post = post;
         this.birthday = birthday;
-        this.age = age;
         this.sex = sex;
         this.experience = experience;
         this.previousPost = previousPost;
@@ -66,7 +67,7 @@ public class Worker implements Serializable{
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId( Long id ) {
         this.id = id;
     }
 
@@ -74,7 +75,7 @@ public class Worker implements Serializable{
         return fullWorkerName;
     }
 
-    public void setFullWorkerName(String fullWorkerName) {
+    public void setFullWorkerName( String fullWorkerName ) {
         this.fullWorkerName = fullWorkerName;
     }
 
@@ -82,7 +83,7 @@ public class Worker implements Serializable{
         return post;
     }
 
-    public void setPost(String post) {
+    public void setPost( String post ) {
         this.post = post;
     }
 
@@ -90,7 +91,7 @@ public class Worker implements Serializable{
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday( Date birthday ) {
         this.birthday = birthday;
     }
 
@@ -98,23 +99,15 @@ public class Worker implements Serializable{
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex( String sex ) {
         this.sex = sex;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public int getExperience() {
         return experience;
     }
 
-    public void setExperience(int experience) {
+    public void setExperience( int experience ) {
         this.experience = experience;
     }
 
@@ -122,7 +115,7 @@ public class Worker implements Serializable{
         return previousPost;
     }
 
-    public void setPreviousPost(String previousPost) {
+    public void setPreviousPost( String previousPost ) {
         this.previousPost = previousPost;
     }
 
@@ -130,7 +123,7 @@ public class Worker implements Serializable{
         return dateOfEmployment;
     }
 
-    public void setDateOfEmployment(Date dateOfEmployment) {
+    public void setDateOfEmployment( Date dateOfEmployment ) {
         this.dateOfEmployment = dateOfEmployment;
     }
 
@@ -138,7 +131,7 @@ public class Worker implements Serializable{
         return hotel;
     }
 
-    public void setHotel(Hotel hotel) {
+    public void setHotel( Hotel hotel ) {
         this.hotel = hotel;
     }
 
