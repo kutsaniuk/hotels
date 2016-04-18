@@ -10,8 +10,8 @@ import java.io.Serializable;
  */
 
 @Entity
-@Table( name = "descriptions" )
-public class Description implements Serializable {
+@Table( name = "rooms" )
+public class Room implements Serializable {
 
     @Id
     @Column( name = "id" )
@@ -34,11 +34,11 @@ public class Description implements Serializable {
     @JoinColumn( name = "hotels_id", nullable = false )
     private Hotel hotel;
 
-    public Description() {
+    public Room() {
 
     }
 
-    public Description( String roomType, int roomCount, String bedType, String breakfast ) {
+    public Room( String roomType, int roomCount, String bedType, String breakfast ) {
         this.roomType = roomType;
         this.roomCount = roomCount;
         this.bedType = bedType;

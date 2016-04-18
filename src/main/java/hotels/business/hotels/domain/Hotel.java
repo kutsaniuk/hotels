@@ -1,6 +1,6 @@
 package hotels.business.hotels.domain;
 
-import hotels.business.descriptions.domain.Description;
+import hotels.business.descriptions.domain.Room;
 import hotels.business.workers.domain.Worker;
 
 import javax.persistence.*;
@@ -42,8 +42,8 @@ public class Hotel implements Serializable {
     @Column( name = "order_phone_number" )
     private String orderPhoneNumber;
 
-    @OneToMany( targetEntity = Description.class, cascade = CascadeType.ALL, mappedBy = "hotel" )
-    private Set<Description> descriptions = new HashSet<>();
+    @OneToMany( targetEntity = Room.class, cascade = CascadeType.ALL, mappedBy = "hotel" )
+    private Set<Room> rooms = new HashSet<>();
 
     @OneToMany( targetEntity = Worker.class, cascade = CascadeType.ALL, mappedBy = "hotel" )
     private Set<Worker> workers = new HashSet<>();
@@ -131,12 +131,12 @@ public class Hotel implements Serializable {
         this.orderPhoneNumber = orderPhoneNumber;
     }
 
-    public Set<Description> getDescriptions() {
-        return descriptions;
+    public Set<Room> getRooms() {
+        return rooms;
     }
 
-    public void setDescriptions( Set<Description> descriptions ) {
-        this.descriptions = descriptions;
+    public void setRooms( Set<Room> rooms ) {
+        this.rooms = rooms;
     }
 
     public Set<Worker> getWorkers() {

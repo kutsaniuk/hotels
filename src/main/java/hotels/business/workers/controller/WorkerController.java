@@ -17,7 +17,7 @@ import java.util.List;
  * Created by NicholasG on 08.04.2016.
  */
 @RestController
-@RequestMapping( "/worker" )
+@RequestMapping( "/workers" )
 public class WorkerController {
 
     private static final Logger LOG = LoggerFactory.getLogger( WorkerController.class );
