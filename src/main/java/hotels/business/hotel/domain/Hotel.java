@@ -27,7 +27,7 @@ public class Hotel implements Serializable {
     @Column( name = "city" )
     private String city;
 
-    @Column( name = "address" )
+    @Column( name = "adress" )
     private String address;
 
     @Column( name = "full_director_name" )
@@ -36,7 +36,7 @@ public class Hotel implements Serializable {
     @Column( name = "email" )
     private String email;
 
-    @Column( name = "Director_phone_number" )
+    @Column( name = "director_phone_number" )
     private String directorPhoneNumber;
 
     @Column( name = "order_phone_number" )
@@ -53,14 +53,14 @@ public class Hotel implements Serializable {
 
     public Hotel( String name,
                   String city,
-                  String address,
+                  String adress,
                   String fullDirectorName,
                   String email,
                   String directorPhoneNumber,
                   String orderPhoneNumber ) {
         this.name = name;
         this.city = city;
-        this.address = address;
+        this.address = adress;
         this.fullDirectorName = fullDirectorName;
         this.email = email;
         this.directorPhoneNumber = directorPhoneNumber;

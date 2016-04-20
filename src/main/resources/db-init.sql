@@ -1,22 +1,22 @@
-INSERT INTO hotels(name, city, address, full_director_name, email, Director_phone_number, order_phone_number)
+INSERT INTO hotels(name, city, adress, full_director_name, email, Director_phone_number, order_phone_number)
   VALUES('hotel1', 'city1', 'adress1', 'D. V. Kutsaniuk', 'email@gmail.com', '0963254585', '0963254585');
-INSERT INTO hotels(name, city, address, full_director_name, email, Director_phone_number, order_phone_number)
+INSERT INTO hotels(name, city, adress, full_director_name, email, Director_phone_number, order_phone_number)
   VALUES('hotel2', 'city2', 'adress2', 'D. V. Kutsaniuk', 'email@gmail.com', '0963254585', '0963254585');
-INSERT INTO hotels(name, city, address, full_director_name, email, Director_phone_number, order_phone_number)
+INSERT INTO hotels(name, city, adress, full_director_name, email, Director_phone_number, order_phone_number)
   VALUES('hotel3', 'city3', 'adress3', 'D. V. Kutsaniuk', 'email@gmail.com', '0963254585', '0963254585');
-INSERT INTO hotels(name, city, address, full_director_name, email, Director_phone_number, order_phone_number)
+INSERT INTO hotels(name, city, adress, full_director_name, email, Director_phone_number, order_phone_number)
   VALUES('hotel4', 'city4', 'adress4', 'D. V. Kutsaniuk', 'email@gmail.com', '0963254585', '0963254585');
-INSERT INTO hotels(name, city, address, full_director_name, email, Director_phone_number, order_phone_number)
+INSERT INTO hotels(name, city, adress, full_director_name, email, Director_phone_number, order_phone_number)
   VALUES('hotel5', 'city5', 'adress5', 'D. V. Kutsaniuk', 'email@gmail.com', '0963254585', '0963254585');
-INSERT INTO hotels(name, city, address, full_director_name, email, Director_phone_number, order_phone_number)
+INSERT INTO hotels(name, city, adress, full_director_name, email, Director_phone_number, order_phone_number)
   VALUES('hotel6', 'city6', 'adress6', 'D. V. Kutsaniuk', 'email@gmail.com', '0963254585', '0963254585');
-INSERT INTO hotels(name, city, address, full_director_name, email, Director_phone_number, order_phone_number)
+INSERT INTO hotels(name, city, adress, full_director_name, email, Director_phone_number, order_phone_number)
   VALUES('hotel7', 'city7', 'adress7', 'D. V. Kutsaniuk', 'email@gmail.com', '0963254585', '0963254585');
-INSERT INTO hotels(name, city, address, full_director_name, email, Director_phone_number, order_phone_number)
+INSERT INTO hotels(name, city, adress, full_director_name, email, Director_phone_number, order_phone_number)
   VALUES('hotel8', 'city8', 'adress8', 'D. V. Kutsaniuk', 'email@gmail.com', '0963254585', '0963254585');
-INSERT INTO hotels(name, city, address, full_director_name, email, Director_phone_number, order_phone_number)
+INSERT INTO hotels(name, city, adress, full_director_name, email, Director_phone_number, order_phone_number)
   VALUES('hotel9', 'city9', 'adress9', 'D. V. Kutsaniuk', 'email@gmail.com', '0963254585', '0963254585');
-INSERT INTO hotels(name, city, address, full_director_name, email, Director_phone_number, order_phone_number)
+INSERT INTO hotels(name, city, adress, full_director_name, email, Director_phone_number, order_phone_number)
   VALUES('hotel10', 'city10', 'adress10', 'D. V. Kutsaniuk', 'email@gmail.com', '0963254585', '0963254585');
 
 INSERT INTO workers(full_worker_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)

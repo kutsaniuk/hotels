@@ -3,19 +3,23 @@
 
 	var main = angular.module('main', [
 		'hotel',
-		'workers',
-		'rooms',
+		'license',
+		'software',
 		'ui.router',
 		'ui.bootstrap',
 		'ngResource',
-		'pascalprecht.translate'
+		'ngAnimate',
+		'pascalprecht.translate',
+		'base64',
+		'flow',
+		'ngDialog'
 		])
 	.config(configure).
 	run(run);
 
 
 	configure.$inject = ['$stateProvider', '$urlRouterProvider', '$translateProvider'];
-	function configure($stateProvider, $urlRouterProvider, $translateProvider) {
+	function configure ($stateProvider, $urlRouterProvider, $translateProvider) {
 
 		$urlRouterProvider.otherwise(function ($injector) {
 			var $state = $injector.get("$state");
@@ -44,7 +48,7 @@
           });
 	}
 
-	function run($translate) {
-		$translate.use('uk');
+	function run($translate, $rootScope, $templateCache) {
+		// $translate.use('en');
 	}
 })();

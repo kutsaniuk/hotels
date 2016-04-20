@@ -5,7 +5,7 @@
 	.module('main')
 	.controller('TableCtrl', TableCtrl);
 
-	function TableCtrl($scope, $state, $http, HotelsService) {  
+	function TableCtrl($scope, $state, $http) {  
 		var sc = $scope;
 		
     	sc.field = sc.tableHeader[0];
@@ -19,8 +19,8 @@
         sc.reverse = false;
 
         sc.sort = function(fieldName) {
-            $scope.reverse = ($scope.fieldName === fieldName) ? !$scope.reverse:false;
-            $scope.fieldName = fieldName;
+            sc.reverse = (sc.fieldName === fieldName) ? !sc.reverse:false;
+            sc.fieldName = fieldName;
         }
 
         sc.isSortUp = function(fieldName) {
@@ -30,5 +30,6 @@
         sc.isSortDown = function(fieldName) {
         	return sc.fieldName === fieldName && sc.reverse;
         };
+    
     }
 })();

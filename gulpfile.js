@@ -11,24 +11,9 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     wiredep = require('wiredep').stream,
     autoprefixer = require('gulp-autoprefixer');
- 
-gulp.task('default', ['watch'], function() {
-  gulp.src(src.public)
-    .pipe(webserver({
-      directoryListing: false,
-      open: false,
-      fallback: 'index.html',
-      host: 'localhost',
-      port: 8000,
-      path: '/',
-      livereload: {
-        enable: true
-      }
-    }));
-});
 
 gulp.task('sass', function () {
-  return gulp.src(src.public + 'sass/*.sass')
+  return gulp.src(src.public + 'sass/**/*.sass')
     .pipe(sass().on('error', sass.logError))
     .pipe(minifyCSS())
     .pipe(concat('main.min.css'))
@@ -42,8 +27,8 @@ gulp.task('js', function() {
     .pipe(gulp.dest(src.public + 'dist/js/'));
 });
 
-gulp.task('watch', function () {
-  gulp.watch(src.public + 'sass/*.sass', ['sass']);
+gulp.task('default', function () {
+  gulp.watch(src.public + 'sass/**/*.sass', ['sass']);
   gulp.watch(src.public + 'app/**/**/*.js', ['js']);
   gulp.watch('bower.json', ['bower']);
 });

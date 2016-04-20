@@ -1,39 +1,30 @@
 <div id="wrapper">
-
-  <!-- Navigation -->
   <nav id="sidebar-wrapper">
     <ul class="sidebar-nav" ng-init="activePage()">
       <li class="sidebar-brand">
         <a href="/" translate>
-          hotels
+          software
         </a>
       </li>
       <li ng-class="{'active': location() == '/home'}">
         <a href="#/home"><i class="glyphicon glyphicon-th"></i> <b translate>home</b></a>
       </li>
-      <li ng-class="{'active': location() == '/hotels'}">
-        <a href="#/hotels"><i class="glyphicon glyphicon-home"></i> <span translate>hotels</span></a>
+      <li ng-class="{'active': location() == '/hotel'}">
+        <a href="#/hotel"><i class="glyphicon glyphicon-home"></i> <span translate>hotel</span></a>
       </li>
-      <li ng-class="{'active': location() == '/workers'}" >
-        <a href="#/workers"><i class="glyphicon glyphicon-user"></i> <span translate>workers</span></a>
+      <li ng-class="{'active': location() == '/license'}" >
+        <a href="#/license"><i class="glyphicon glyphicon-user"></i> <span translate>license</span></a>
       </li>
-      <li ng-class="{'active': location() == '/rooms'}">
-        <a href="#/rooms"><i class="glyphicon glyphicon-th-large"></i> <span translate>rooms</span></a>
+      <li ng-class="{'active': location() == '/software'}">
+        <a href="#/software"><i class="glyphicon glyphicon-th-large"></i> <span translate>software</span></a>
       </li>
     </ul>
   </nav>
-
   <div id="page-content-wrapper">
-
     <div class="container-fluid">
-
-      <ui-view></ui-view>
-
+      <div class="row">
+        <ui-view></ui-view>
+      </div>
     </div>
-    <!-- /.container-fluid -->
-
   </div>
-  <!-- /#page-wrapper -->
-
 </div>
-<!-- /#wrapper -->
