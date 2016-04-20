@@ -43,7 +43,7 @@ public class H2Configuration implements ApplicationListener<ContextRefreshedEven
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-//                .addScript("db-init.sql")
+                .addScript("db-init.sql")
                 .build();
 
         ComboPooledDataSource cpds = new ComboPooledDataSource();

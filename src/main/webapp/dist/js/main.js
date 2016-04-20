@@ -2,7 +2,7 @@
 	'use strict';
 
 	var main = angular.module('main', [
-		'hotels',
+		'hotel',
 		'workers',
 		'rooms',
 		'ui.router',
@@ -58,7 +58,7 @@
 	function HotelsCtrl ($scope, $state, $http, $translate, HotelsService) {
 		var sc = $scope;
 
-		sc.table = 'hotels';
+		sc.table = 'hotel';
 		sc.base = '/' + sc.table;
 
 		sc.tableHeader = 
@@ -72,16 +72,16 @@
 		];
 
 		sc.openEdit = function (id) {
-			$state.go('main.hotels.edit');
+			$state.go('main.hotel.edit');
 			sc.id = id;
 		};
 
 		sc.openAdd = function () {
-			$state.go('main.hotels.new');
+			$state.go('main.hotel.new');
 		};
 
 		sc.openDelete = function (id) {
-			$state.go('main.hotels.delete');
+			$state.go('main.hotel.delete');
 			sc.id = id;
 		};
 
@@ -130,8 +130,8 @@
 	function configure($locationProvider, $stateProvider, $urlRouterProvider) {
 
 		$stateProvider
-		.state('main.hotels', {
-			url: 'hotels',
+		.state('main.hotel', {
+			url: 'hotel',
 			views: {
 				'': {
 					templateUrl: '/app/shared/table/table.view.html',
@@ -139,29 +139,29 @@
 				}
 			}
 		})
-		.state('main.hotels.new', {
+		.state('main.hotel.new', {
 			url: '/new',
 			views: {
 				'action': {
-					templateUrl: '/app/modules/hotels/action/hotels.action.view.html',
+					templateUrl: '/app/modules/hotel/action/hotel.action.view.html',
 					controller: 'HotelNewCtrl'
 				}
 			}
 		})
-		.state('main.hotels.edit', {
+		.state('main.hotel.edit', {
 			url: '/edit',
 			views: {
 				'action': {
-					templateUrl: '/app/modules/hotels/action/hotels.action.view.html',
+					templateUrl: '/app/modules/hotel/action/hotel.action.view.html',
 					controller: 'HotelEditCtrl'
 				}
 			}
 		})
-		.state('main.hotels.delete', {
+		.state('main.hotel.delete', {
 			url: '/delete',
 			views: {
 				'action': {
-					templateUrl: '/app/modules/hotels/action/hotels.action.delete.view.html',
+					templateUrl: '/app/modules/hotel/action/hotel.action.delete.view.html',
 					controller: 'HotelDeleteCtrl'
 				}
 			}
@@ -177,10 +177,10 @@
     angular.module('main')
     .service('HotelsService', function ($http) {
 
-        var urlBase = '../data/hotels/';
+        var urlBase = '../data/hotel/';
 
         this.getAll = function () {
-            return $http.get(urlBase + 'hotels.list.json');
+            return $http.get(urlBase + 'hotel.list.json');
         };
 
         this.get = function (id) {
@@ -465,7 +465,7 @@
 			url: '/new',
 			views: {
 				'action': {
-					templateUrl: '/app/modules/workers/action/workers.action.view.html',
+					templateUrl: '/app/modules/worker/action/worker.action.view.html',
 					controller: 'WorkersNewCtrl'
 				}
 			}
@@ -474,7 +474,7 @@
 			url: '/edit',
 			views: {
 				'action': {
-					templateUrl: '/app/modules/workers/action/workers.action.view.html',
+					templateUrl: '/app/modules/worker/action/worker.action.view.html',
 					controller: 'WorkersEditCtrl'
 				}
 			}
@@ -483,7 +483,7 @@
 			url: '/delete',
 			views: {
 				'action': {
-					templateUrl: '/app/modules/workers/action/workers.action.delete.view.html',
+					templateUrl: '/app/modules/worker/action/worker.action.delete.view.html',
 					controller: 'WorkersDeleteCtrl'
 				}
 			}
@@ -499,7 +499,7 @@
     angular.module('main')
     .service('WorkersService', function ($http) {
 
-        var urlBase = '../data/workers/';
+        var urlBase = '../data/worker/';
 
         this.getAll = function () {
             return $http.get(urlBase + 'workers.list.json');

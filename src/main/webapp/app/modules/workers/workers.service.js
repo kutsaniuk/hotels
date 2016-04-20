@@ -4,7 +4,7 @@
     angular.module('main')
     .service('WorkersService', function ($http) {
 
-        var urlBase = '../data/workers/';
+        var urlBase = '../data/worker/';
 
         this.getAll = function () {
             return $http.get(urlBase + 'workers.list.json');

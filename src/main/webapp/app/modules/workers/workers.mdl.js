@@ -24,7 +24,7 @@
 			url: '/new',
 			views: {
 				'action': {
-					templateUrl: '/app/modules/workers/action/workers.action.view.html',
+					templateUrl: '/app/modules/worker/action/worker.action.view.html',
 					controller: 'WorkersNewCtrl'
 				}
 			}
@@ -33,7 +33,7 @@
 			url: '/edit',
 			views: {
 				'action': {
-					templateUrl: '/app/modules/workers/action/workers.action.view.html',
+					templateUrl: '/app/modules/worker/action/worker.action.view.html',
 					controller: 'WorkersEditCtrl'
 				}
 			}
@@ -42,7 +42,7 @@
 			url: '/delete',
 			views: {
 				'action': {
-					templateUrl: '/app/modules/workers/action/workers.action.delete.view.html',
+					templateUrl: '/app/modules/worker/action/worker.action.delete.view.html',
 					controller: 'WorkersDeleteCtrl'
 				}
 			}

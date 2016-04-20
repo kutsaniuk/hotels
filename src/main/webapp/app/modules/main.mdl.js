@@ -2,7 +2,7 @@
 	'use strict';
 
 	var main = angular.module('main', [
-		'hotels',
+		'hotel',
 		'workers',
 		'rooms',
 		'ui.router',

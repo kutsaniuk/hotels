@@ -11,8 +11,8 @@
 	function configure($locationProvider, $stateProvider, $urlRouterProvider) {
 
 		$stateProvider
-		.state('main.hotels', {
-			url: 'hotels',
+		.state('main.hotel', {
+			url: 'hotel',
 			views: {
 				'': {
 					templateUrl: '/app/shared/table/table.view.html',
@@ -20,29 +20,29 @@
 				}
 			}
 		})
-		.state('main.hotels.new', {
+		.state('main.hotel.new', {
 			url: '/new',
 			views: {
 				'action': {
-					templateUrl: '/app/modules/hotels/action/hotels.action.view.html',
+					templateUrl: '/app/modules/hotel/action/hotel.action.view.html',
 					controller: 'HotelNewCtrl'
 				}
 			}
 		})
-		.state('main.hotels.edit', {
+		.state('main.hotel.edit', {
 			url: '/edit',
 			views: {
 				'action': {
-					templateUrl: '/app/modules/hotels/action/hotels.action.view.html',
+					templateUrl: '/app/modules/hotel/action/hotel.action.view.html',
 					controller: 'HotelEditCtrl'
 				}
 			}
 		})
-		.state('main.hotels.delete', {
+		.state('main.hotel.delete', {
 			url: '/delete',
 			views: {
 				'action': {
-					templateUrl: '/app/modules/hotels/action/hotels.action.delete.view.html',
+					templateUrl: '/app/modules/hotel/action/hotel.action.delete.view.html',
 					controller: 'HotelDeleteCtrl'
 				}
 			}

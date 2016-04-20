@@ -8,7 +8,7 @@
 	function HotelsCtrl ($scope, $state, $http, $translate, HotelsService) {
 		var sc = $scope;
 
-		sc.table = 'hotels';
+		sc.table = 'hotel';
 		sc.base = '/' + sc.table;
 
 		sc.tableHeader = 
@@ -22,16 +22,16 @@
 		];
 
 		sc.openEdit = function (id) {
-			$state.go('main.hotels.edit');
+			$state.go('main.hotel.edit');
 			sc.id = id;
 		};
 
 		sc.openAdd = function () {
-			$state.go('main.hotels.new');
+			$state.go('main.hotel.new');
 		};
 
 		sc.openDelete = function (id) {
-			$state.go('main.hotels.delete');
+			$state.go('main.hotel.delete');
 			sc.id = id;
 		};
 

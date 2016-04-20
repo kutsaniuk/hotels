@@ -4,10 +4,10 @@
     angular.module('main')
     .service('HotelsService', function ($http) {
 
-        var urlBase = '../data/hotels/';
+        var urlBase = '../data/hotel/';
 
         this.getAll = function () {
-            return $http.get(urlBase + 'hotels.list.json');
+            return $http.get(urlBase + 'hotel.list.json');
         };
 
         this.get = function (id) {
