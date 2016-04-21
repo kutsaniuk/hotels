@@ -15,7 +15,7 @@
 		[ 
 		'name', 
 		'city',
-		'adress',
+		'address',
 		'fullDirectorName',
 		'email',
 		'directorPhoneNumber',
@@ -54,16 +54,26 @@
 			});
 		};
 
-		sc.loadPage = function(currentPage, name, country) {
+		sc.loadPage = function(currentPage, name, city) {
 			if (name == '') name = null;
-			if (country == '') country = null;
+			if (city == '') city = null;
 			
-			HotelService.getPage(currentPage - 1, 10, name, country)
+			HotelService.getPage(currentPage - 1, 10, name, city)
 			.success(function (data){
 				sc.main = data;
 			});
 		};
 
 		sc.loadPage(1); 
+
+		var hotelData = new Array();		
+
+		for (var i = 0; i < 30; i ++) {
+			
+			hotelData[i] = "INSERT INTO hotels(name, city, address, full_director_name, email, Director_phone_number, order_phone_number)" +
+  							"VALUES('hotel" + i + "', 'city" + i + "', 'adress" + i + "', 'full_director_name" + i + "', 'email@gmail.com', '0963254585', '0963254585');";
+		};
+
+		sc.hotelData = hotelData;
 	};
 })();

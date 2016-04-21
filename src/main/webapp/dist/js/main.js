@@ -70,7 +70,7 @@
 		[ 
 		'name', 
 		'city',
-		'adress',
+		'address',
 		'fullDirectorName',
 		'email',
 		'directorPhoneNumber',
@@ -109,17 +109,27 @@
 			});
 		};
 
-		sc.loadPage = function(currentPage, name, country) {
+		sc.loadPage = function(currentPage, name, city) {
 			if (name == '') name = null;
-			if (country == '') country = null;
+			if (city == '') city = null;
 			
-			HotelService.getPage(currentPage - 1, 10, name, country)
+			HotelService.getPage(currentPage - 1, 10, name, city)
 			.success(function (data){
 				sc.main = data;
 			});
 		};
 
 		sc.loadPage(1); 
+
+		var hotelData = new Array();		
+
+		for (var i = 0; i < 30; i ++) {
+			
+			hotelData[i] = "INSERT INTO hotels(name, city, address, full_director_name, email, Director_phone_number, order_phone_number)" +
+  							"VALUES('hotel" + i + "', 'city" + i + "', 'adress" + i + "', 'full_director_name" + i + "', 'email@gmail.com', '0963254585', '0963254585');";
+		};
+
+		sc.hotelData = hotelData;
 	};
 })();
 
@@ -144,7 +154,8 @@
 			url: '',
 			views: {
 				'content@main.hotel': {
-					templateUrl: '/app/shared/table/table.view.html',
+					// templateUrl: '/app/shared/table/table.view.html',
+					templateUrl: '/app/modules/hotel/list/hotel.list.view.html',
 					controller: 'HotelCtrl'
 				},
 				'filter@main.hotel.table': {
@@ -203,11 +214,11 @@
                 }); 
         };
 
-        this.getPage = function (currentPage, size, name, country) {
+        this.getPage = function (currentPage, size, name, city) {
             return $http.get(urlBase, { 
                     params: { 
                         name: name,
-                        country: country,
+                        city: city,
                         page: currentPage, 
                         size: size 
                     }
@@ -720,25 +731,25 @@
 
 	angular
 	.module('main')
-	.controller('DeveloperDeleteCtrl', DeveloperDeleteCtrl);
+	.controller('HotelDeleteCtrl', HotelDeleteCtrl);
 
-	function DeveloperDeleteCtrl ($scope, $state, $location, DeveloperService) {
+	function HotelDeleteCtrl ($scope, $state, $location, HotelService) {
 		var sc = $scope;
-		var devName;
+		var hotelName;
 
-		DeveloperService.get(sc.id)
+		HotelService.get(sc.id)
 	  		.success( function (data) {
-	  			devName = data.name;
-				sc.log = 'Are you sure you want to remove developer ' + devName + '?';
+	  			hotelName = data.name;
+				sc.log = 'Are you sure you want to remove hotel ' + hotelName + '?';
 	  		});
 
 		sc.delete = function () {
-			DeveloperService.delete(sc.id)
+			HotelService.delete(sc.id)
 			.then(function successCallback(response) {
 				sc.closeThisDialog(true);
 				sc.loadPage(1);
 			  }, function errorCallback(response) {
-			    	sc.log = 'Developer "' + devName + '" could not be deleted because is in use yet';
+			    	sc.log = 'Hotel "' + hotelName + '" could not be deleted because is in use yet';
 			  }); 
 		}
 	};
@@ -762,44 +773,46 @@
 				singleFile: true
 			};
 
+		sc.name = '';
+        sc.city = '';
+        sc.address = '';
+        sc.fullDirectorName = '';
+        sc.email = '';
+        sc.directorPhoneNumber = '';
+        sc.orderPhoneNumber = '';
+
 		HotelService.get(sc.id)
 		.success(function (data) {
 			sc.hotel = data;
 
 			sc.id = sc.hotel.id;
 			sc.name = sc.hotel.name;
-			sc.country = sc.hotel.country;
 			sc.city = sc.hotel.city;
-			sc.street = sc.hotel.street;
+			sc.address = sc.hotel.country;
+			sc.fullDirectorName = sc.hotel.fullDirectorName;
 			sc.email = sc.hotel.email;
-			sc.zipcode = sc.hotel.zipcode;
-			sc.website = sc.hotel.website;
-			sc.phoneNumber = sc.hotel.phoneNumber;
-			sc.fax = sc.hotel.fax;
+			sc.directorPhoneNumber = sc.hotel.directorPhoneNumber;
+			sc.orderPhoneNumber = sc.hotel.orderPhoneNumber;
  
 			sc.save = function () {
 				sc.hotel = {
 					'id': sc.id,
-					'name': document.getElementById('name').value,
-					'country': sc.country,
-					'city': sc.city,
-					'street': sc.street,
-					'email': sc.email,
-					'zipcode': sc.zipcode,
-					'website': sc.website,
-					'phoneNumber': sc.phoneNumber,
-					'fax': sc.fax 
+					'name': sc.name,
+	                'city': sc.city,
+	                'address': sc.address,
+	                'fullDirectorName': sc.fullDirectorName,
+	                'email': sc.email,
+	                'directorPhoneNumber': sc.directorPhoneNumber,
+	                'orderPhoneNumber': sc.orderPhoneNumber
 				}
 
 				if (sc.name != '' 
-	            	&& sc.country != '' 
 	            	&& sc.city != '' 
-	            	&& sc.street != '' 
+	            	&& sc.address != '' 
+	            	&& sc.fullDirectorName != '' 
 	            	&& sc.email != '' 
-	            	&& sc.zipcode != '' 
-	            	&& sc.website != '' 
-	            	&& sc.phoneNumber != ''
-	            	&& sc.fax != ''
+	            	&& sc.directorPhoneNumber != '' 
+	            	&& sc.orderPhoneNumber != '' 
 	            ) {
 	                HotelService.update(sc.hotel)
 						.success(function() {
@@ -826,7 +839,7 @@
 
         sc.name = '';
         sc.city = '';
-        sc.adress = '';
+        sc.address = '';
         sc.fullDirectorName = '';
         sc.email = '';
         sc.directorPhoneNumber = '';
@@ -835,25 +848,21 @@
         sc.save = function() {
             sc.hotel = {
                 'name': sc.name,
-                'country': sc.country,
                 'city': sc.city,
-                'street': sc.street,
+                'address': sc.address,
+                'fullDirectorName': sc.fullDirectorName,
                 'email': sc.email,
-                'zipcode': sc.zipcode,
-                'website': sc.website,
-                'phoneNumber': sc.phoneNumber,
-                'fax': sc.fax
+                'directorPhoneNumber': sc.directorPhoneNumber,
+                'orderPhoneNumber': sc.orderPhoneNumber
             };
 
             if (sc.name != '' 
-            	&& sc.country != '' 
-            	&& sc.city != '' 
-            	&& sc.street != '' 
+                && sc.city != '' 
+            	&& sc.address != '' 
+            	&& sc.fullDirectorName != '' 
             	&& sc.email != '' 
-            	&& sc.zipcode != '' 
-            	&& sc.website != '' 
-            	&& sc.phoneNumber != ''
-            	&& sc.fax != ''
+            	&& sc.directorPhoneNumber != '' 
+            	&& sc.orderPhoneNumber != '' 
             ) {
                 HotelService.new(sc.hotel)
 					.success(function() {

@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="col-lg-3 col-md-3">
+    <div class="panel panel-default filter">
+      <div class="panel-heading">
+        <h3 class="panel-title" translate>filter</h3>
+      </div>
+      <div class="panel-body" ui-view="filter">
+        
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-9 col-md-9">
+    <div class="media hotel" ng-repeat="row in data = (main.content | filter: filterField | orderBy: fieldName:reverse)">
+      <div class="media-left">
+        <a href="#">
+          <img class="media-object" src="..." alt="..." onerror="this.src = '/dist/img/error.jpg'">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a ng-href="#/hotel/{{row.id}}">{{row.name}}</a></h3>
+        {{row.city}} <br>
+        <b>@ </b>{{row.email}} <br>
+        <i class="glyphicon glyphicon glyphicon-user"></i>{{row.directorPhoneNumber | phone}} <br>
+        <i class="glyphicon glyphicon-earphone"></i>{{row.orderPhoneNumber | phone}} <br>
+        <button class="btn btn-primary right" translate>more</button>
+      </div>
+    </div>
+    <div class="main-pagination">
+      <uib-pagination
+      total-items="main.totalElements"
+      ng-model="currentPage"
+      max-size="main.totalElements"
+      ng-change="loadPage(currentPage, name)"
+      class="pagination-sm">
+      </uib-pagination>
+    </div>
+  </div>
+</div>

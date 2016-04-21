@@ -25,7 +25,7 @@
             <tr ng-switch-when="hotel" ng-repeat="row in data = (main.content | filter: filterField | orderBy: fieldName:reverse)" ng-dblclick="openEdit(row.id)">
               <td><a ng-href="#/hotel/{{row.id}}">{{row.name}}</a></td>
               <td>{{row.city}}</td>
-              <td>{{row.adress}}</td>
+              <td>{{row.address}}</td>
               <td>{{row.fullDirectorName}}</td>
               <td>{{row.email}}</td>
               <td>{{row.directorPhoneNumber | phone}}</td>
@@ -35,6 +35,7 @@
                 <i class="glyphicon glyphicon-remove action" ng-click="openDelete(row.id)" uib-tooltip="Remove"></i>
               </td>
             </tr>
+            <!-- <pre><div ng-repeat="hotelDataItem in hotelData">{{hotelDataItem.toString() | json}}</div></pre> -->
             <tr ng-switch-when="software" ng-repeat="row in data = (main.content | filter: filterField | orderBy: fieldName:reverse)" ng-dblclick="openEdit(row.id)">
               <td><a href="#/software/{{row.id}}">{{row.name}}</a></td>
               <td>{{row.version}}</td>

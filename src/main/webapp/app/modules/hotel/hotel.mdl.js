@@ -19,7 +19,8 @@
 			url: '',
 			views: {
 				'content@main.hotel': {
-					templateUrl: '/app/shared/table/table.view.html',
+					// templateUrl: '/app/shared/table/table.view.html',
+					templateUrl: '/app/modules/hotel/list/hotel.list.view.html',
 					controller: 'HotelCtrl'
 				},
 				'filter@main.hotel.table': {

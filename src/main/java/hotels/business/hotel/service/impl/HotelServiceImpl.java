@@ -6,6 +6,8 @@ import hotels.business.hotel.service.HotelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +41,16 @@ public class HotelServiceImpl implements HotelService {
         repository.delete( id );
         LOG.info( "Hotel id='{}' has been deleted", id );
         return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public Page<Hotel> search( Pageable pageable, String name, String city ) {
+        if ( name == null || name.equals( "" ) ) name = "%";
+        else name += "%";
+        if ( city == null || city.equals( "" ) ) city = "%";
+        else city += "%";
+
+        return repository.findAllByNameAndCity( pageable, name, city );
     }
 
 }

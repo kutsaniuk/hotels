@@ -3,25 +3,25 @@
 
 	angular
 	.module('main')
-	.controller('DeveloperDeleteCtrl', DeveloperDeleteCtrl);
+	.controller('HotelDeleteCtrl', HotelDeleteCtrl);
 
-	function DeveloperDeleteCtrl ($scope, $state, $location, DeveloperService) {
+	function HotelDeleteCtrl ($scope, $state, $location, HotelService) {
 		var sc = $scope;
-		var devName;
+		var hotelName;
 
-		DeveloperService.get(sc.id)
+		HotelService.get(sc.id)
 	  		.success( function (data) {
-	  			devName = data.name;
-				sc.log = 'Are you sure you want to remove developer ' + devName + '?';
+	  			hotelName = data.name;
+				sc.log = 'Are you sure you want to remove hotel ' + hotelName + '?';
 	  		});
 
 		sc.delete = function () {
-			DeveloperService.delete(sc.id)
+			HotelService.delete(sc.id)
 			.then(function successCallback(response) {
 				sc.closeThisDialog(true);
 				sc.loadPage(1);
 			  }, function errorCallback(response) {
-			    	sc.log = 'Developer "' + devName + '" could not be deleted because is in use yet';
+			    	sc.log = 'Hotel "' + hotelName + '" could not be deleted because is in use yet';
 			  }); 
 		}
 	};

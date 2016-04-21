@@ -1,4 +1,6 @@
 <label translate>name</label>
-<input name="name" ng-model="name" type="text" class="form-control" placeholder="Enter dev name" ng-change="loadPage(1, name, country)" pattern="[A-z^\s]*">
-<label translate>country</label>
-<input name="country" ng-model="country" type="text" class="form-control" placeholder="Enter country" ng-change="loadPage(1, name, country)" pattern="[A-z^\s]*">
+<input name="name" ng-model="name" type="text" class="form-control" placeholder="Enter dev name" ng-change="loadPage(1, name, city)">
+<label translate>city</label>
+<input name="city" ng-model="city" type="text" class="form-control" placeholder="Enter city" ng-change="loadPage(1, name, city)">
+<br>
+<button class="btn btn-success full-width" ng-click="openAdd()"><i class="glyphicon glyphicon-plus"></i> <span translate>add</span></button>

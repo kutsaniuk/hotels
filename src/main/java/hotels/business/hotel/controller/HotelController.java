@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +19,13 @@ import java.util.List;
  * Created by NicholasG on 08.04.2016.
  */
 @RestController
-@RequestMapping( "/hotel" )
+@RequestMapping("/hotel")
 public class HotelController {
 
-    private static final Logger LOG = LoggerFactory.getLogger( HotelController.class );
+    private static final Logger LOG = LoggerFactory.getLogger(HotelController.class);
 
     @Autowired
-    @Qualifier( "hotelService" )
+    @Qualifier("hotelService")
     HotelService hotelService;
 
     @Autowired
@@ -33,36 +35,45 @@ public class HotelController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+
+    public ResponseEntity<Page<Hotel>> search(Pageable pageable,
+                                              String name,
+                                              String city) {
+        LOG.info("Getting all hotels");
+        Page<Hotel> page = hotelService.search(pageable, name, city);
+        return ResponseEntity.ok(page);
+    }
+
     public ResponseEntity<List<Hotel>> getAll() {
-        LOG.info( "Getting all hotel" );
-        return ResponseEntity.ok( hotelRepository.findAll() );
+        LOG.info("Getting all hotel");
+        return ResponseEntity.ok(hotelRepository.findAll());
     }
 
     @RequestMapping(
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Hotel> addHotel( @RequestBody Hotel hotel ) {
-        LOG.info( "Adding a new hotel" );
-        return hotelService.add( hotel );
+    public ResponseEntity<Hotel> addHotel(@RequestBody Hotel hotel) {
+        LOG.info("Adding a new hotel");
+        return hotelService.add(hotel);
     }
 
     @RequestMapping(
             method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Hotel> editHotel( @RequestBody Hotel hotel ) {
-        LOG.info( "Editing a hotel id='{}'", hotel.getId() );
-        return hotelService.edit( hotel );
+    public ResponseEntity<Hotel> editHotel(@RequestBody Hotel hotel) {
+        LOG.info("Editing a hotel id='{}'", hotel.getId());
+        return hotelService.edit(hotel);
     }
 
     @RequestMapping(
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Void> deleteHotel( @RequestParam( "id" ) Long id ) {
-        LOG.info( "Deleting a hotel id='{}'", id );
-        return hotelService.delete( id );
+    public ResponseEntity<Void> deleteHotel(@RequestParam("id") Long id) {
+        LOG.info("Deleting a hotel id='{}'", id);
+        return hotelService.delete(id);
     }
 
 }

@@ -16,44 +16,46 @@
 				singleFile: true
 			};
 
+		sc.name = '';
+        sc.city = '';
+        sc.address = '';
+        sc.fullDirectorName = '';
+        sc.email = '';
+        sc.directorPhoneNumber = '';
+        sc.orderPhoneNumber = '';
+
 		HotelService.get(sc.id)
 		.success(function (data) {
 			sc.hotel = data;
 
 			sc.id = sc.hotel.id;
 			sc.name = sc.hotel.name;
-			sc.country = sc.hotel.country;
 			sc.city = sc.hotel.city;
-			sc.street = sc.hotel.street;
+			sc.address = sc.hotel.country;
+			sc.fullDirectorName = sc.hotel.fullDirectorName;
 			sc.email = sc.hotel.email;
-			sc.zipcode = sc.hotel.zipcode;
-			sc.website = sc.hotel.website;
-			sc.phoneNumber = sc.hotel.phoneNumber;
-			sc.fax = sc.hotel.fax;
+			sc.directorPhoneNumber = sc.hotel.directorPhoneNumber;
+			sc.orderPhoneNumber = sc.hotel.orderPhoneNumber;
  
 			sc.save = function () {
 				sc.hotel = {
 					'id': sc.id,
-					'name': document.getElementById('name').value,
-					'country': sc.country,
-					'city': sc.city,
-					'street': sc.street,
-					'email': sc.email,
-					'zipcode': sc.zipcode,
-					'website': sc.website,
-					'phoneNumber': sc.phoneNumber,
-					'fax': sc.fax 
+					'name': sc.name,
+	                'city': sc.city,
+	                'address': sc.address,
+	                'fullDirectorName': sc.fullDirectorName,
+	                'email': sc.email,
+	                'directorPhoneNumber': sc.directorPhoneNumber,
+	                'orderPhoneNumber': sc.orderPhoneNumber
 				}
 
 				if (sc.name != '' 
-	            	&& sc.country != '' 
 	            	&& sc.city != '' 
-	            	&& sc.street != '' 
+	            	&& sc.address != '' 
+	            	&& sc.fullDirectorName != '' 
 	            	&& sc.email != '' 
-	            	&& sc.zipcode != '' 
-	            	&& sc.website != '' 
-	            	&& sc.phoneNumber != ''
-	            	&& sc.fax != ''
+	            	&& sc.directorPhoneNumber != '' 
+	            	&& sc.orderPhoneNumber != '' 
 	            ) {
 	                HotelService.update(sc.hotel)
 						.success(function() {

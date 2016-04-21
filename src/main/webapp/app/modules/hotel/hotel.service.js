@@ -35,11 +35,11 @@
                 }); 
         };
 
-        this.getPage = function (currentPage, size, name, country) {
+        this.getPage = function (currentPage, size, name, city) {
             return $http.get(urlBase, { 
                     params: { 
                         name: name,
-                        country: country,
+                        city: city,
                         page: currentPage, 
                         size: size 
                     }

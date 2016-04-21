@@ -1,4 +1,4 @@
-package hotels.business.room.controller;
+package hotels.business.rooms.controller;
 
 import hotels.business.room.domain.Room;
 import hotels.business.room.repository.RoomRepository;
@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,9 +35,13 @@ public class RoomController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<List<Room>> getAll() {
+    public ResponseEntity<Page<Room>> search( Pageable pageable,
+                                              String roomType,
+                                              String bedType,
+                                              String breakfast) {
         LOG.info( "Getting all rooms" );
-        return ResponseEntity.ok( roomRepository.findAll() );
+        Page<Room> page = roomService.search( pageable, roomType, bedType, breakfast );
+        return ResponseEntity.ok( page );
     }
 
     @RequestMapping(

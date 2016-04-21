@@ -1,6 +1,8 @@
 package hotels.business.room.service;
 
 import hotels.business.room.domain.Room;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -13,5 +15,7 @@ public interface RoomService {
     ResponseEntity<Room> edit( Room room );
 
     ResponseEntity<Void> delete( Long id );
+
+    Page<Room> search( Pageable pageable, String roomType, String bedType, String breakfast );
 
 }

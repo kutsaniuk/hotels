@@ -1,5 +1,7 @@
 package hotels.business.hotel.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import hotels.business.hotel.domain.Hotel;
 import org.springframework.http.ResponseEntity;
 
@@ -14,4 +16,5 @@ public interface HotelService {
 
     ResponseEntity<Void> delete( Long id );
 
+    Page<Hotel> search( Pageable pageable, String name, String city );
 }

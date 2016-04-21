@@ -12,7 +12,7 @@
 
         sc.name = '';
         sc.city = '';
-        sc.adress = '';
+        sc.address = '';
         sc.fullDirectorName = '';
         sc.email = '';
         sc.directorPhoneNumber = '';
@@ -21,25 +21,21 @@
         sc.save = function() {
             sc.hotel = {
                 'name': sc.name,
-                'country': sc.country,
                 'city': sc.city,
-                'street': sc.street,
+                'address': sc.address,
+                'fullDirectorName': sc.fullDirectorName,
                 'email': sc.email,
-                'zipcode': sc.zipcode,
-                'website': sc.website,
-                'phoneNumber': sc.phoneNumber,
-                'fax': sc.fax
+                'directorPhoneNumber': sc.directorPhoneNumber,
+                'orderPhoneNumber': sc.orderPhoneNumber
             };
 
             if (sc.name != '' 
-            	&& sc.country != '' 
-            	&& sc.city != '' 
-            	&& sc.street != '' 
+                && sc.city != '' 
+            	&& sc.address != '' 
+            	&& sc.fullDirectorName != '' 
             	&& sc.email != '' 
-            	&& sc.zipcode != '' 
-            	&& sc.website != '' 
-            	&& sc.phoneNumber != ''
-            	&& sc.fax != ''
+            	&& sc.directorPhoneNumber != '' 
+            	&& sc.orderPhoneNumber != '' 
             ) {
                 HotelService.new(sc.hotel)
 					.success(function() {
