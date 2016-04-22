@@ -16,6 +16,6 @@ public interface RoomService {
 
     ResponseEntity<Void> delete( Long id );
 
-    Page<Room> search( Pageable pageable, String roomType, String bedType, String breakfast );
+    Page<Room> search( Pageable pageable, int roomType, String bedType, String breakfast );
 
 }

@@ -36,11 +36,11 @@ public class RoomController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Page<Room>> search( Pageable pageable,
-                                              String roomType,
+                                              Room.RoomType roomType,
                                               String bedType,
                                               String breakfast) {
         LOG.info( "Getting all rooms" );
-        Page<Room> page = roomService.search( pageable, roomType, bedType, breakfast );
+        Page<Room> page = roomService.search( pageable, roomType.ordinal(), bedType, breakfast );
         return ResponseEntity.ok( page );
     }
 
@@ -68,6 +68,15 @@ public class RoomController {
     public ResponseEntity<Void> deleteRoom( @RequestParam( "id" ) Long id ) {
         LOG.info( "Deleting room id='{}'", id );
         return roomService.delete( id );
+    }
+
+    @RequestMapping(
+            value = "/{id}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Room> getOne( @PathVariable Long id ) {
+        return ResponseEntity.ok( roomRepository.findOne( id ) );
     }
 
 }

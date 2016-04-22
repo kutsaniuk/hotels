@@ -20,8 +20,8 @@ public class Worker implements Serializable {
     @GeneratedValue
     private Long id;
 
-    @Column( name = "full_worker_name" )
-    private String fullWorkerName;
+    @Column( name = "full_name" )
+    private String fullName;
 
     @Column( name = "post" )
     private String post;
@@ -49,14 +49,14 @@ public class Worker implements Serializable {
     public Worker() {
     }
 
-    public Worker( String fullWorkerName,
+    public Worker( String fullName,
                    String post,
                    Date birthday,
                    String sex,
                    int experience,
                    String previousPost,
                    Date dateOfEmployment ) {
-        this.fullWorkerName = fullWorkerName;
+        this.fullName = fullName;
         this.post = post;
         this.birthday = birthday;
         this.sex = sex;
@@ -73,12 +73,12 @@ public class Worker implements Serializable {
         this.id = id;
     }
 
-    public String getFullWorkerName() {
-        return fullWorkerName;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFullWorkerName( String fullWorkerName ) {
-        this.fullWorkerName = fullWorkerName;
+    public void setFullName( String fullName ) {
+        this.fullName = fullName;
     }
 
     public String getPost() {

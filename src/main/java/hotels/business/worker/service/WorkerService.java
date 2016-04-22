@@ -1,6 +1,8 @@
 package hotels.business.worker.service;
 
 import hotels.business.worker.domain.Worker;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -14,4 +16,5 @@ public interface WorkerService {
 
     ResponseEntity<Void> delete( Long id );
 
+    Page<Worker> search( Pageable pageable, String fullName, String post, String date );
 }

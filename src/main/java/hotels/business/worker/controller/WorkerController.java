@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,9 +35,13 @@ public class WorkerController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<List<Worker>> getAll() {
+    public ResponseEntity<Page<Worker>> search( Pageable pageable,
+                                                String fullName,
+                                                String post,
+                                                String date) {
         LOG.info( "Getting all worker" );
-        return ResponseEntity.ok( workerRepository.findAll() );
+        Page<Worker> page = workerService.search( pageable, fullName, post, date );
+        return ResponseEntity.ok( page );
     }
 
     @RequestMapping(
@@ -63,6 +69,15 @@ public class WorkerController {
     public ResponseEntity<Void> deleteWorker( @RequestParam( "id" ) Long id ) {
         LOG.info( "Deleting a worker id='{}'", id );
         return workerService.delete( id );
+    }
+
+    @RequestMapping(
+            value = "/{id}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Worker> getOne( @PathVariable Long id ) {
+        return ResponseEntity.ok( workerRepository.findOne( id ) );
     }
 
 }

@@ -42,8 +42,15 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Page<Room> search( Pageable pageable, String roomType, String bedType, String breakfast ) {
-        return null;
+    public Page<Room> search( Pageable pageable, int roomType, String bedType, String breakfast ) {
+        if ( bedType == null || bedType.equals( "" ) ) bedType = "%";
+        else bedType += "%";
+        if ( breakfast == null || breakfast.equals( "" ) ) breakfast = "%";
+        else breakfast += "%";
+
+        return repository.findAllByRoomTypeAndBedTypeAndBreakfast(
+                pageable, roomType, bedType, breakfast
+        );
     }
 
 }

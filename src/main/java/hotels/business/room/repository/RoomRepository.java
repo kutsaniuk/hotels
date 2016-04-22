@@ -13,12 +13,12 @@ import org.springframework.data.repository.query.Param;
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
     @Query( "SELECT r FROM Room r " +
-            "WHERE LOWER(r.roomType) LIKE LOWER(:roomType) " +
+            "WHERE r.roomType = :roomType " +
             "AND LOWER(r.bedType) LIKE LOWER(:bedType) " +
             "AND LOWER(r.breakfast) LIKE LOWER(:breakfast)" )
-    Page<Room> findAll( Pageable pageable,
-                        @Param( "roomType" ) String roomType,
-                        @Param( "bedType" ) String bedType,
-                        @Param( "breakfast" ) String breakfast );
+    Page<Room> findAllByRoomTypeAndBedTypeAndBreakfast( Pageable pageable,
+                                                        @Param( "roomType" ) int roomType,
+                                                        @Param( "bedType" ) String bedType,
+                                                        @Param( "breakfast" ) String breakfast );
 
 }

@@ -29,25 +29,25 @@ INSERT INTO hotels(name, city, address, full_director_name, email, Director_phon
 INSERT INTO hotels(name, city, address, full_director_name, email, Director_phone_number, order_phone_number)VALUES('hotel28', 'city28', 'adress28', 'full_director_name28', 'email@gmail.com', '0963254585', '0963254585');
 INSERT INTO hotels(name, city, address, full_director_name, email, Director_phone_number, order_phone_number)VALUES('hotel29', 'city29', 'adress29', 'full_director_name29', 'email@gmail.com', '0963254585', '0963254585');
 
-INSERT INTO workers(full_worker_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
+INSERT INTO workers(full_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
   VALUES('worker1', 'post1', '1996-11-8', 'MALE', '10', 'previous_post1', '2010-12-5', 1);
-INSERT INTO workers(full_worker_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
+INSERT INTO workers(full_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
   VALUES('worker2', 'post2', '1996-11-8', 'MALE', '10', 'previous_post2', '2010-12-5', 1);
-INSERT INTO workers(full_worker_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
+INSERT INTO workers(full_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
   VALUES('worker3', 'post3', '1996-11-8', 'MALE', '10', 'previous_post3', '2010-12-5', 1);
-INSERT INTO workers(full_worker_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
+INSERT INTO workers(full_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
   VALUES('worker4', 'post4', '1996-11-8', 'MALE', '10', 'previous_post4', '2010-12-5', 7);
-INSERT INTO workers(full_worker_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
+INSERT INTO workers(full_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
   VALUES('worker5', 'post5', '1996-11-8', 'MALE', '10', 'previous_post5', '2010-12-5', 6);
-INSERT INTO workers(full_worker_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
+INSERT INTO workers(full_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
   VALUES('worker6', 'post6', '1996-11-8', 'MALE', '10', 'previous_post6', '2010-12-5', 1);
-INSERT INTO workers(full_worker_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
+INSERT INTO workers(full_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
   VALUES('worker7', 'post7', '1996-11-8', 'MALE', '10', 'previous_post7', '2010-12-5', 2);
-INSERT INTO workers(full_worker_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
+INSERT INTO workers(full_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
   VALUES('worker8', 'post8', '1996-11-8', 'MALE', '10', 'previous_post8', '2010-12-5', 3);
-INSERT INTO workers(full_worker_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
+INSERT INTO workers(full_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
   VALUES('worker9', 'post9', '1996-11-8', 'MALE', '10', 'previous_post9', '2010-12-5', 4);
-INSERT INTO workers(full_worker_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
+INSERT INTO workers(full_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
   VALUES('worker10', 'post10', '1996-11-8', 'MALE', '10', 'previous_post10', '2010-12-5', 5);
 
 INSERT INTO rooms(room_type, room_count, bed_type, breakfast, hotels_id)

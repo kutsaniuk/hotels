@@ -76,4 +76,13 @@ public class HotelController {
         return hotelService.delete(id);
     }
 
+    @RequestMapping(
+            value = "/{id}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Hotel> getOne( @PathVariable Long id ) {
+        return ResponseEntity.ok( hotelRepository.findOne( id ) );
+    }
+
 }
