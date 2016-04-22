@@ -12,7 +12,9 @@
 		'pascalprecht.translate',
 		'base64',
 		'flow',
-		'ngDialog'
+		'ngDialog',
+		'uiSwitch',
+		'sticky'
 		])
 	.config(configure).
 	run(run);
