@@ -1,3 +1,9 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600,400italic,300,300italic,700,600italic,700italic);
+
+body
+  background: #FFFDFD
+  background: #eee
+  font-family: 'Open Sans', sans-serif;
 #wrapper
   padding-left: 0
   -webkit-transition: all 0.5s ease
@@ -15,7 +21,7 @@
   height: 100%
   margin-left: -200px
   overflow-y: auto
-  background: #333
+  background: #15150F
   -webkit-transition: all 0.5s ease
   -moz-transition: all 0.5s ease
   -o-transition: all 0.5s ease
@@ -27,8 +33,7 @@
 #page-content-wrapper
   width: 100%
   position: absolute
-  padding: 15px
-  margin-top: 55px
+  padding-top: 30px
 
 #wrapper.toggled #page-content-wrapper
   position: absolute
@@ -36,29 +41,37 @@
 
 .sidebar-nav
   position: absolute
-  top: 0
+  top: 150px
   width: 200px
   margin: 0
   padding: 0
   list-style: none
   .active
-      background: #222
+      background: #EEE
+      border-color: #55A791
+      a
+        color: #333
+        font-weight: bold
+      &:hover
+        border-color: #55A791
   li
     text-indent: 20px
     line-height: 40px
+    border-left: 3px solid #15150F
     a
       display: block
       text-decoration: none
       color: #999999
       transition: 0.2s ease-out
-      &:hover
-        text-decoration: none
-        color: #fff
-        background: rgba(29, 29, 29, 0.2)
-        padding-left: 5px
-        transition: 0.2s ease-out
       &:active, &:focus
         text-decoration: none
+    &:hover
+      text-decoration: none
+      background: #EEE
+      border-color: #eee
+      transition: 0.2s ease-out
+      a
+        color: #333
   > .sidebar-brand
     height: 65px
     font-size: 18px
@@ -80,7 +93,6 @@
     width: 0
   #page-content-wrapper
     height: 100%
-    padding: 20px
     position: inherit
   #wrapper.toggled #page-content-wrapper
     position: relative
@@ -105,16 +117,16 @@ table, span, button
 .no-margin
   margin: 0 !important
 
-.main-pagination
-  position: fixed
-  width: 100%
-  height: 50px
-  background: #eee
-  bottom: 0
-  ul
-    position: absolute
-    right: 0
-    left: 0
-    bottom: 0
-    top: 0
-    margin: 0 auto
+#sidebar-wrapper 
+  .logo
+    width: 100%
+    background: #55A791
+    background-image: url('/dist/img/logo.png')
+    background-size: 100%
+    border-radius: 0
+    color: #fff
+    font-size: 40px    
+    text-align: center
+    padding-top: 40px
+    padding-bottom: 40px
+    

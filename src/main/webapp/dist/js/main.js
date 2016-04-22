@@ -12,7 +12,9 @@
 		'pascalprecht.translate',
 		'base64',
 		'flow',
-		'ngDialog'
+		'ngDialog',
+		'uiSwitch',
+		'sticky'
 		])
 	.config(configure).
 	run(run);
@@ -62,6 +64,8 @@
 
 	function HotelCtrl ($scope, $state, $http, $stateParams, ngDialog, HotelService) {
 		var sc = $scope;
+
+		sc.hotelInfoSwitchShow = false;
 
 		sc.table = 'hotel';
 		sc.base = '/' + sc.table;
@@ -113,10 +117,13 @@
 			if (name == '') name = null;
 			if (city == '') city = null;
 			
-			HotelService.getPage(currentPage - 1, 10, name, city)
+			HotelService.getPage(currentPage - 1, 9, name, city)
 			.success(function (data){
 				sc.main = data;
 			});
+
+			sc.name = name;
+			sc.city = city;
 		};
 
 		sc.loadPage(1); 
