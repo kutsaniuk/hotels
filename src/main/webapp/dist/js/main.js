@@ -887,9 +887,9 @@
 
 	angular
 	.module('main')
-	.controller('DeveloperProfileCtrl', DeveloperProfileCtrl);
+	.controller('HotelProfileCtrl', HotelProfileCtrl);
 
-	function DeveloperProfileCtrl ($scope, $state, $stateParams, ngDialog, DeveloperService) {
+	function HotelProfileCtrl ($scope, $state, $stateParams, ngDialog, HotelService) {
 		var sc = $scope;
 		sc.table = 'developer';
 
@@ -901,13 +901,13 @@
 				singleFile: true
 			};
 
-		DeveloperService.get($stateParams.id)
+		HotelService.get($stateParams.id)
 	  		.success( function (data) {
 	  			sc.profile = data;
 	  		});
 
 	  	sc.getLogoById = function (id) {
-	  		DeveloperService.getLogo(id)
+	  		HotelService.getLogo(id)
 	  		.success( function (data) {
 	  			sc.devLogo = '';
 	  			sc.devLogo = data;
