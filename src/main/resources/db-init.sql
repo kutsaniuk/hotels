@@ -53,8 +53,19 @@ INSERT INTO workers(full_name, post, birthday, sex, experience, previous_post, d
 INSERT INTO rooms(room_type, room_count, bed_type, breakfast, hotels_id)
   VALUES(1, 5, TRUE, TRUE , 1);
 INSERT INTO rooms(room_type, room_count, bed_type, breakfast, hotels_id)
-  VALUES(2, 5, FALSE , TRUE , 1);
+  VALUES(2, 3, FALSE , TRUE , 1);
 INSERT INTO rooms(room_type, room_count, bed_type, breakfast, hotels_id)
-  VALUES(0, 5, FALSE , TRUE , 2);
+  VALUES(0, 4, FALSE , TRUE , 1);
+INSERT INTO rooms(room_type, room_count, bed_type, breakfast, hotels_id)
+  VALUES(1, 5, TRUE, FALSE , 1);
+INSERT INTO rooms(room_type, room_count, bed_type, breakfast, hotels_id)
+  VALUES(0, 3, TRUE, FALSE , 1);
+INSERT INTO rooms(room_type, room_count, bed_type, breakfast, hotels_id)
+  VALUES(2, 5, FALSE, TRUE , 1);
+INSERT INTO rooms(room_type, room_count, bed_type, breakfast, hotels_id)
+  VALUES(0, 5, TRUE, TRUE , 1);
+INSERT INTO rooms(room_type, room_count, bed_type, breakfast, hotels_id)
+  VALUES(1, 5, TRUE, TRUE , 1);
 INSERT INTO rooms(room_type, room_count, bed_type, breakfast, hotels_id)
   VALUES(0, 5, TRUE, TRUE , 2);
+

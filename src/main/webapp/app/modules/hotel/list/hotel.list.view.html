@@ -5,7 +5,7 @@
     <div class="col-lg-4 col-md-4 col-xs-4 no-padding"><span ng-if="main.content != ''" class="found"><span translate>found</span> {{main.totalElements}} <span translate>hotels</span></span></div>
   </div>
   <div class="col-lg-9 col-md-9 page-content">
-    <div class="col-lg-4 col-md-4 col-xs-12 item" ng-repeat="row in data = (main.content | filter: filterField | orderBy: fieldName:reverse)">
+    <div class="col-lg-4 col-md-4 col-xs-12 item" ng-repeat="row in main.content">
       <div class="item-container">
         <div ng-mouseover="hotelInfoShow = true" ng-mouseleave="hotelInfoShow = false">
           <div class="col-lg-12 no-padding" >
@@ -31,8 +31,6 @@
         </div>
       </div>
     </div>
-    <div class="clearfix" ng-if="$index%3==3"></div>
-    <div ng-repeat-end=""></div>
     <uib-pagination
     ng-if="main.content != ''"
     total-items="main.totalElements"
@@ -52,11 +50,9 @@
       </center>
     </div>
   </div>
-  <div class="col-lg-3 col-md-3">
+  <div class="col-lg-3 col-md-3 no-padding">
     <div class="panel panel-default filter" offset="25" confine="true">
-      <div class="panel-heading">
-        <h3 class="panel-title" translate>filter</h3>
-      </div>
+      <div class="panel-heading" translate>filter</div>
       <div class="panel-body" ui-view="filter"></div>
     </div>
   </div>
