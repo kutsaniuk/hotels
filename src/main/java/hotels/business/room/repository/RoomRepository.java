@@ -17,7 +17,14 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
             "AND LOWER(r.bedType) LIKE LOWER(:bedType) " +
             "AND LOWER(r.breakfast) LIKE LOWER(:breakfast)" )
     Page<Room> findAllByRoomTypeAndBedTypeAndBreakfast( Pageable pageable,
-                                                        @Param( "roomType" ) int roomType,
+                                                        @Param( "roomType" ) Room.RoomType roomType,
+                                                        @Param( "bedType" ) String bedType,
+                                                        @Param( "breakfast" ) String breakfast );
+
+    @Query( "SELECT r FROM Room r " +
+            "WHERE LOWER(r.bedType) LIKE LOWER(:bedType) " +
+            "AND LOWER(r.breakfast) LIKE LOWER(:breakfast)" )
+    Page<Room> findAllByBedTypeAndBreakfast( Pageable pageable,
                                                         @Param( "bedType" ) String bedType,
                                                         @Param( "breakfast" ) String breakfast );
 

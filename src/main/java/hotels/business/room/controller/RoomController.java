@@ -1,4 +1,4 @@
-package hotels.business.rooms.controller;
+package hotels.business.room.controller;
 
 import hotels.business.room.domain.Room;
 import hotels.business.room.repository.RoomRepository;
@@ -36,11 +36,11 @@ public class RoomController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Page<Room>> search( Pageable pageable,
-                                              Room.RoomType roomType,
+                                              String roomType,
                                               String bedType,
                                               String breakfast) {
         LOG.info( "Getting all rooms" );
-        Page<Room> page = roomService.search( pageable, roomType.ordinal(), bedType, breakfast );
+        Page<Room> page = roomService.search( pageable, roomType, bedType, breakfast );
         return ResponseEntity.ok( page );
     }
 

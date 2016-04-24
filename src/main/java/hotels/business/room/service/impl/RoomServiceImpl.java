@@ -42,15 +42,22 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Page<Room> search( Pageable pageable, int roomType, String bedType, String breakfast ) {
+    public Page<Room> search( Pageable pageable, String roomType, String bedType, String breakfast ) {
         if ( bedType == null || bedType.equals( "" ) ) bedType = "%";
         else bedType += "%";
         if ( breakfast == null || breakfast.equals( "" ) ) breakfast = "%";
         else breakfast += "%";
 
-        return repository.findAllByRoomTypeAndBedTypeAndBreakfast(
-                pageable, roomType, bedType, breakfast
-        );
+        if ( roomType == null || roomType.equals( "" ) ) {
+            return repository.findAllByBedTypeAndBreakfast( pageable, bedType, breakfast );
+        }
+        else {
+            Room.RoomType type = Room.RoomType.valueOf( roomType.toUpperCase() );
+            return repository.findAllByRoomTypeAndBedTypeAndBreakfast(
+                    pageable, type, bedType, breakfast
+
+            );
+        }
     }
 
 }
