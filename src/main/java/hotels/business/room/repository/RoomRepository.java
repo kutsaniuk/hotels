@@ -7,10 +7,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 /**
  * Created by kutsaniuk on 11.03.16.
  */
 public interface RoomRepository extends JpaRepository<Room, Long> {
+
+    Optional<Room> findOneById( Long id );
 
     @Query( "SELECT r FROM Room r " +
             "WHERE r.roomType = :roomType " +
@@ -25,7 +29,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
             "WHERE LOWER(r.bedType) LIKE LOWER(:bedType) " +
             "AND LOWER(r.breakfast) LIKE LOWER(:breakfast)" )
     Page<Room> findAllByBedTypeAndBreakfast( Pageable pageable,
-                                                        @Param( "bedType" ) String bedType,
-                                                        @Param( "breakfast" ) String breakfast );
+                                             @Param( "bedType" ) String bedType,
+                                             @Param( "breakfast" ) String breakfast );
 
 }

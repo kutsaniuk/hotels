@@ -2,9 +2,12 @@ package hotels.business.room.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import hotels.business.hotel.domain.Hotel;
+import hotels.business.image.domain.Image;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by kutsaniuk on 11.03.16.
@@ -52,6 +55,10 @@ public class Room implements Serializable {
     @ManyToOne
     @JoinColumn( name = "hotels_id", nullable = false )
     private Hotel hotel;
+
+    @JsonIgnore
+    @OneToMany(targetEntity = Image.class, cascade = CascadeType.ALL, mappedBy = "room")
+    private Set<Image> images = new HashSet<>();
 
     public Room() {
 
@@ -111,4 +118,13 @@ public class Room implements Serializable {
     public void setHotel( Hotel hotel ) {
         this.hotel = hotel;
     }
+
+    public Set<Image> getImages() {
+        return images;
+    }
+
+    public void setImages( Set<Image> images ) {
+        this.images = images;
+    }
+
 }

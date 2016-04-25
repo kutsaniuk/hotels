@@ -1,5 +1,6 @@
 package hotels.business.room.controller;
 
+import hotels.business.image.domain.Image;
 import hotels.business.room.domain.Room;
 import hotels.business.room.repository.RoomRepository;
 import hotels.business.room.service.RoomService;
@@ -12,8 +13,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by NicholasG on 18.04.2016.
@@ -77,6 +80,35 @@ public class RoomController {
     )
     public ResponseEntity<Room> getOne( @PathVariable Long id ) {
         return ResponseEntity.ok( roomRepository.findOne( id ) );
+    }
+
+    @RequestMapping(
+            value = "/images",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Set<Image>> getImages( @RequestParam( "id" ) Long id ) {
+        LOG.info( "Getting room's id'{}' images", id );
+        return roomService.getAllImages( id );
+    }
+
+    @RequestMapping(
+            value = "/images",
+            method = RequestMethod.POST
+    )
+    public ResponseEntity<Void> addImage( @RequestParam( "id" ) Long id,
+                                          @RequestParam( "file" ) MultipartFile image ) {
+        LOG.info( "Adding an image into room id='{}'", id );
+        return roomService.addImage( id, image );
+    }
+
+    @RequestMapping(
+            value = "/images",
+            method = RequestMethod.DELETE
+    )
+    public ResponseEntity<Void> removeImage( @RequestParam( "id" ) Long imageId ) {
+        LOG.info( "Deleting an image id='{}'", imageId );
+        return roomService.removeImage( imageId );
     }
 
 }
