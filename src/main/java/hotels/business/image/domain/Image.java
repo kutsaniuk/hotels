@@ -18,7 +18,7 @@ public class Image {
     private Long id;
 
     @JsonIgnore
-    @Column(name = "image_as_string")
+    @Column(name = "image_as_string", length = 3000000)
     private String imageAsString;
 
     @Transient

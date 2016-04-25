@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -83,6 +84,22 @@ public class HotelController {
     )
     public ResponseEntity<Hotel> getOne( @PathVariable Long id ) {
         return ResponseEntity.ok( hotelRepository.findOne( id ) );
+    }
+
+    public ResponseEntity<String> getLogo( @RequestParam( "id" ) Long id ) {
+        return hotelService.getLogo( id );
+    }
+
+    @RequestMapping(
+            value = "/logo",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Void> updateLogo( @RequestParam( "id" ) Long id,
+                                            @RequestParam( "file" ) MultipartFile image ) {
+        LOG.info( "Updating hotel id='{}' image", id );
+
+        return hotelService.updateLogo( id, image );
     }
 
 }

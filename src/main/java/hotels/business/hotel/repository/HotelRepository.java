@@ -8,11 +8,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by kutsaniuk on 11.03.16.
  */
 public interface HotelRepository extends JpaRepository<Hotel, Long> {
+
+    Optional<Hotel> findOneById( Long id );
 
     @Query( "SELECT h FROM Hotel h " +
             "WHERE LOWER(h.name) LIKE LOWER(:name) " +

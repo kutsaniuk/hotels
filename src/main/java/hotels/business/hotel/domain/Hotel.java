@@ -1,5 +1,6 @@
 package hotels.business.hotel.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import hotels.business.room.domain.Room;
 import hotels.business.worker.domain.Worker;
 
@@ -47,6 +48,10 @@ public class Hotel implements Serializable {
 
     @OneToMany( targetEntity = Worker.class, cascade = CascadeType.ALL, mappedBy = "hotel" )
     private Set<Worker> workers = new HashSet<>();
+
+    @JsonIgnore
+    @Column(name = "logo", length = 3000000)
+    private String logo;
 
     public Hotel() {
     }
@@ -145,6 +150,14 @@ public class Hotel implements Serializable {
 
     public void setWorkers( Set<Worker> workers ) {
         this.workers = workers;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo( String logo ) {
+        this.logo = logo;
     }
 
 }
