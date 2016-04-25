@@ -86,6 +86,11 @@ public class HotelController {
         return ResponseEntity.ok( hotelRepository.findOne( id ) );
     }
 
+    @RequestMapping(
+            value = "/logo",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<String> getLogo( @RequestParam( "id" ) Long id ) {
         return hotelService.getLogo( id );
     }
