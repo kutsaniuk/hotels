@@ -43,7 +43,7 @@
                         page: currentPage, 
                         size: size 
                     }
-            });
+            }); 
         };
 
         this.uploadImage = function (file, id) {

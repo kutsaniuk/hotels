@@ -2,7 +2,9 @@
   <div class="col-lg-9 page-top">
     <div class="col-lg-4 col-md-4 col-xs-4 no-padding"><switch id="hotelInfoSwitchShow" name="hotelInfoSwitchShow" ng-model="hotelInfoSwitchShow"></switch></div>
     <div class="col-lg-4 col-md-4 col-xs-4 no-padding"><center><b>{{table}}</b></center></div>
-    <div class="col-lg-4 col-md-4 col-xs-4 no-padding"><span ng-if="main.content != ''" class="found"><span translate>found</span> {{main.totalElements}} <span translate>hotels</span></span></div>
+    <div class="col-lg-4 col-md-4 col-xs-4 no-padding">
+      <span ng-if="main.content != ''" class="found"><span translate>found</span> {{main.totalElements}} <span translate>hotels</span></span>
+    </div>
   </div>
   <div class="col-lg-9 col-md-9 page-content">
     <div class="col-lg-4 col-md-4 col-xs-12 item" ng-repeat="row in main.content">
@@ -10,7 +12,7 @@
         <div ng-mouseover="hotelInfoShow = true" ng-mouseleave="hotelInfoShow = false">
           <div class="col-lg-12 no-padding" >
             <div class="crop" >
-              <img src="/dist/img/error.jpg" alt="">
+              <img src="data:image/png;base64" onerror="this.src='/dist/img/error.jpg'">
             </div>
             <div ng-if="hotelInfoSwitchShow == false" class="info show-hide" ng-show="hotelInfoShow">
               {{row.address}} <br>

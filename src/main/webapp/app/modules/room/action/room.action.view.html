@@ -1,0 +1,33 @@
+<div class="panel panel-default popup">
+  <div class="panel-heading">
+    <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i>{{action}}</h3>
+    <i class="glyphicon glyphicon-remove action action-close right" ng-click="closeThisDialog(true)"></i>
+  </div>
+  <div class="panel-body">
+    <div class="col-lg-12">
+      <label translate>roomType</label>
+      <select class="form-control" ng-model="roomType">
+        <option value="LUX" translate>lux</option>
+        <option value="PRESIDENT" translate>president</option>
+        <option value="ECONOMIC" translate>economic</option>
+      </select>
+      <label translate>roomCount</label>
+      <input name="roomCount" ng-model="roomCount" type="number" class="form-control" min="1">
+      <label translate>bedType</label>
+      <select class="form-control" ng-model="bedType">
+        <option value=true translate>single</option>
+        <option value=false translate>double</option>
+      </select>
+      <label translate>breakfast</label><br>
+      <switch ng-model="breakfast"></switch>
+      <label translate>hotel</label>
+      <select class="form-control" ng-options="hotel.name for hotel in hotels" ng-model="selHotel">
+          <option value="" disabled>{{hotel.name}}</option>
+        </select>
+    </div>
+    <div class="col-lg-12 tools">
+      <button class="btn btn-primary" ng-click="save()"><i class="glyphicon glyphicon-floppy-disk"></i> Save</button>
+      <button class="btn btn-default right" ng-click="closeThisDialog(true)" style="margin-right: 15px;">Cancel</button>
+    </div>
+  </div>
+</div>

@@ -17,6 +17,7 @@
               <div class="crop"  ng-if="$flow.files[0] != null">
                 <img flow-img="$flow.files[0]">
                 <i class="remove-image" ng-click="$flow.files[0].cancel();"></i>
+                <i class="glyphicon glyphicon-ok owner-image-apply" ng-click="$flow.upload();"></i>
               </div>
               <div ng-show="imageUploadShow" class="owner-image-upload full-width show-hide" flow-btn>
                 <center>
@@ -84,7 +85,7 @@
               <div class="count">{{profile.rooms.length}}</div>
               <div class="count-label">rooms</div>
             </div>
-            <div class="count-container">
+            <div class="count-container" ng-click="openWorkers()">
               <div class="count">{{profile.workers.length}}</div>
               <div class="count-label">workers</div>
             </div>
@@ -107,7 +108,7 @@
             <div class="item">
               <div class="item-container">
                 <div class="crop">
-                  <img src="/dist/img/room.item.jpg" alt="">
+                  <img ng-src="/dist/img/room.item{{room.id}}.jpg" alt="">
                 </div>
                   <div class="info show-hide">
                     <b>{{room.roomType}}</b> <br>
@@ -137,8 +138,8 @@
           <div class="col-lg-3 col-md-3 col-xs-12 no-padding room" ng-repeat="room in profile.rooms">
             <div class="item">
               <div class="item-container">
-                <div class="crop" style="border-radius: 0; width: 100%">
-                  <img src="/dist/img/hotel.item.jpg" alt="">
+                <div class="crop" style="border-radius: 0; width: 100%" ng-click="openImageById(room.id)">
+                  <img ng-src="/dist/img/room.item{{room.id}}.jpg" alt="">
                 </div>
               </div>
             </div>
@@ -151,9 +152,9 @@
 <div class="col-lg-3">
   <div class="panel panel-default no-padding panel-fixed">
     <div class="panel-heading" translate>workers</div>
-    <div class="panel-body no-padding">
+    <div class="panel-body">
       <ul class="worker-list">
-        <li ng-repeat="worker in profile.workers">
+        <li ng-repeat="worker in profile.workers | limitTo: 5">
           <a href="#/worker/undefined"><img class="crop" src="/dist/img/hotel.profile.director.svg" align="left"></a>
           <div class="info">
             <a href="#/worker/undefined">{{worker.fullName}}</a><br>
@@ -161,6 +162,7 @@
           </div>
         </li>
       </ul>
+      <button class="btn btn-default full-width" ng-click="openWorkers()" translate>showAllWorkers</button>
     </div>
   </div>
 </div>

@@ -1,0 +1,36 @@
+.room_add_popup
+	.room 
+		.item
+		    height: 142.5px
+		    padding: 0
+
+		    .crop 
+			    width: 100%
+			    height: 100%
+			    overflow: hidden
+		.info 
+		    top: 0
+		    left: 0
+		    right: 0
+		    bottom: 0
+		    position: absolute
+		    z-index: 10000
+		    background: rgba(34,34,34,.5)
+		    color: #eee
+		    padding: 15px
+		    width: auto
+		    height: auto
+		    margin: 5px
+		    &:hover
+		    	background: rgba(34,34,34,.5)
+
+		.item .item-container 
+		    height: 100%
+		    width: 100%
+		    border: none
+    		padding: 5px
+    		background: transparent
+    		&.active .info
+		    	background: rgba(85, 167, 145, 0.8)
+
+

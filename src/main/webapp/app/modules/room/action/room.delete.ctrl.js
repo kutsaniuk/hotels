@@ -3,20 +3,20 @@
 
 	angular
 	.module('main')
-	.controller('LicenseDeleteCtrl', LicenseDeleteCtrl);
+	.controller('RoomDeleteCtrl', RoomDeleteCtrl);
 
-	function LicenseDeleteCtrl ($scope, $state, $location, LicenseService) {
+	function RoomDeleteCtrl ($scope, $state, $location, RoomService) {
 		var sc = $scope;
 		var licName;
 
-		LicenseService.get(sc.id)
+		RoomService.get(sc.id)
 	  		.success( function (data) {
 	  			licName = data.name;
 				sc.log = 'Are you sure you want to remove sicense ' + licName + '?';
 	  		});
 
 		sc.delete = function () {
-			LicenseService.delete(sc.id)
+			RoomService.delete(sc.id)
 			.then(function successCallback(response) {
 				sc.closeThisDialog(true);
 				sc.loadPage(1);

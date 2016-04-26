@@ -36,20 +36,14 @@
               </td>
             </tr>
             <!-- <pre><div ng-repeat="hotelDataItem in hotelData">{{hotelDataItem.toString() | json}}</div></pre> -->
-            <tr ng-switch-when="software" ng-repeat="row in data = (main.content | filter: filterField | orderBy: fieldName:reverse)" ng-dblclick="openEdit(row.id)">
-              <td><a href="#/software/{{row.id}}">{{row.name}}</a></td>
-              <td>{{row.version}}</td>
-              <td>{{row.release}}</td>
-              <td>{{row.hotel.name}}</td>
-              <td ng-switch="row.license.type" >
-                <span ng-switch-when="FREE" class="label label-success" uib-popover="{{row.license.name}} {{row.license.priceForOne}}, {{row.license.minimumUsers}}" popover-trigger="mouseenter" popover-title="License" popover-placement="top-left">free</span>
-                <span ng-switch-when="TRIAL" class="label label-warning" uib-popover="{{row.license.name}}, {{row.license.priceForOne}}, {{row.license.minimumUsers}}" popover-trigger="mouseenter" popover-title="License" popover-placement="top-left">trial</span>
-                <span ng-switch-when="PAID" class="label label-primary" uib-popover="{{row.license.name}}, {{row.license.priceForOne}}, {{row.license.minimumUsers}}" popover-trigger="mouseenter" popover-title="License" popover-placement="top-left">paid</span>
-                <span ></span>
-              </td>
-              <td><span ng-show="row.windows" class="glyphicon glyphicon-ok"></span></td>
-              <td><span ng-show="row.linux" class="glyphicon glyphicon-ok"></span></td>
-              <td><span ng-show="row.macOS" class="glyphicon glyphicon-ok"></span></td>
+            <tr ng-switch-when="room" ng-repeat="row in data = (main.content | filter: filterField | orderBy: fieldName:reverse)" ng-dblclick="openEdit(row.id)">
+              <td>{{row.roomType}}</td>
+              <td>{{row.roomCount}}</td>
+              <td>
+                <span ng-show="row.bedType" class="label label-primary">single</span>
+                <span ng-show="!row.bedType" class="label label-success">double</span>
+            </td>
+              <td><span ng-show="row.breakfast" class="glyphicon glyphicon-ok"></span></td>
               <td>
                 <i class="glyphicon glyphicon-pencil action" ng-click="openEdit(row.id)"></i>
                 <i class="glyphicon glyphicon-remove action" ng-click="openDelete(row.id)"></i>
@@ -97,6 +91,5 @@
         </div> -->
       </div>
     </div>
-    <button class="btn btn-success full-width" ng-click="openAdd()"><i class="glyphicon glyphicon-plus"></i> <span translate>add</span></button>
   </div>
 </div>

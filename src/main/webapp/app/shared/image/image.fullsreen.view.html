@@ -1,7 +1,8 @@
 <div class="col-lg-2 col-md-2 col-xs-2 arrow" ng-click="previousImage()"><center><img src="/dist/img/arrow.left.svg" alt=""></center></div>
 <div class="col-lg-8 col-md-8 col-xs-8">
 	<div class="image-view">
-		<img ng-src="data:image/png;base64, {{images[imgIndex].image}}">
+		<!-- <img ng-src="data:image/png;base64, {{images[imgIndex].image}}"> -->
+		<img ng-src="/dist/img/room.item{{imgIndex}}.jpg" alt="" ng-click="nextImage()">
 		<div class="tool">
 			{{imgIndex + 1}} in {{images.length}}
 			<span class="right" ng-click="deleteImage(getImageId(imgIndex))">delete</span>

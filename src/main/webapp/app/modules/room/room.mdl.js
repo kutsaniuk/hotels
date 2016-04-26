@@ -1,7 +1,7 @@
 (function () {
 	'use strict';
 
-	var license = angular.module('license', [
+	var room = angular.module('room', [
 		'ui.router'
 		])
 	.config(configure);
@@ -11,20 +11,20 @@
 	function configure($locationProvider, $stateProvider, $urlRouterProvider) {
 
 		$stateProvider
-		.state('main.license', {
-			url: 'license',
+		.state('main.room', {
+			url: 'room',
 			abstract: true,
 			template: '<div ui-view="content"></div>'
 		})
-		.state('main.license.table', {
+		.state('main.room.table', {
 			url: '', 
 			views: {
-				'content@main.license': {
+				'content@main.room': {
 					templateUrl: '/app/shared/table/table.view.html',
-					controller: 'LicenseCtrl',
+					controller: 'RoomCtrl', 
 				},
-				'filter@main.license.table': {
-					templateUrl: '/app/modules/license/filter/license.filter.view.html'
+				'filter@main.room.table': {
+					templateUrl: '/app/modules/room/filter/room.filter.view.html'
 				}
 			}
 		});

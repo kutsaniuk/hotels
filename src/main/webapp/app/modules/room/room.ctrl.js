@@ -3,12 +3,12 @@
 
 	angular
 	.module('main')
-	.controller('LicenseCtrl', LicenseCtrl);
+	.controller('RoomCtrl', RoomCtrl);
 
-	function LicenseCtrl($scope, $state, LicenseService, ngDialog) {
+	function RoomCtrl($scope, $state, RoomService, ngDialog) {
 		var sc = $scope;
   
-		sc.table = 'license';
+		sc.table = 'room';
 		sc.base = '/' + sc.table;
 
 		sc.currentDate = new Date().getFullYear();
@@ -20,20 +20,18 @@
 
 		sc.tableHeader = 
 		[
-		'name', 
-		'type',
-		'minimumUsers',
-		'maximumUsers',
-		'expiration',
-		'priceForOne'
+		'roomType', 
+		'roomCount',
+		'bedType',
+		'breakfast'
 		];
 
 		sc.openEdit = function (id) {
 			ngDialog.open({ 
-				template: '/app/modules/license/action/license.action.view.html', 
+				template: '/app/modules/room/action/room.action.view.html', 
 				className: 'ngdialog-theme-dev',
 				showClose: false,
-				controller: 'LicenseEditCtrl',
+				controller: 'RoomEditCtrl',
 				scope: $scope
 			});
 			sc.id = id;
@@ -41,10 +39,10 @@
 
 		sc.openAdd = function () {
 			ngDialog.open({ 
-				template: '/app/modules/license/action/license.action.view.html', 
+				template: '/app/modules/room/action/room.action.view.html', 
 				className: 'ngdialog-theme-dev',
 				showClose: false,
-				controller: 'LicenseNewCtrl',
+				controller: 'RoomNewCtrl',
 				scope: $scope
 			});
 		};
@@ -52,19 +50,23 @@
 		sc.openDelete = function (id) {
 			sc.id = id;
 			ngDialog.open({ 
-				template: '/app/modules/license/action/license.action.delete.view.html', 
+				template: '/app/modules/room/action/room.action.delete.view.html', 
 				className: 'ngdialog-theme-dev',
 				showClose: false,
-				controller: 'LicenseDeleteCtrl',
+				controller: 'RoomDeleteCtrl',
 				scope: $scope
 			});
 		};
 
-		sc.loadPage = function(currentPage, name, type) {
-			LicenseService.getPage(currentPage - 1, 10, name, type)
+		sc.loadPage = function(currentPage, roomType, bedType, breakfast) {
+			RoomService.getPage(currentPage - 1, 10, roomType, bedType, breakfast)
 			.success(function (data){
 				sc.main = data;
 			});
+
+			sc.roomType = roomType;
+			sc.bedType = bedType;
+			sc.breakfast = breakfast;
 		};
 
 		sc.loadPage(1); 

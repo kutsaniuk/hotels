@@ -56,6 +56,13 @@
 			});
 		};
 
+		sc.getLogoById = function (id) {
+	  		HotelService.getLogo(id)
+	  		.success( function (data) {
+	  			data.logo;
+	  		});
+	  	}
+
 		sc.loadPage = function(currentPage, name, city) {
 			if (name == '') name = null;
 			if (city == '') city = null;
@@ -70,15 +77,5 @@
 		};
 
 		sc.loadPage(1); 
-
-		var hotelData = new Array();		
-
-		for (var i = 0; i < 30; i ++) {
-			
-			hotelData[i] = "INSERT INTO hotels(name, city, address, full_director_name, email, Director_phone_number, order_phone_number)" +
-  							"VALUES('hotel" + i + "', 'city" + i + "', 'adress" + i + "', 'full_director_name" + i + "', 'email@gmail.com', '0963254585', '0963254585');";
-		};
-
-		sc.hotelData = hotelData;
 	};
 })();

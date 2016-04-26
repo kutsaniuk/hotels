@@ -7,12 +7,12 @@
 
 	function HotelProfileCtrl ($scope, $state, $stateParams, ngDialog, HotelService) {
 		var sc = $scope;
-		sc.table = 'developer';
+		sc.table = 'hotel';
 
 		sc.id = $stateParams.id;
 
 		sc.target = { 
-				target: '/dev/logo?id=' + $stateParams.id,
+				target: '/hotel/logo?id=' + $stateParams.id,
 				testChunks: false,
 				singleFile: true
 			};
@@ -32,12 +32,42 @@
 
 	  	sc.openLogoUpload = function () {
 	  		ngDialog.open({ 
-				template: '/app/modules/developer/profile/developer.logo.upload.view.html', 
+				template: '/app/modules/hotel/profile/hotel.logo.upload.view.html', 
 				className: 'ngdialog-theme-default',
 				showClose: true,
 				scope: $scope
 			});
 	  	}
+
+	  	sc.openImageById = function (index) {
+			ngDialog.open({ 
+				template: '/app/shared/image/image.fullsreen.view.html', 
+				className: 'ngdialog-theme-image-view',
+				showClose: false,
+				scope: $scope
+			});
+			sc.imgIndex = index;
+		};
+
+		sc.openWorkers = function () {
+			ngDialog.open({ 
+				template: '/app/modules/hotel/profile/hotel.worker.view.html',
+				className: 'ngdialog-theme-dev',
+				showClose: false,
+				scope: $scope,
+				disableAnimation: true
+			});
+		};
+
+		sc.previousImage = function () {
+			if (sc.imgIndex == 0) sc.imgIndex = sc.images.length;
+			sc.imgIndex --;
+		}
+
+		sc.nextImage = function () {
+			sc.imgIndex ++;
+			if (sc.imgIndex == sc.images.length) sc.imgIndex = 0;
+		}
 
 	  	sc.getLogoById(sc.id);
 

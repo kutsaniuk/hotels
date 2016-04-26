@@ -3,7 +3,7 @@
 
 	var main = angular.module('main', [
 		'hotel',
-		'license',
+		'room',
 		'software',
 		'ui.router',
 		'ui.bootstrap',
@@ -12,6 +12,7 @@
 		'pascalprecht.translate',
 		'base64',
 		'flow',
+		'checklist-model',
 		'ngDialog',
 		'uiSwitch',
 		'sticky'
@@ -113,6 +114,13 @@
 			});
 		};
 
+		sc.getLogoById = function (id) {
+	  		HotelService.getLogo(id)
+	  		.success( function (data) {
+	  			data.logo;
+	  		});
+	  	}
+
 		sc.loadPage = function(currentPage, name, city) {
 			if (name == '') name = null;
 			if (city == '') city = null;
@@ -127,16 +135,6 @@
 		};
 
 		sc.loadPage(1); 
-
-		var hotelData = new Array();		
-
-		for (var i = 0; i < 30; i ++) {
-			
-			hotelData[i] = "INSERT INTO hotels(name, city, address, full_director_name, email, Director_phone_number, order_phone_number)" +
-  							"VALUES('hotel" + i + "', 'city" + i + "', 'adress" + i + "', 'full_director_name" + i + "', 'email@gmail.com', '0963254585', '0963254585');";
-		};
-
-		sc.hotelData = hotelData;
 	};
 })();
 
@@ -157,12 +155,24 @@
 			abstract: true,
 			template: '<div ui-view="content"></div>'
 		})
-		.state('main.hotel.table', {
+		.state('main.hotel.list', {
 			url: '',
 			views: {
 				'content@main.hotel': {
-					// templateUrl: '/app/shared/table/table.view.html',
 					templateUrl: '/app/modules/hotel/list/hotel.list.view.html',
+					controller: 'HotelCtrl'
+				},
+				'filter@main.hotel.list': {
+					templateUrl: '/app/modules/hotel/filter/hotel.filter.view.html'
+				}
+
+			}
+		})
+		.state('main.hotel.table', {
+			url: '/table',
+			views: {
+				'content@main.hotel': {
+					templateUrl: '/app/shared/table/table.view.html',
 					controller: 'HotelCtrl'
 				},
 				'filter@main.hotel.table': {
@@ -229,7 +239,7 @@
                         page: currentPage, 
                         size: size 
                     }
-            });
+            }); 
         };
 
         this.uploadImage = function (file, id) {
@@ -259,12 +269,12 @@
 
 	angular
 	.module('main')
-	.controller('LicenseCtrl', LicenseCtrl);
+	.controller('RoomCtrl', RoomCtrl);
 
-	function LicenseCtrl($scope, $state, LicenseService, ngDialog) {
+	function RoomCtrl($scope, $state, RoomService, ngDialog) {
 		var sc = $scope;
   
-		sc.table = 'license';
+		sc.table = 'room';
 		sc.base = '/' + sc.table;
 
 		sc.currentDate = new Date().getFullYear();
@@ -276,20 +286,18 @@
 
 		sc.tableHeader = 
 		[
-		'name', 
-		'type',
-		'minimumUsers',
-		'maximumUsers',
-		'expiration',
-		'priceForOne'
+		'roomType', 
+		'roomCount',
+		'bedType',
+		'breakfast'
 		];
 
 		sc.openEdit = function (id) {
 			ngDialog.open({ 
-				template: '/app/modules/license/action/license.action.view.html', 
+				template: '/app/modules/room/action/room.action.view.html', 
 				className: 'ngdialog-theme-dev',
 				showClose: false,
-				controller: 'LicenseEditCtrl',
+				controller: 'RoomEditCtrl',
 				scope: $scope
 			});
 			sc.id = id;
@@ -297,10 +305,10 @@
 
 		sc.openAdd = function () {
 			ngDialog.open({ 
-				template: '/app/modules/license/action/license.action.view.html', 
+				template: '/app/modules/room/action/room.action.view.html', 
 				className: 'ngdialog-theme-dev',
 				showClose: false,
-				controller: 'LicenseNewCtrl',
+				controller: 'RoomNewCtrl',
 				scope: $scope
 			});
 		};
@@ -308,19 +316,23 @@
 		sc.openDelete = function (id) {
 			sc.id = id;
 			ngDialog.open({ 
-				template: '/app/modules/license/action/license.action.delete.view.html', 
+				template: '/app/modules/room/action/room.action.delete.view.html', 
 				className: 'ngdialog-theme-dev',
 				showClose: false,
-				controller: 'LicenseDeleteCtrl',
+				controller: 'RoomDeleteCtrl',
 				scope: $scope
 			});
 		};
 
-		sc.loadPage = function(currentPage, name, type) {
-			LicenseService.getPage(currentPage - 1, 10, name, type)
+		sc.loadPage = function(currentPage, roomType, bedType, breakfast) {
+			RoomService.getPage(currentPage - 1, 10, roomType, bedType, breakfast)
 			.success(function (data){
 				sc.main = data;
 			});
+
+			sc.roomType = roomType;
+			sc.bedType = bedType;
+			sc.breakfast = breakfast;
 		};
 
 		sc.loadPage(1); 
@@ -331,7 +343,7 @@
 (function () {
 	'use strict';
 
-	var license = angular.module('license', [
+	var room = angular.module('room', [
 		'ui.router'
 		])
 	.config(configure);
@@ -341,20 +353,20 @@
 	function configure($locationProvider, $stateProvider, $urlRouterProvider) {
 
 		$stateProvider
-		.state('main.license', {
-			url: 'license',
+		.state('main.room', {
+			url: 'room',
 			abstract: true,
 			template: '<div ui-view="content"></div>'
 		})
-		.state('main.license.table', {
+		.state('main.room.table', {
 			url: '', 
 			views: {
-				'content@main.license': {
+				'content@main.room': {
 					templateUrl: '/app/shared/table/table.view.html',
-					controller: 'LicenseCtrl',
+					controller: 'RoomCtrl', 
 				},
-				'filter@main.license.table': {
-					templateUrl: '/app/modules/license/filter/license.filter.view.html'
+				'filter@main.room.table': {
+					templateUrl: '/app/modules/room/filter/room.filter.view.html'
 				}
 			}
 		});
@@ -367,9 +379,9 @@
     'use strict';
 
     angular.module('main')
-    .service('LicenseService', function ($http) {
+    .service('RoomService', function ($http) {
 
-        var urlBase = '/license';
+        var urlBase = '/room';
 
         this.getAll = function () {
             return $http.get(urlBase);
@@ -379,12 +391,12 @@
             return $http.get(urlBase + '/' + id);
         };
 
-        this.new = function (license) {
-            return $http.post(urlBase, license);
+        this.new = function (room) {
+            return $http.post(urlBase, room);
         };
 
-        this.update = function (license) {
-            return $http.put(urlBase, license)
+        this.update = function (room) {
+            return $http.put(urlBase, room)
         };
 
         this.delete = function (id) {
@@ -395,13 +407,14 @@
                 }); 
         };
 
-        this.getPage = function (currentPage, size, name, type) {
+        this.getPage = function (currentPage, size, roomType, bedType, breakfast) {
             return $http.get(urlBase, { 
                     params: { 
                         page: currentPage, 
-                        size: size ,
-                        name: name,
-                        type: type
+                        size: size,
+                        roomType: roomType,
+                        bedType: bedType,
+                        breakfast: breakfast
                     }
             });
         };
@@ -839,10 +852,11 @@
     .module('main')
     .controller('HotelNewCtrl', HotelNewCtrl);
 
-    function HotelNewCtrl($scope, $state, $location, $document, HotelService) {
+    function HotelNewCtrl($scope, $state, $location, $document, HotelService, RoomService, ngDialog) {
         var sc = $scope;
 
         sc.action = 'add';
+        sc.formNullShow = false;
 
         sc.name = '';
         sc.city = '';
@@ -852,6 +866,28 @@
         sc.directorPhoneNumber = '';
         sc.orderPhoneNumber = '';
 
+        sc.rooms = [];
+        
+        RoomService.getAll()
+            .success(function (data){
+                sc.main = data;
+
+            }); 
+
+        sc.openRoomAdd = function () {
+            ngDialog.open({ 
+                template: '/app/modules/hotel/action/hotel.action.new.room.view.html', 
+                className: 'ngdialog-theme-dev',
+                showClose: false,
+                scope: $scope,
+                disableAnimation: true
+            });
+        };
+
+        sc.cancelRoomAdd = function () {
+            sc.rooms = [];
+        }
+
         sc.save = function() {
             sc.hotel = {
                 'name': sc.name,
@@ -860,8 +896,11 @@
                 'fullDirectorName': sc.fullDirectorName,
                 'email': sc.email,
                 'directorPhoneNumber': sc.directorPhoneNumber,
-                'orderPhoneNumber': sc.orderPhoneNumber
+                'orderPhoneNumber': sc.orderPhoneNumber,
+                'rooms': {"id": 6, "roomType": "PRESIDENT", "roomCount": 5, "bedType": false, "breakfast": true},
+                'workers': {"id":5,"fullName":"worker5","post":"post5","birthday":"1996-11-08","sex":"MALE","experience":10,"previousPost":"previous_post5","dateOfEmployment":"2010-12-05"}
             };
+
 
             if (sc.name != '' 
                 && sc.city != '' 
@@ -870,13 +909,15 @@
             	&& sc.email != '' 
             	&& sc.directorPhoneNumber != '' 
             	&& sc.orderPhoneNumber != '' 
+                && sc.hotelForm.$valid
             ) {
                 HotelService.new(sc.hotel)
 					.success(function() {
 					    sc.closeThisDialog(true);
+                        sc.formNullShow = false;
 					    sc.loadPage(1);
 					});
-            } else alert('Error');
+            } else sc.formNullShow = true;
         };
 
     };
@@ -891,12 +932,12 @@
 
 	function HotelProfileCtrl ($scope, $state, $stateParams, ngDialog, HotelService) {
 		var sc = $scope;
-		sc.table = 'developer';
+		sc.table = 'hotel';
 
 		sc.id = $stateParams.id;
 
 		sc.target = { 
-				target: '/dev/logo?id=' + $stateParams.id,
+				target: '/hotel/logo?id=' + $stateParams.id,
 				testChunks: false,
 				singleFile: true
 			};
@@ -916,12 +957,42 @@
 
 	  	sc.openLogoUpload = function () {
 	  		ngDialog.open({ 
-				template: '/app/modules/developer/profile/developer.logo.upload.view.html', 
+				template: '/app/modules/hotel/profile/hotel.logo.upload.view.html', 
 				className: 'ngdialog-theme-default',
 				showClose: true,
 				scope: $scope
 			});
 	  	}
+
+	  	sc.openImageById = function (index) {
+			ngDialog.open({ 
+				template: '/app/shared/image/image.fullsreen.view.html', 
+				className: 'ngdialog-theme-image-view',
+				showClose: false,
+				scope: $scope
+			});
+			sc.imgIndex = index;
+		};
+
+		sc.openWorkers = function () {
+			ngDialog.open({ 
+				template: '/app/modules/hotel/profile/hotel.worker.view.html',
+				className: 'ngdialog-theme-dev',
+				showClose: false,
+				scope: $scope,
+				disableAnimation: true
+			});
+		};
+
+		sc.previousImage = function () {
+			if (sc.imgIndex == 0) sc.imgIndex = sc.images.length;
+			sc.imgIndex --;
+		}
+
+		sc.nextImage = function () {
+			sc.imgIndex ++;
+			if (sc.imgIndex == sc.images.length) sc.imgIndex = 0;
+		}
 
 	  	sc.getLogoById(sc.id);
 
@@ -933,20 +1004,20 @@
 
 	angular
 	.module('main')
-	.controller('LicenseDeleteCtrl', LicenseDeleteCtrl);
+	.controller('RoomDeleteCtrl', RoomDeleteCtrl);
 
-	function LicenseDeleteCtrl ($scope, $state, $location, LicenseService) {
+	function RoomDeleteCtrl ($scope, $state, $location, RoomService) {
 		var sc = $scope;
 		var licName;
 
-		LicenseService.get(sc.id)
+		RoomService.get(sc.id)
 	  		.success( function (data) {
 	  			licName = data.name;
 				sc.log = 'Are you sure you want to remove sicense ' + licName + '?';
 	  		});
 
 		sc.delete = function () {
-			LicenseService.delete(sc.id)
+			RoomService.delete(sc.id)
 			.then(function successCallback(response) {
 				sc.closeThisDialog(true);
 				sc.loadPage(1);
@@ -963,51 +1034,40 @@
 
 	angular
 	.module('main')
-	.controller('LicenseEditCtrl', LicenseEditCtrl);
+	.controller('RoomEditCtrl', RoomEditCtrl);
 
-	function LicenseEditCtrl ($scope, $state, $location, LicenseService) {
+	function RoomEditCtrl ($scope, $state, $location, RoomService) {
 		var sc = $scope;
-		sc.action = 'Edit';
+		sc.action = 'edit';
 
-		LicenseService.get(sc.id)
+		RoomService.get(sc.id)
 		.success(function (data) {
-			sc.license = data;
+			sc.room = data;
 
-			sc.id = sc.license.id;
-			sc.name = sc.license.name;
-			sc.type = sc.license.type;
-			sc.minimumUsers = sc.license.minimumUsers;
-			sc.maximumUsers = sc.license.maximumUsers;
-			sc.expiration = sc.license.expiration;
-			sc.priceForOne = sc.license.priceForOne;
-			sc.priceForTen = sc.license.priceForTen;
-			sc.priceForHundred = sc.license.priceForHundred;
+			sc.id = sc.room.id;
+			sc.roomType = sc.room.roomType;
+			sc.roomCount = sc.room.roomCount;
+			sc.bedType = sc.room.bedType;
+			sc.breakfast = sc.room.breakfast;
+			sc.hotel = sc.room.hotel;
 
 			sc.save = function () {
-				sc.license = {
-					'id': sc.id,
-					'name': sc.name,
-					'type': sc.type,
-					'minimumUsers':sc.minimumUsers,
-					'maximumUsers': sc.maximumUsers,
-					'expiration': sc.expiration,
-					'priceForOne': sc.priceForOne,
-					'priceForTen': sc.priceForTen,
-					'priceForHundred': sc.priceForHundred
+				sc.room = {
+					'roomType': sc.roomType,
+					'roomCount': sc.roomCount,
+					'bedType': true,
+					'breakfast': sc.breakfast,
+					'hotel': sc.selHotel
 				}
 
-				if (sc.name != '' 
-				&& sc.type != ''
-				&& sc.minimumUsers != ''
-				&& sc.maximumUsers != ''
-				&& sc.expiration != ''
-				&& sc.priceForOne != ''
-				&& sc.priceForTen != ''
-				&& sc.priceForHundred != ''
+				if (sc.roomType != '' 
+				&& sc.roomCount != ''
+				&& sc.bedType != ''
+				&& sc.breakfast != ''
 				) {
-					LicenseService.update(sc.license)
+					RoomService.update(sc.room)
 					.success(function (data) {
-						sc.license = null;
+						sc.room = null;
 						sc.closeThisDialog(true);
 						sc.loadPage(1);
 					});
@@ -1023,46 +1083,41 @@
 
 	angular
 	.module('main')
-	.controller('LicenseNewCtrl', LicenseNewCtrl);
+	.controller('RoomNewCtrl', RoomNewCtrl);
 
-	function LicenseNewCtrl ($scope, $state, $location, LicenseService) {
+	function RoomNewCtrl ($scope, $state, $location, RoomService, HotelService) {
 		var sc = $scope;
 
-		sc.action = 'Add';
+		sc.action = 'add';
 
-		sc.name = '';
-		sc.type = '';
-		sc.minimumUsers = '';
-		sc.maximumUsers = '';
-		sc.expiration = '';
-		sc.priceForOne = '';
-		sc.priceForTen = '';
-		sc.priceForHundred = '';
+		sc.roomType = '';
+		sc.roomCount = '';
+		sc.bedType = '';
+		sc.breakfast = '';
+
+		sc.selHotel = '';
+
+		HotelService.getAll().success( function (data) {
+			sc.hotels = data.content;
+		});
 		
 		sc.save = function () {
-			sc.license = {
-				'name': sc.name,
-				'type': sc.type,
-				'minimumUsers':sc.minimumUsers,
-				'maximumUsers': sc.maximumUsers,
-				'expiration': sc.expiration,
-				'priceForOne': sc.priceForOne,
-				'priceForTen': sc.priceForTen,
-				'priceForHundred': sc.priceForHundred
+			sc.room = {
+				'roomType': sc.roomType,
+				'roomCount': sc.roomCount,
+				'bedType': true,
+				'breakfast': sc.breakfast,
+				'hotel': sc.selHotel.id
 			}
 
-			if (sc.name != '' 
-				&& sc.type != ''
-				&& sc.minimumUsers != ''
-				&& sc.maximumUsers != ''
-				&& sc.expiration != ''
-				&& sc.priceForOne != ''
-				&& sc.priceForTen != ''
-				&& sc.priceForHundred != ''
+			if (sc.roomType != '' 
+				&& sc.roomCount != ''
+				&& sc.bedType != ''
+				&& sc.breakfast != ''
 				) {
-				LicenseService.new(sc.license)
+				RoomService.new(sc.room)
 				.success(function (data) {
-					sc.license = null;
+					sc.room = null;
 					sc.closeThisDialog(true);
 					sc.loadPage(1);
 				});
@@ -1292,6 +1347,33 @@
 			if (sc.imgIndex == sc.images.length) sc.imgIndex = 0;
 		}
 
+		sc.openWorkers = function () {
+			ngDialog.open({ 
+				template: '/app/shared/image/image.fullsreen.view.html', 
+				className: 'ngdialog-theme-image-view',
+				showClose: false,
+				scope: $scope
+			});
+		};
+
 	  	sc.getImages();
 	};
+})();
+
+(function() {
+    'use strict';
+
+    angular
+    .module('main')
+    .controller('HotelAddRoomCtrl', HotelAddRoomCtrl);
+
+    function HotelAddRoomCtrl($scope, $state, $location, $document, RoomService) {
+        var sc = $scope;
+
+        
+
+        sc.save = function() {}
+          
+
+    };
 })();

@@ -1,0 +1,17 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title" translate>workers</h3>
+		<i class="glyphicon glyphicon-remove action action-close right" ng-click="closeThisDialog(true)"></i>
+	</div>
+	<div class="panel-body">
+		<div class="col-lg-2 col-md-2 col-xs-6 no-padding room" ng-repeat="worker in profile.workers">
+			<div class="item">
+				<div class="item-container">
+					<img src="/dist/img/hotel.profile.director.svg" style="border-radius: 100%; width: 100%">
+					<div>{{worker.fullName}}</div>
+					<div>{{worker.post}}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

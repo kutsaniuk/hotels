@@ -5,10 +5,11 @@
     .module('main')
     .controller('HotelNewCtrl', HotelNewCtrl);
 
-    function HotelNewCtrl($scope, $state, $location, $document, HotelService) {
+    function HotelNewCtrl($scope, $state, $location, $document, HotelService, RoomService, ngDialog) {
         var sc = $scope;
 
         sc.action = 'add';
+        sc.formNullShow = false;
 
         sc.name = '';
         sc.city = '';
@@ -18,6 +19,28 @@
         sc.directorPhoneNumber = '';
         sc.orderPhoneNumber = '';
 
+        sc.rooms = [];
+        
+        RoomService.getAll()
+            .success(function (data){
+                sc.main = data;
+
+            }); 
+
+        sc.openRoomAdd = function () {
+            ngDialog.open({ 
+                template: '/app/modules/hotel/action/hotel.action.new.room.view.html', 
+                className: 'ngdialog-theme-dev',
+                showClose: false,
+                scope: $scope,
+                disableAnimation: true
+            });
+        };
+
+        sc.cancelRoomAdd = function () {
+            sc.rooms = [];
+        }
+
         sc.save = function() {
             sc.hotel = {
                 'name': sc.name,
@@ -26,8 +49,11 @@
                 'fullDirectorName': sc.fullDirectorName,
                 'email': sc.email,
                 'directorPhoneNumber': sc.directorPhoneNumber,
-                'orderPhoneNumber': sc.orderPhoneNumber
+                'orderPhoneNumber': sc.orderPhoneNumber,
+                'rooms': {"id": 6, "roomType": "PRESIDENT", "roomCount": 5, "bedType": false, "breakfast": true},
+                'workers': {"id":5,"fullName":"worker5","post":"post5","birthday":"1996-11-08","sex":"MALE","experience":10,"previousPost":"previous_post5","dateOfEmployment":"2010-12-05"}
             };
+
 
             if (sc.name != '' 
                 && sc.city != '' 
@@ -36,13 +62,15 @@
             	&& sc.email != '' 
             	&& sc.directorPhoneNumber != '' 
             	&& sc.orderPhoneNumber != '' 
+                && sc.hotelForm.$valid
             ) {
                 HotelService.new(sc.hotel)
 					.success(function() {
 					    sc.closeThisDialog(true);
+                        sc.formNullShow = false;
 					    sc.loadPage(1);
 					});
-            } else alert('Error');
+            } else sc.formNullShow = true;
         };
 
     };

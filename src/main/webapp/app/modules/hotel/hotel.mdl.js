@@ -15,12 +15,24 @@
 			abstract: true,
 			template: '<div ui-view="content"></div>'
 		})
-		.state('main.hotel.table', {
+		.state('main.hotel.list', {
 			url: '',
 			views: {
 				'content@main.hotel': {
-					// templateUrl: '/app/shared/table/table.view.html',
 					templateUrl: '/app/modules/hotel/list/hotel.list.view.html',
+					controller: 'HotelCtrl'
+				},
+				'filter@main.hotel.list': {
+					templateUrl: '/app/modules/hotel/filter/hotel.filter.view.html'
+				}
+
+			}
+		})
+		.state('main.hotel.table', {
+			url: '/table',
+			views: {
+				'content@main.hotel': {
+					templateUrl: '/app/shared/table/table.view.html',
 					controller: 'HotelCtrl'
 				},
 				'filter@main.hotel.table': {

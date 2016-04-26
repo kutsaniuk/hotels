@@ -3,7 +3,7 @@
 
 	var main = angular.module('main', [
 		'hotel',
-		'license',
+		'room',
 		'software',
 		'ui.router',
 		'ui.bootstrap',
@@ -12,6 +12,7 @@
 		'pascalprecht.translate',
 		'base64',
 		'flow',
+		'checklist-model',
 		'ngDialog',
 		'uiSwitch',
 		'sticky'

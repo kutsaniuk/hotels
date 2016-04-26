@@ -36,19 +36,19 @@ INSERT INTO workers(full_name, post, birthday, sex, experience, previous_post, d
 INSERT INTO workers(full_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
   VALUES('worker3', 'post3', '1996-11-8', 'MALE', '10', 'previous_post3', '2010-12-5', 1);
 INSERT INTO workers(full_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
-  VALUES('worker4', 'post4', '1996-11-8', 'MALE', '10', 'previous_post4', '2010-12-5', 7);
+  VALUES('worker4', 'post4', '1996-11-8', 'MALE', '10', 'previous_post4', '2010-12-5', 1);
 INSERT INTO workers(full_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
-  VALUES('worker5', 'post5', '1996-11-8', 'MALE', '10', 'previous_post5', '2010-12-5', 6);
+  VALUES('worker5', 'post5', '1996-11-8', 'MALE', '10', 'previous_post5', '2010-12-5', 1);
 INSERT INTO workers(full_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
   VALUES('worker6', 'post6', '1996-11-8', 'MALE', '10', 'previous_post6', '2010-12-5', 1);
 INSERT INTO workers(full_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
-  VALUES('worker7', 'post7', '1996-11-8', 'MALE', '10', 'previous_post7', '2010-12-5', 2);
+  VALUES('worker7', 'post7', '1996-11-8', 'MALE', '10', 'previous_post7', '2010-12-5', 1);
 INSERT INTO workers(full_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
-  VALUES('worker8', 'post8', '1996-11-8', 'MALE', '10', 'previous_post8', '2010-12-5', 3);
+  VALUES('worker8', 'post8', '1996-11-8', 'MALE', '10', 'previous_post8', '2010-12-5', 1);
 INSERT INTO workers(full_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
-  VALUES('worker9', 'post9', '1996-11-8', 'MALE', '10', 'previous_post9', '2010-12-5', 4);
+  VALUES('worker9', 'post9', '1996-11-8', 'MALE', '10', 'previous_post9', '2010-12-5', 1);
 INSERT INTO workers(full_name, post, birthday, sex, experience, previous_post, date_of_employment, hotels_id)
-  VALUES('worker10', 'post10', '1996-11-8', 'MALE', '10', 'previous_post10', '2010-12-5', 5);
+  VALUES('worker10', 'post10', '1996-11-8', 'MALE', '10', 'previous_post10', '2010-12-5', 1);
 
 INSERT INTO rooms(room_type, room_count, bed_type, breakfast, hotels_id)
   VALUES(1, 5, TRUE, TRUE , 1);

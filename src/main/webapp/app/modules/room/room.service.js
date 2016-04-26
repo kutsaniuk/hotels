@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('main')
-    .service('LicenseService', function ($http) {
+    .service('RoomService', function ($http) {
 
-        var urlBase = '/license';
+        var urlBase = '/room';
 
         this.getAll = function () {
             return $http.get(urlBase);
@@ -14,12 +14,12 @@
             return $http.get(urlBase + '/' + id);
         };
 
-        this.new = function (license) {
-            return $http.post(urlBase, license);
+        this.new = function (room) {
+            return $http.post(urlBase, room);
         };
 
-        this.update = function (license) {
-            return $http.put(urlBase, license)
+        this.update = function (room) {
+            return $http.put(urlBase, room)
         };
 
         this.delete = function (id) {
@@ -30,13 +30,14 @@
                 }); 
         };
 
-        this.getPage = function (currentPage, size, name, type) {
+        this.getPage = function (currentPage, size, roomType, bedType, breakfast) {
             return $http.get(urlBase, { 
                     params: { 
                         page: currentPage, 
-                        size: size ,
-                        name: name,
-                        type: type
+                        size: size,
+                        roomType: roomType,
+                        bedType: bedType,
+                        breakfast: breakfast
                     }
             });
         };

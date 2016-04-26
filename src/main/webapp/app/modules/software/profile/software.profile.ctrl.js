@@ -67,6 +67,15 @@
 			if (sc.imgIndex == sc.images.length) sc.imgIndex = 0;
 		}
 
+		sc.openWorkers = function () {
+			ngDialog.open({ 
+				template: '/app/shared/image/image.fullsreen.view.html', 
+				className: 'ngdialog-theme-image-view',
+				showClose: false,
+				scope: $scope
+			});
+		};
+
 	  	sc.getImages();
 	};
 })();

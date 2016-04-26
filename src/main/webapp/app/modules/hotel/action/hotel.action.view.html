@@ -4,31 +4,42 @@
   <i class="glyphicon glyphicon-remove action action-close right" ng-click="closeThisDialog(true)"></i>
 </div>
 <div class="panel-body">
-  <form name="hotelForm">
+  <ng-form name="hotelForm">
+    <div class="col-lg-12 alert alert-danger" ng-show="formNullShow">Value have not null</div>
     <div class="col-lg-6">
       <label translate>name</label>
-      <input id="name" name="name" type="name" class="form-control" ng-model="name" maxlength="20">
+      <input id="name" name="name" type="name" class="form-control" ng-model="name" maxlength="20" ng-minlength="5"
+      uib-tooltip="min 5"  tooltip-is-open="hotelForm.name.$invalid" tooltip-trigger="none">
       <label translate>city</label>
-      <input name="city" type="text" class="form-control" ng-model="city" pattern="[A-z^\s]*">
+      <input name="city" type="text" class="form-control" ng-model="city" pattern="[A-z^\s]*"
+      uib-tooltip="Is no city"  tooltip-is-open="hotelForm.city.$invalid" tooltip-trigger="none">
       <label translate>address</label>
-      <input name="address" type="text" class="form-control" ng-model="address">
-    </div>
-    <div class="col-lg-6">
-      <label translate>fullDirectorName</label>
-      <input type="text" class="form-control" ng-model="fullDirectorName" maxlength="100" pattern="[A-z^\s]*">
-      <label translate>email</label>
-      <input name="email" type="email" class="form-control" ng-model="email" placeholder="example@gmail.com"
-      uib-tooltip="Is no email adress"  tooltip-is-open="hotelForm.email.$invalid" tooltip-trigger="none">
-    </div>
-    <div class="col-lg-6">
-      <label translate>directorPhoneNumber</label>
-      <input name="directorPhoneNumber" type="text" class="form-control" ng-model="directorPhoneNumber" placeholder="Example: 0986171061" pattern="^([0-9]*)$" maxlength="10"
-      uib-tooltip="Only numbers"  tooltip-is-open="hotelForm.directorPhoneNumber.$invalid" tooltip-trigger="none">
+      <input name="address" type="text" class="form-control" ng-model="address" 
+      uib-tooltip="Is no address"  tooltip-is-open="hotelForm.address.$invalid" tooltip-trigger="none">
       <label translate>orderPhoneNumber</label>
       <input name="orderPhoneNumber" type="text" class="form-control" ng-model="orderPhoneNumber" placeholder="Example: 0986171061" pattern="^([0-9]*)$" maxlength="10"
       uib-tooltip="Only numbers"  tooltip-is-open="hotelForm.orderPhoneNumber.$invalid" tooltip-trigger="none">
     </div>
-  </form>
+    <div class="col-lg-6">
+      <label translate>fullDirectorName</label>
+      <input name="fullDirectorName" type="text" class="form-control" ng-model="fullDirectorName" maxlength="100" pattern="[A-z^\s]*"
+      uib-tooltip="Is no fullDirectorName"  tooltip-is-open="hotelForm.fullDirectorName.$invalid" tooltip-trigger="none">
+      <label translate>email</label>
+      <input name="email" type="email" class="form-control" ng-model="email" placeholder="example@gmail.com"
+      uib-tooltip="Is no email adress"  tooltip-is-open="hotelForm.email.$invalid" tooltip-trigger="none">
+      <!-- <pre>{{hotelForm.$valid}}</pre> -->
+      <label translate>directorPhoneNumber</label>
+      <input name="directorPhoneNumber" type="text" class="form-control" ng-model="directorPhoneNumber" placeholder="Example: 0986171061" pattern="^([0-9]*)$" maxlength="10"
+      uib-tooltip="Only numbers"  tooltip-is-open="hotelForm.directorPhoneNumber.$invalid" tooltip-trigger="none">
+      <br>
+      <button class="btn btn-default" ng-click="openRoomAdd()">
+        <span translate>addRoom</span>
+        <span class="label label-primary" ng-if="rooms.length != 0">{{rooms.length}}</span>
+      </button>
+
+      <button class="btn btn-default" translate>addWorkers</button>
+    </div>
+  </ng-form>
   <div class="col-lg-12 tools">
     <button type="submit" class="btn btn-primary" ng-click="save()" translate><i class="glyphicon glyphicon-floppy-disk"></i> save</button>
     <button class="btn btn-default right" ng-click="closeThisDialog(true)" style="margin-right: 15px;">Cancel</button>
