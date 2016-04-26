@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -41,7 +40,7 @@ public class RoomController {
     public ResponseEntity<Page<Room>> search( Pageable pageable,
                                               String roomType,
                                               String bedType,
-                                              String breakfast) {
+                                              String breakfast ) {
         LOG.info( "Getting all rooms" );
         Page<Room> page = roomService.search( pageable, roomType, bedType, breakfast );
         return ResponseEntity.ok( page );
@@ -49,7 +48,8 @@ public class RoomController {
 
     @RequestMapping(
             method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Room> addRoom( @RequestBody Room room ) {
         LOG.info( "Adding a new room" );
@@ -58,7 +58,8 @@ public class RoomController {
 
     @RequestMapping(
             method = RequestMethod.PUT,
-            produces = MediaType.APPLICATION_JSON_VALUE
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Room> editRoom( @RequestBody Room room ) {
         LOG.info( "Editing room id'{}'", room.getId() );

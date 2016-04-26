@@ -13,8 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 /**
  * Created by NicholasG on 08.04.2016.
  */
@@ -38,7 +36,7 @@ public class WorkerController {
     public ResponseEntity<Page<Worker>> search( Pageable pageable,
                                                 String fullName,
                                                 String post,
-                                                String date) {
+                                                String date ) {
         LOG.info( "Getting all worker" );
         Page<Worker> page = workerService.search( pageable, fullName, post, date );
         return ResponseEntity.ok( page );
@@ -46,7 +44,8 @@ public class WorkerController {
 
     @RequestMapping(
             method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Worker> addWorker( @RequestBody Worker worker ) {
         LOG.info( "Adding a new worker" );
@@ -55,7 +54,8 @@ public class WorkerController {
 
     @RequestMapping(
             method = RequestMethod.PUT,
-            produces = MediaType.APPLICATION_JSON_VALUE
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Worker> editWorker( @RequestBody Worker worker ) {
         LOG.info( "Editing a worker id='{}'", worker.getId() );
