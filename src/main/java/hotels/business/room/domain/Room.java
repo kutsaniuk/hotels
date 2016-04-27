@@ -34,6 +34,38 @@ public class Room implements Serializable {
         }
     }
 
+    public enum BedType {
+        SINGLE( "SINGLE" ),
+        DOUBLE( "DOUBLE");
+
+        private final String bedType;
+
+        BedType( String bedType ) {
+            this.bedType = bedType;
+        }
+
+        @Override
+        public String toString() {
+            return bedType;
+        }
+    }
+
+    public enum Breakfast {
+        PRESENT( "PRESENT" ),
+        MISSING( "MISSING");
+
+        private final String breakfast;
+
+        Breakfast( String breakfast ) {
+            this.breakfast = breakfast;
+        }
+
+        @Override
+        public String toString() {
+            return breakfast;
+        }
+    }
+
     @Id
     @Column( name = "id" )
     @GeneratedValue
@@ -46,10 +78,10 @@ public class Room implements Serializable {
     private int roomCount;
 
     @Column( name = "bed_type" )
-    private Boolean bedType;
+    private BedType bedType;
 
     @Column( name = "breakfast" )
-    private Boolean breakfast;
+    private Breakfast breakfast;
 
     @JsonIgnore
     @ManyToOne
@@ -64,7 +96,7 @@ public class Room implements Serializable {
 
     }
 
-    public Room( RoomType roomType, int roomCount, Boolean bedType, Boolean breakfast ) {
+    public Room( RoomType roomType, int roomCount, BedType bedType, Breakfast breakfast ) {
         this.roomType = roomType;
         this.roomCount = roomCount;
         this.bedType = bedType;
@@ -95,19 +127,19 @@ public class Room implements Serializable {
         this.roomCount = roomCount;
     }
 
-    public Boolean getBreakfast() {
+    public Breakfast getBreakfast() {
         return breakfast;
     }
 
-    public void setBreakfast( Boolean breakfast ) {
+    public void setBreakfast( Breakfast breakfast ) {
         this.breakfast = breakfast;
     }
 
-    public Boolean getBedType() {
+    public BedType getBedType() {
         return bedType;
     }
 
-    public void setBedType( Boolean bedType ) {
+    public void setBedType( BedType bedType ) {
         this.bedType = bedType;
     }
 

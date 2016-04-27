@@ -59,15 +59,17 @@ public class RoomServiceImpl implements RoomService {
         else bedType += "%";
         if ( breakfast == null || breakfast.equals( "" ) ) breakfast = "%";
         else breakfast += "%";
+        if( roomType == null || roomType.equals( "" ) ) roomType = "%";
+        else roomType += "%";
 
-        if ( roomType == null || roomType.equals( "" ) ) {
+       /* if ( roomType == null || roomType.equals( "" ) ) {
             return repository.findAllByBedTypeAndBreakfast( pageable, bedType, breakfast );
         } else {
-            Room.RoomType type = Room.RoomType.valueOf( roomType.toUpperCase() );
+            Room.RoomType type = Room.RoomType.valueOf( roomType.toUpperCase() );*/
             return repository.findAllByRoomTypeAndBedTypeAndBreakfast(
-                    pageable, type, bedType, breakfast
+                    pageable, roomType, bedType, breakfast
             );
-        }
+
     }
 
     @Override

@@ -51,21 +51,21 @@ INSERT INTO workers(full_name, post, birthday, sex, experience, previous_post, d
   VALUES('worker10', 'post10', '1996-11-8', 'MALE', '10', 'previous_post10', '2010-12-5', 1);
 
 INSERT INTO rooms(room_type, room_count, bed_type, breakfast, hotels_id)
-  VALUES(1, 5, TRUE, TRUE , 1);
+  VALUES(1, 5, 0, 0 , 1);
 INSERT INTO rooms(room_type, room_count, bed_type, breakfast, hotels_id)
-  VALUES(2, 3, FALSE , TRUE , 1);
+  VALUES(2, 3, 1 , 1 , 1);
 INSERT INTO rooms(room_type, room_count, bed_type, breakfast, hotels_id)
-  VALUES(0, 4, FALSE , TRUE , 1);
+  VALUES(0, 4, 0 , 1 , 1);
 INSERT INTO rooms(room_type, room_count, bed_type, breakfast, hotels_id)
-  VALUES(1, 5, TRUE, FALSE , 1);
+  VALUES(1, 5, 1, 0 , 1);
 INSERT INTO rooms(room_type, room_count, bed_type, breakfast, hotels_id)
-  VALUES(0, 3, TRUE, FALSE , 1);
+  VALUES(0, 3, 1, 1 , 1);
 INSERT INTO rooms(room_type, room_count, bed_type, breakfast, hotels_id)
-  VALUES(2, 5, FALSE, TRUE , 1);
+  VALUES(2, 5, 1, 1 , 1);
 INSERT INTO rooms(room_type, room_count, bed_type, breakfast, hotels_id)
-  VALUES(0, 5, TRUE, TRUE , 1);
+  VALUES(0, 5, 1, 1 , 1);
 INSERT INTO rooms(room_type, room_count, bed_type, breakfast, hotels_id)
-  VALUES(1, 5, TRUE, TRUE , 1);
+  VALUES(1, 5, 0, 0 , 1);
 INSERT INTO rooms(room_type, room_count, bed_type, breakfast, hotels_id)
-  VALUES(0, 5, TRUE, TRUE , 2);
+  VALUES(0, 5, 0, 0, 2);
 
