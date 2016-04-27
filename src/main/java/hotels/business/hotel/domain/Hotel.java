@@ -43,14 +43,16 @@ public class Hotel implements Serializable {
     @Column( name = "order_phone_number" )
     private String orderPhoneNumber;
 
+    @JsonIgnore
     @OneToMany( targetEntity = Room.class, cascade = CascadeType.ALL, mappedBy = "hotel" )
     private Set<Room> rooms = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany( targetEntity = Worker.class, cascade = CascadeType.ALL, mappedBy = "hotel" )
     private Set<Worker> workers = new HashSet<>();
 
     @JsonIgnore
-    @Column(name = "logo", length = 3000000)
+    @Column( name = "logo", length = 3000000 )
     private String logo;
 
     public Hotel() {

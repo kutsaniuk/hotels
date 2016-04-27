@@ -36,7 +36,7 @@ public class Room implements Serializable {
 
     public enum BedType {
         SINGLE( "SINGLE" ),
-        DOUBLE( "DOUBLE");
+        DOUBLE( "DOUBLE" );
 
         private final String bedType;
 
@@ -52,7 +52,7 @@ public class Room implements Serializable {
 
     public enum Breakfast {
         PRESENT( "PRESENT" ),
-        MISSING( "MISSING");
+        MISSING( "MISSING" );
 
         private final String breakfast;
 
@@ -83,13 +83,12 @@ public class Room implements Serializable {
     @Column( name = "breakfast" )
     private Breakfast breakfast;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn( name = "hotels_id", nullable = false )
     private Hotel hotel;
 
     @JsonIgnore
-    @OneToMany(targetEntity = Image.class, cascade = CascadeType.ALL, mappedBy = "room")
+    @OneToMany( targetEntity = Image.class, cascade = CascadeType.ALL, mappedBy = "room" )
     private Set<Image> images = new HashSet<>();
 
     public Room() {

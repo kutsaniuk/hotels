@@ -25,7 +25,7 @@ public class WorkerServiceImpl implements WorkerService {
     WorkerRepository repository;
 
     @Override
-    public ResponseEntity<Worker> add( Worker worker ) {
+    public ResponseEntity<Worker> add( final Worker worker ) {
         repository.saveAndFlush( worker );
         LOG.info( "Worker '{}' has been added", worker.getFullName() );
         return ResponseEntity.ok( worker );

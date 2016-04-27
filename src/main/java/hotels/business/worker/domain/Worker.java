@@ -1,6 +1,5 @@
 package hotels.business.worker.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import hotels.business.hotel.domain.Hotel;
 
 import javax.persistence.*;
@@ -41,7 +40,6 @@ public class Worker implements Serializable {
     @Column( name = "date_of_employment" )
     private Date dateOfEmployment;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn( name = "hotels_id", nullable = false )
     private Hotel hotel;

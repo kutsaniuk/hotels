@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
  */
 public interface WorkerService {
 
-    ResponseEntity<Worker> add( Worker worker );
+    ResponseEntity<Worker> add( final Worker worker );
 
     ResponseEntity<Worker> edit( Worker worker );
 
