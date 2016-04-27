@@ -25,8 +25,8 @@
 	  	sc.getLogoById = function (id) {
 	  		HotelService.getLogo(id)
 	  		.success( function (data) {
-	  			sc.devLogo = '';
-	  			sc.devLogo = data;
+	  			sc.hotelLogo = '';
+	  			sc.hotelLogo = data;
 	  		});
 	  	}
 

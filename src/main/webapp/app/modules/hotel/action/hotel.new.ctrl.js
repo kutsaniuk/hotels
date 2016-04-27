@@ -9,7 +9,7 @@
         var sc = $scope;
 
         sc.action = 'add';
-        sc.formNullShow = false;
+        sc.formValid = false;
 
         sc.name = '';
         sc.city = '';
@@ -26,6 +26,19 @@
                 sc.main = data;
 
             }); 
+
+        sc.checkForm = function () {
+            if (sc.name != '' 
+                && sc.city != '' 
+                && sc.address != '' 
+                && sc.fullDirectorName != '' 
+                && sc.email != '' 
+                && sc.directorPhoneNumber != '' 
+                && sc.orderPhoneNumber != '' 
+                && sc.hotelForm.$valid
+            ) sc.formValid = true;
+            else sc.formValid = false;
+        }
 
         sc.openRoomAdd = function () {
             ngDialog.open({ 
@@ -54,23 +67,11 @@
                 'workers': {"id":5,"fullName":"worker5","post":"post5","birthday":"1996-11-08","sex":"MALE","experience":10,"previousPost":"previous_post5","dateOfEmployment":"2010-12-05"}
             };
 
-
-            if (sc.name != '' 
-                && sc.city != '' 
-            	&& sc.address != '' 
-            	&& sc.fullDirectorName != '' 
-            	&& sc.email != '' 
-            	&& sc.directorPhoneNumber != '' 
-            	&& sc.orderPhoneNumber != '' 
-                && sc.hotelForm.$valid
-            ) {
-                HotelService.new(sc.hotel)
-					.success(function() {
-					    sc.closeThisDialog(true);
-                        sc.formNullShow = false;
-					    sc.loadPage(1);
-					});
-            } else sc.formNullShow = true;
+            if (sc.formValid) HotelService.new(sc.hotel)
+				.success(function() {
+				    sc.loadPage(sc.currentPage);
+                    sc.closeThisDialog(true);
+				});
         };
 
     };

@@ -10,6 +10,8 @@
 
 		sc.action = 'edit';
 
+		sc.formValid = false;
+
 		sc.target = { 
 				target: '/dev/logo?id=' + sc.id,
 				testChunks: false,
@@ -26,16 +28,29 @@
 
 		HotelService.get(sc.id)
 		.success(function (data) {
-			sc.hotel = data;
+			sc.hotel = data; 
 
 			sc.id = sc.hotel.id;
 			sc.name = sc.hotel.name;
 			sc.city = sc.hotel.city;
-			sc.address = sc.hotel.country;
+			sc.address = sc.hotel.address;
 			sc.fullDirectorName = sc.hotel.fullDirectorName;
 			sc.email = sc.hotel.email;
 			sc.directorPhoneNumber = sc.hotel.directorPhoneNumber;
 			sc.orderPhoneNumber = sc.hotel.orderPhoneNumber;
+
+			sc.checkForm = function () {
+	            if (sc.name != '' 
+	                && sc.city != '' 
+	                && sc.address != '' 
+	                && sc.fullDirectorName != '' 
+	                && sc.email != '' 
+	                && sc.directorPhoneNumber != '' 
+	                && sc.orderPhoneNumber != '' 
+	                && sc.hotelForm.$valid
+	            ) sc.formValid = true;
+	            else sc.formValid = false;
+	        }
  
 			sc.save = function () {
 				sc.hotel = {
@@ -49,20 +64,11 @@
 	                'orderPhoneNumber': sc.orderPhoneNumber
 				}
 
-				if (sc.name != '' 
-	            	&& sc.city != '' 
-	            	&& sc.address != '' 
-	            	&& sc.fullDirectorName != '' 
-	            	&& sc.email != '' 
-	            	&& sc.directorPhoneNumber != '' 
-	            	&& sc.orderPhoneNumber != '' 
-	            ) {
-	                HotelService.update(sc.hotel)
-						.success(function() {
-						    sc.closeThisDialog(true);
-						    sc.loadPage(1);
-						});
-            	} else alert('Error');
+                if (sc.formValid) HotelService.update(sc.hotel)
+					.success(function() {
+					    sc.closeThisDialog(true);
+					    sc.loadPage(sc.currentPage);
+					});
 			}
 		});
 	}

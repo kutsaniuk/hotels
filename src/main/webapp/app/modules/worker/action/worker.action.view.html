@@ -1,0 +1,55 @@
+<div class="panel panel-default popup">
+  <div class="panel-heading">
+    <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i>{{action}}</h3>
+    <i class="glyphicon glyphicon-remove action action-close right" ng-click="closeThisDialog(true)"></i>
+  </div>
+  <div class="panel-body">
+    <ng-form name="workerForm">
+      <div class="col-lg-6">
+        <label translate>fullName</label>
+        <input name="fullName" ng-model="fullName" type="text" class="form-control" pattern="[A-zА-я^\s]*"
+        uib-tooltip="Ім’я неправильне"  tooltip-is-open="workerForm.fullName.$invalid" tooltip-trigger="none" ng-change="checkForm()">
+        <label translate>post</label>
+        <select class="form-control" ng-model="post"  ng-change="checkForm()">
+          <option value="DIRECTOR" translate>director</option>
+          <option value="ADMINISTRATOR" translate>administrator</option>
+          <option value="CLEENER" translate>cleener</option>
+        </select>
+        <label translatel>birthday</label>
+        <div class="input-group">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="popup1 = true"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+          <input name="birthday" ng-model="birthday" type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" is-open="popup1" ng-required="true" close-text="Close" alt-input-formats="'yyyy-MM-dd'" ng-click="popup1 = true" ng-value="birthdayValue"  ng-change="checkForm()" readonly>
+        </div>
+        <label translate>sex</label>
+        <select class="form-control" ng-model="sex" ng-change="checkForm()">
+          <option value="MALE" translate>male</option>
+          <option value="FEMALE" translate>female</option>
+        </select>
+      </div>
+      <div class="col-lg-6">
+        <label translate>hotel</label>
+        <select class="form-control" ng-options="hotel.name for hotel in hotels" ng-model="selHotel" ng-change="checkForm()">
+          <option value="" disabled>{{hotel.name}}</option>
+        </select>
+        <label translate>experience</label>
+        <input name="experience" ng-model="experience" type="number" class="form-control" min="1" ng-change="checkForm()">
+        <label translate>previousPost</label>
+        <input name="previousPost" ng-model="previousPost" type="text" class="form-control" pattern="[A-zА-я^\s]*"
+        uib-tooltip="Тільки символи"  tooltip-is-open="workerForm.previousPost.$invalid" tooltip-trigger="none" ng-change="checkForm()">
+        <label translatel>dateOfEmployment</label>
+        <div class="input-group">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="popup2 = true"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+          <input name="dateOfEmployment" ng-model="dateOfEmployment" type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" is-open="popup2" ng-required="true" close-text="Close" alt-input-formats="'yyyy-MM-dd'" ng-click="popup2 = true" ng-value="dateOfEmploymentValue" ng-change="checkForm()" readonly>
+        </div>
+      </div>
+    </ng-form>
+    <div class="col-lg-12 tools">
+       <button type="submit" ng-class="{'disabled': !formValid}" class="btn btn-primary" ng-click="save()"><i class="glyphicon glyphicon-floppy-disk"></i> <span translate>save</span></button>
+      <button class="btn btn-default right" ng-click="closeThisDialog(true)" style="margin-right: 15px;">Cancel</button>
+    </div>
+  </form>
+</div>

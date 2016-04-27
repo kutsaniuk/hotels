@@ -9,6 +9,7 @@
 		var sc = $scope;
 
 		sc.action = 'add';
+		sc.formValid = false;
 
 		sc.roomType = '';
 		sc.roomCount = '';
@@ -20,6 +21,17 @@
 		HotelService.getAll().success( function (data) {
 			sc.hotels = data.content;
 		});
+
+		sc.checkForm = function () {
+            if (sc.roomType != '' 
+				&& sc.roomCount != ''
+				&& sc.roomCount != null
+				&& sc.bedType != ''
+				&& sc.breakfast != ''
+                && sc.roomForm.$valid
+            ) sc.formValid = true;
+            else sc.formValid = false;
+        }
 		
 		sc.save = function () {
 			sc.room = {
@@ -27,22 +39,15 @@
 				'roomCount': sc.roomCount,
 				'bedType': true,
 				'breakfast': sc.breakfast,
-				'hotel': sc.selHotel.id
+				'hotel': sc.selHotel
 			}
 
-			if (sc.roomType != '' 
-				&& sc.roomCount != ''
-				&& sc.bedType != ''
-				&& sc.breakfast != ''
-				) {
-				RoomService.new(sc.room)
-				.success(function (data) {
-					sc.room = null;
-					sc.closeThisDialog(true);
-					sc.loadPage(1);
-				});
-			}
-			else alert('Error');
+			if (sc.formValid) RoomService.new(sc.room)
+			.success(function (data) {
+				sc.loadPage(sc.currentPage);
+				sc.room = null;
+				sc.closeThisDialog(true);
+			});
 		}
 	};
 })();

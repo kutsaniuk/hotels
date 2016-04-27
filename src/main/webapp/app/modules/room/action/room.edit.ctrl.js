@@ -20,6 +20,17 @@
 			sc.breakfast = sc.room.breakfast;
 			sc.hotel = sc.room.hotel;
 
+			sc.checkForm = function () {
+	            if (sc.roomType != '' 
+					&& sc.roomCount != ''
+					&& sc.roomCount != null
+					&& sc.bedType != ''
+					&& sc.breakfast != ''
+	                && sc.roomForm.$valid
+	            ) sc.formValid = true;
+	            else sc.formValid = false;
+	        }
+
 			sc.save = function () {
 				sc.room = {
 					'roomType': sc.roomType,
@@ -29,19 +40,12 @@
 					'hotel': sc.selHotel
 				}
 
-				if (sc.roomType != '' 
-				&& sc.roomCount != ''
-				&& sc.bedType != ''
-				&& sc.breakfast != ''
-				) {
-					RoomService.update(sc.room)
-					.success(function (data) {
-						sc.room = null;
-						sc.closeThisDialog(true);
-						sc.loadPage(1);
-					});
-				}
-				else alert('Error');
+				if (sc.formValid) RoomService.update(sc.room)
+				.success(function (data) {
+					sc.room = null;
+					sc.closeThisDialog(true);
+					sc.loadPage(sc.currentPage);
+				});
 			}
 		});
 	}

@@ -4,7 +4,7 @@
 	var main = angular.module('main', [
 		'hotel',
 		'room',
-		'software',
+		'worker',
 		'ui.router',
 		'ui.bootstrap',
 		'ngResource',
@@ -156,7 +156,7 @@
 			template: '<div ui-view="content"></div>'
 		})
 		.state('main.hotel.list', {
-			url: '',
+			url: '/list',
 			views: {
 				'content@main.hotel': {
 					templateUrl: '/app/modules/hotel/list/hotel.list.view.html',
@@ -169,7 +169,7 @@
 			}
 		})
 		.state('main.hotel.table', {
-			url: '/table',
+			url: '',
 			views: {
 				'content@main.hotel': {
 					templateUrl: '/app/shared/table/table.view.html',
@@ -428,32 +428,31 @@
 
 	angular
 	.module('main')
-	.controller('SoftwareCtrl', SoftwareCtrl);
+	.controller('WorkerCtrl', WorkerCtrl);
 
-	function SoftwareCtrl ($scope, $state, SoftwareService, DeveloperService, LicenseService, ngDialog) {
+	function WorkerCtrl ($scope, $state, WorkerService, HotelService, RoomService, ngDialog) {
 		var sc = $scope;
 		
-		sc.table = 'software';
+		sc.table = 'worker';
 		sc.base = '/' + sc.table;
 
 		sc.tableHeader = 
 		[
-		'name', 
-		'version',
-		'release',
-		'developer',
-		'license',
-		'windows',
-		'linux',
-		'macOS'
+		'fullName', 
+		'post',
+		'birthday',
+		'sex',
+		'experience',
+		'previousPost',
+		'dateOfEmployment'
 		];
 
 		sc.openEdit = function (id) {
 			ngDialog.open({ 
-				template: '/app/modules/software/action/software.action.view.html', 
+				template: '/app/modules/worker/action/worker.action.view.html', 
 				className: 'ngdialog-theme-dev',
 				showClose: false,
-				controller: 'SoftwareEditCtrl',
+				controller: 'WorkerEditCtrl',
 				scope: $scope
 			});
 			sc.id = id;
@@ -461,10 +460,10 @@
 
 		sc.openAdd = function () {
 			ngDialog.open({ 
-				template: '/app/modules/software/action/software.action.view.html', 
+				template: '/app/modules/worker/action/worker.action.view.html', 
 				className: 'ngdialog-theme-dev',
 				showClose: false,
-				controller: 'SoftwareNewCtrl',
+				controller: 'WorkerNewCtrl',
 				scope: $scope
 			});
 		};
@@ -472,34 +471,38 @@
 		sc.openDelete = function (id) {
 			sc.id = id; 
 			ngDialog.open({ 
-				template: '/app/modules/software/action/software.action.delete.view.html', 
+				template: '/app/modules/worker/action/worker.action.delete.view.html', 
 				className: 'ngdialog-theme-dev',
 				showClose: false,
-				controller: 'SoftwareDeleteCtrl',
+				controller: 'WorkerDeleteCtrl',
 				scope: $scope
 			});
 		};
 
-		sc.loadPage = function(currentPage, name, release, devName, licName) {
-			if (release != null) {
-				var date = new Date(release);
-				release = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+		sc.loadPage = function(currentPage, fullName, post, date) {
+			if (date != null) {
+				var date = new Date(date);
+				date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
 			}
 
-			SoftwareService.getPage(currentPage - 1, 10, name, release, devName, licName)
+			WorkerService.getPage(currentPage - 1, 10, fullName, post, date)
 			.success(function (data){
 				sc.main = data;
 			});
+
+			sc.fullName = fullName;
+			sc.post = post;
+			sc.date = date;
 		};
 
 		sc.devName = {};
 		sc.licName = {};
 
-		DeveloperService.getAll().success( function (data) {
+		HotelService.getAll().success( function (data) {
 			sc.developers = data.content;
 		});
 
-		LicenseService.getAll().success( function (data) {
+		RoomService.getAll().success( function (data) {
 			sc.licensies = data.content;
 		});
 
@@ -511,7 +514,7 @@
 (function () {
 	'use strict';
 
-	var software = angular.module('software', [
+	var worker = angular.module('worker', [
 		'ui.router'
 		])
 	.config(configure);
@@ -521,29 +524,29 @@
 	function configure($locationProvider, $stateProvider, $urlRouterProvider) {
 
 		$stateProvider
-		.state('main.software', {
-			url: 'software',
+		.state('main.worker', {
+			url: 'worker',
 			abstract: true,
 			template: '<div ui-view="content"></div>'
 		})
-		.state('main.software.table', {
+		.state('main.worker.table', {
 			url: '', 
 			views: {
-				'content@main.software': {
+				'content@main.worker': {
 					templateUrl: '/app/shared/table/table.view.html',
-					controller: 'SoftwareCtrl',
+					controller: 'WorkerCtrl',
 				},
-				'filter@main.software.table': {
-					templateUrl: '/app/modules/software/filter/software.filter.view.html'
+				'filter@main.worker.table': {
+					templateUrl: '/app/modules/worker/filter/worker.filter.view.html'
 				}
 			}
 		})
-		.state('main.software.profile', { 
+		.state('main.worker.profile', { 
 			url: '/:id',
 			views: {
-				'content@main.software': {
-					templateUrl: '/app/modules/software/profile/software.profile.view.html',
-					controller: 'SoftwareProfileCtrl'
+				'content@main.worker': {
+					templateUrl: '/app/modules/worker/profile/worker.profile.view.html',
+					controller: 'WorkerProfileCtrl'
 				}
 			}
 		});
@@ -555,9 +558,9 @@
     'use strict';
 
     angular.module('main')
-    .service('SoftwareService', function ($http) {
+    .service('WorkerService', function ($http) {
 
-        var urlBase = '/soft';
+        var urlBase = '/worker';
 
         this.getAll = function () {
             return $http.get(urlBase, { 
@@ -572,12 +575,12 @@
             return $http.get(urlBase + '/' + id);
         };
 
-        this.new = function (software) {
-            return $http.post(urlBase, software);
+        this.new = function (worker) {
+            return $http.post(urlBase, worker);
         };
 
-        this.update = function (software) {
-            return $http.put(urlBase, software)
+        this.update = function (worker) {
+            return $http.put(urlBase, worker)
         };
 
         this.delete = function (id) {
@@ -588,15 +591,14 @@
                 }); 
         };
 
-        this.getPage = function (currentPage, size, name, release, devName, licName) {
+        this.getPage = function (currentPage, size, fullName, post, date) {
             return $http.get(urlBase, { 
                     params: { 
                         page: currentPage, 
                         size: size,
-                        name: name,
-                        release: release,
-                        devName: devName,
-                        licName: licName
+                        fullName: fullName,
+                        post: post,
+                        date: date
                     }
             });
         };
@@ -787,6 +789,8 @@
 
 		sc.action = 'edit';
 
+		sc.formValid = false;
+
 		sc.target = { 
 				target: '/dev/logo?id=' + sc.id,
 				testChunks: false,
@@ -803,16 +807,29 @@
 
 		HotelService.get(sc.id)
 		.success(function (data) {
-			sc.hotel = data;
+			sc.hotel = data; 
 
 			sc.id = sc.hotel.id;
 			sc.name = sc.hotel.name;
 			sc.city = sc.hotel.city;
-			sc.address = sc.hotel.country;
+			sc.address = sc.hotel.address;
 			sc.fullDirectorName = sc.hotel.fullDirectorName;
 			sc.email = sc.hotel.email;
 			sc.directorPhoneNumber = sc.hotel.directorPhoneNumber;
 			sc.orderPhoneNumber = sc.hotel.orderPhoneNumber;
+
+			sc.checkForm = function () {
+	            if (sc.name != '' 
+	                && sc.city != '' 
+	                && sc.address != '' 
+	                && sc.fullDirectorName != '' 
+	                && sc.email != '' 
+	                && sc.directorPhoneNumber != '' 
+	                && sc.orderPhoneNumber != '' 
+	                && sc.hotelForm.$valid
+	            ) sc.formValid = true;
+	            else sc.formValid = false;
+	        }
  
 			sc.save = function () {
 				sc.hotel = {
@@ -826,20 +843,11 @@
 	                'orderPhoneNumber': sc.orderPhoneNumber
 				}
 
-				if (sc.name != '' 
-	            	&& sc.city != '' 
-	            	&& sc.address != '' 
-	            	&& sc.fullDirectorName != '' 
-	            	&& sc.email != '' 
-	            	&& sc.directorPhoneNumber != '' 
-	            	&& sc.orderPhoneNumber != '' 
-	            ) {
-	                HotelService.update(sc.hotel)
-						.success(function() {
-						    sc.closeThisDialog(true);
-						    sc.loadPage(1);
-						});
-            	} else alert('Error');
+                if (sc.formValid) HotelService.update(sc.hotel)
+					.success(function() {
+					    sc.closeThisDialog(true);
+					    sc.loadPage(sc.currentPage);
+					});
 			}
 		});
 	}
@@ -856,7 +864,7 @@
         var sc = $scope;
 
         sc.action = 'add';
-        sc.formNullShow = false;
+        sc.formValid = false;
 
         sc.name = '';
         sc.city = '';
@@ -873,6 +881,19 @@
                 sc.main = data;
 
             }); 
+
+        sc.checkForm = function () {
+            if (sc.name != '' 
+                && sc.city != '' 
+                && sc.address != '' 
+                && sc.fullDirectorName != '' 
+                && sc.email != '' 
+                && sc.directorPhoneNumber != '' 
+                && sc.orderPhoneNumber != '' 
+                && sc.hotelForm.$valid
+            ) sc.formValid = true;
+            else sc.formValid = false;
+        }
 
         sc.openRoomAdd = function () {
             ngDialog.open({ 
@@ -901,23 +922,11 @@
                 'workers': {"id":5,"fullName":"worker5","post":"post5","birthday":"1996-11-08","sex":"MALE","experience":10,"previousPost":"previous_post5","dateOfEmployment":"2010-12-05"}
             };
 
-
-            if (sc.name != '' 
-                && sc.city != '' 
-            	&& sc.address != '' 
-            	&& sc.fullDirectorName != '' 
-            	&& sc.email != '' 
-            	&& sc.directorPhoneNumber != '' 
-            	&& sc.orderPhoneNumber != '' 
-                && sc.hotelForm.$valid
-            ) {
-                HotelService.new(sc.hotel)
-					.success(function() {
-					    sc.closeThisDialog(true);
-                        sc.formNullShow = false;
-					    sc.loadPage(1);
-					});
-            } else sc.formNullShow = true;
+            if (sc.formValid) HotelService.new(sc.hotel)
+				.success(function() {
+				    sc.loadPage(sc.currentPage);
+                    sc.closeThisDialog(true);
+				});
         };
 
     };
@@ -950,8 +959,8 @@
 	  	sc.getLogoById = function (id) {
 	  		HotelService.getLogo(id)
 	  		.success( function (data) {
-	  			sc.devLogo = '';
-	  			sc.devLogo = data;
+	  			sc.hotelLogo = '';
+	  			sc.hotelLogo = data;
 	  		});
 	  	}
 
@@ -1051,6 +1060,17 @@
 			sc.breakfast = sc.room.breakfast;
 			sc.hotel = sc.room.hotel;
 
+			sc.checkForm = function () {
+	            if (sc.roomType != '' 
+					&& sc.roomCount != ''
+					&& sc.roomCount != null
+					&& sc.bedType != ''
+					&& sc.breakfast != ''
+	                && sc.roomForm.$valid
+	            ) sc.formValid = true;
+	            else sc.formValid = false;
+	        }
+
 			sc.save = function () {
 				sc.room = {
 					'roomType': sc.roomType,
@@ -1060,19 +1080,12 @@
 					'hotel': sc.selHotel
 				}
 
-				if (sc.roomType != '' 
-				&& sc.roomCount != ''
-				&& sc.bedType != ''
-				&& sc.breakfast != ''
-				) {
-					RoomService.update(sc.room)
-					.success(function (data) {
-						sc.room = null;
-						sc.closeThisDialog(true);
-						sc.loadPage(1);
-					});
-				}
-				else alert('Error');
+				if (sc.formValid) RoomService.update(sc.room)
+				.success(function (data) {
+					sc.room = null;
+					sc.closeThisDialog(true);
+					sc.loadPage(sc.currentPage);
+				});
 			}
 		});
 	}
@@ -1089,6 +1102,7 @@
 		var sc = $scope;
 
 		sc.action = 'add';
+		sc.formValid = false;
 
 		sc.roomType = '';
 		sc.roomCount = '';
@@ -1100,6 +1114,17 @@
 		HotelService.getAll().success( function (data) {
 			sc.hotels = data.content;
 		});
+
+		sc.checkForm = function () {
+            if (sc.roomType != '' 
+				&& sc.roomCount != ''
+				&& sc.roomCount != null
+				&& sc.bedType != ''
+				&& sc.breakfast != ''
+                && sc.roomForm.$valid
+            ) sc.formValid = true;
+            else sc.formValid = false;
+        }
 		
 		sc.save = function () {
 			sc.room = {
@@ -1107,22 +1132,15 @@
 				'roomCount': sc.roomCount,
 				'bedType': true,
 				'breakfast': sc.breakfast,
-				'hotel': sc.selHotel.id
+				'hotel': sc.selHotel
 			}
 
-			if (sc.roomType != '' 
-				&& sc.roomCount != ''
-				&& sc.bedType != ''
-				&& sc.breakfast != ''
-				) {
-				RoomService.new(sc.room)
-				.success(function (data) {
-					sc.room = null;
-					sc.closeThisDialog(true);
-					sc.loadPage(1);
-				});
-			}
-			else alert('Error');
+			if (sc.formValid) RoomService.new(sc.room)
+			.success(function (data) {
+				sc.loadPage(sc.currentPage);
+				sc.room = null;
+				sc.closeThisDialog(true);
+			});
 		}
 	};
 })();
@@ -1132,13 +1150,13 @@
 
 	angular
 	.module('main')
-	.controller('SoftwareDeleteCtrl', SoftwareDeleteCtrl);
+	.controller('WorkerDeleteCtrl', WorkerDeleteCtrl);
 
-	function SoftwareDeleteCtrl ($scope, $state, $location, SoftwareService) {
+	function WorkerDeleteCtrl ($scope, $state, $location, WorkerService) {
 		var sc = $scope;
 
 		sc.delete = function () {
-			SoftwareService.delete(sc.id)
+			WorkerService.delete(sc.id)
 			.success(function (data) {
 				sc.loadPage(1);
 				sc.closeThisDialog(true);
@@ -1152,67 +1170,65 @@
 
 	angular
 	.module('main')
-	.controller('SoftwareEditCtrl', SoftwareEditCtrl);
+	.controller('WorkerEditCtrl', WorkerEditCtrl);
 
-	function SoftwareEditCtrl ($scope, $state, $location, SoftwareService, DeveloperService, LicenseService) {
+	function WorkerEditCtrl ($scope, $state, $location, WorkerService, HotelService, RoomService) {
 		var sc = $scope;
 
-		sc.action = 'Edit';
+		sc.action = 'edit';
+        sc.formValid = false;
 
-		SoftwareService.get(sc.id)
+		WorkerService.get(sc.id)
 		.success(function (data) {
-			sc.software = data;
+			sc.worker = data;
 
-			sc.id = sc.software.id;
-			sc.name = sc.software.name;
-			sc.version = sc.software.version;
-			sc.releaseValue = sc.software.release;
-			sc.license = sc.software.license;
-			sc.developer = sc.software.developer;
-			sc.windows = sc.software.windows;
-			sc.linux = sc.software.linux;
-			sc.macOS = sc.software.macOS;
+			sc.id = sc.worker.id;
+			sc.fullName = sc.worker.fullName;
+			sc.post = sc.worker.post;
+			sc.birthday = new Date(sc.worker.birthday);
+			sc.sex = sc.worker.sex;
+			sc.experience = sc.worker.experience;
+			sc.previousPost = sc.worker.previousPost;
+			sc.dateOfEmployment = new Date(sc.worker.dateOfEmployment);
 
-			sc.release = new Date(sc.software.release);
+			sc.selHotel = sc.worker.hotel;
 
-			sc.selDeveloper = sc.software.developer;
-			sc.selLicense = sc.software.license;
-
-			DeveloperService.getAll().success( function (data) {
-				sc.developers = data.content;
+			HotelService.getAll().success( function (data) {
+				sc.hotels = data.content;
 			});
 
-			LicenseService.getAll().success( function (data) {
-				sc.licensies = data.content;
-			});
+			sc.checkForm = function () {
+	            if (sc.fullName != '' 
+					&& sc.post != ''
+					&& sc.birthday != ''
+					&& sc.sex != ''
+					&& sc.experience != ''
+					&& sc.experience != null
+					&& sc.previousPost != ''
+					&& sc.dateOfEmployment != ''
+					&& sc.selHotel != ''
+	                && sc.workerForm.$valid
+	            ) sc.formValid = true;
+	            else sc.formValid = false;
+	        }
 
 			sc.save = function () {
 				sc.soft = {
-					'id': sc.id,
-					'name': sc.name,
-					'version': sc.version,
-					'release': sc.release.getFullYear() + '-' + (sc.release.getMonth() + 1) + '-' + sc.release.getDate(),
-					'license': sc.selLicense,
-					'developer': sc.selDeveloper,
-					'windows': sc.windows,
-					'linux': sc.linux,
-					'macOS': sc.macOS
+					'fullName': sc.fullName,
+					'post': sc.post,
+					'birthday': sc.birthday.getFullYear() + '-' + sc.birthday.getMonth() + '-' + sc.birthday.getDate(),
+					'sex': sc.sex,
+					'experience': sc.experience,
+					'previousPost': sc.previousPost,
+					'dateOfEmployment': sc.birthday.getFullYear() + '-' + sc.birthday.getMonth() + '-' + sc.birthday.getDate(),
+					'hotel': sc.selHotel
 				}
 
-
-			if (sc.name != '' 
-				&& sc.version != ''
-				&& sc.selDeveloper != {}
-				&& sc.selLicense != {}
-				) {
-					SoftwareService.update(sc.soft)
+				if (sc.formValid) WorkerService.update(sc.soft)
 					.success(function (data) {
 						sc.loadPage(1);
 						sc.soft = null;
 					});
-					sc.closeThisDialog(true);
-				}
-			else alert('Error');
 			}
 		});
 	}
@@ -1223,57 +1239,61 @@
 
 	angular
 	.module('main')
-	.controller('SoftwareNewCtrl', SoftwareNewCtrl);
+	.controller('WorkerNewCtrl', WorkerNewCtrl);
 
-	function SoftwareNewCtrl ($scope, $state, $location, SoftwareService, DeveloperService, LicenseService) {
+	function WorkerNewCtrl ($scope, $state, $location, WorkerService, HotelService) {
 		var sc = $scope;
 
-		sc.action = 'Add';
+		sc.action = 'add';
+        sc.formValid = false;
 
-		sc.name = '';
-		sc.version = '';
-		sc.release = new Date();
-		sc.license = '';
-		sc.windows = false;
-		sc.linux = false;
-		sc.macOS = false;
-		sc.selDeveloper = '';
-		sc.selLicense = '';
+		sc.fullName = '';
+        sc.post = '';
+        sc.birthday = new Date();
+        sc.sex = '';
+        sc.experience = '';
+        sc.previousPost = '';
+        sc.dateOfEmployment = new Date();
+        sc.selHotel = { id: ''};
 
-		DeveloperService.getAll().success( function (data) {
-			sc.developers = data.content;
+		HotelService.getAll().success( function (data) {
+			sc.hotels = data.content;
 		});
 
-		LicenseService.getAll().success( function (data) {
-			sc.licensies = data.content;
-		});
+		sc.checkForm = function () {
+            if (sc.fullName != '' 
+				&& sc.post != ''
+				&& sc.birthday != ''
+				&& sc.sex != ''
+				&& sc.experience != ''
+				&& sc.experience != null
+				&& sc.previousPost != ''
+				&& sc.dateOfEmployment != ''
+				&& sc.selHotel != ''
+                && sc.workerForm.$valid
+            ) sc.formValid = true;
+            else sc.formValid = false;
+        }
 
 		sc.save = function () {
 
 			sc.soft = {
-				'name': sc.name,
-				'version': sc.version,
-				'license': sc.selLicense,
-				'developer': sc.selDeveloper,
-				'release': sc.release.getFullYear() + '-' + sc.release.getMonth() + '-' + sc.release.getDate(),
-				'windows': sc.windows,
-				'linux': sc.linux,
-				'macOS': sc.macOS
+				'fullName': sc.fullName,
+				'post': sc.post,
+				'birthday': sc.birthday.getFullYear() + '-' + sc.birthday.getMonth() + '-' + sc.birthday.getDate(),
+				'sex': sc.sex,
+				'experience': sc.experience,
+				'previousPost': sc.previousPost,
+				'dateOfEmployment': sc.birthday.getFullYear() + '-' + sc.birthday.getMonth() + '-' + sc.birthday.getDate(),
+				'hotel': sc.selHotel
 			}
 
-		if (sc.name != '' 
-			&& sc.version != ''
-				&& sc.selLicense != ''
-				&& sc.selDeveloper != ''
-				) {
-				SoftwareService.new(sc.soft)
+			if (sc.formValid) WorkerService.new(sc.soft)
 				.success(function (data) {
-					sc.loadPage(1);
+					sc.loadPage(sc.currentPage);
 					sc.soft = null;
 					sc.closeThisDialog(true);
 				});
-			}
-			else alert('Error');
 		}
 	}
 })();

@@ -1,0 +1,21 @@
+<label translate>fullName</label>
+<input name="name" ng-model="fullName" type="text" class="form-control" ng-change="loadPage(1, fullName, post, date)" pattern="[A-z^\s]*">
+<label translate>post</label>
+<select class="form-control" ng-model="post" ng-change="loadPage(1, fullName, post, date)">
+	<option value=""></option>
+	<option value="DIRECTOR" translate>director</option>
+	<option value="ADMINISTRATOR" translate>administrator</option>
+	<option value="CLEENER" translate>cleener</option>
+</select>
+<label translatel>date</label>
+<div class="input-group">
+	<span class="input-group-btn">
+		<button type="button" class="btn btn-default" ng-click="popup1 = true"><i class="glyphicon glyphicon-calendar"></i></button>
+	</span>
+	<input name="date" ng-model="date" type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" is-open="popup1" ng-required="true" close-text="Close" alt-input-formats="'yyyy-MM-dd'" ng-click="popup1 = true" ng-value="dateValue" ng-change="loadPage(1, fullName, post, date)" readonly>
+	<span class="input-group-btn">
+		<button type="button" class="btn btn-default" ng-click="date = null; loadPage(1, fullName, post, date)">Clear</button>
+	</span>
+</div>
+<br>
+<button class="btn btn-success full-width" ng-click="openAdd()"><i class="glyphicon glyphicon-plus"></i> <span translate>add</span></button>

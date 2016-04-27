@@ -4,29 +4,31 @@
     <i class="glyphicon glyphicon-remove action action-close right" ng-click="closeThisDialog(true)"></i>
   </div>
   <div class="panel-body">
-    <div class="col-lg-12">
+    <ng-form name="roomForm">
+      <div class="col-lg-12">
       <label translate>roomType</label>
-      <select class="form-control" ng-model="roomType">
+      <select class="form-control" ng-model="roomType" ng-change="checkForm()">
         <option value="LUX" translate>lux</option>
         <option value="PRESIDENT" translate>president</option>
         <option value="ECONOMIC" translate>economic</option>
       </select>
       <label translate>roomCount</label>
-      <input name="roomCount" ng-model="roomCount" type="number" class="form-control" min="1">
+      <input name="roomCount" ng-model="roomCount" type="number" class="form-control" min="1" ng-change="checkForm()">
       <label translate>bedType</label>
-      <select class="form-control" ng-model="bedType">
+      <select class="form-control" ng-model="bedType" ng-change="checkForm()">
         <option value=true translate>single</option>
         <option value=false translate>double</option>
       </select>
       <label translate>breakfast</label><br>
-      <switch ng-model="breakfast"></switch>
+      <switch ng-model="breakfast" ng-change="checkForm()"></switch>
       <label translate>hotel</label>
       <select class="form-control" ng-options="hotel.name for hotel in hotels" ng-model="selHotel">
-          <option value="" disabled>{{hotel.name}}</option>
-        </select>
+        <option value="" disabled>{{hotel.name}}</option>
+      </select>
     </div>
+    </ng-form>
     <div class="col-lg-12 tools">
-      <button class="btn btn-primary" ng-click="save()"><i class="glyphicon glyphicon-floppy-disk"></i> Save</button>
+      <button type="submit" ng-class="{'disabled': !formValid}" class="btn btn-primary" ng-click="save()"><i class="glyphicon glyphicon-floppy-disk"></i> <span translate>save</span></button>
       <button class="btn btn-default right" ng-click="closeThisDialog(true)" style="margin-right: 15px;">Cancel</button>
     </div>
   </div>

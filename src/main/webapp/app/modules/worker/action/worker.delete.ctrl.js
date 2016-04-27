@@ -3,13 +3,13 @@
 
 	angular
 	.module('main')
-	.controller('SoftwareDeleteCtrl', SoftwareDeleteCtrl);
+	.controller('WorkerDeleteCtrl', WorkerDeleteCtrl);
 
-	function SoftwareDeleteCtrl ($scope, $state, $location, SoftwareService) {
+	function WorkerDeleteCtrl ($scope, $state, $location, WorkerService) {
 		var sc = $scope;
 
 		sc.delete = function () {
-			SoftwareService.delete(sc.id)
+			WorkerService.delete(sc.id)
 			.success(function (data) {
 				sc.loadPage(1);
 				sc.closeThisDialog(true);

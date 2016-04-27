@@ -12,7 +12,7 @@
               ng-mouseover="imageUploadShow = true"
               ng-mouseleave="imageUploadShow = false">
               <div class="crop"  ng-if="$flow.files[0] == null">
-                <img src="/dist/img/error.jpg" alt="">
+                <img ng-src="data:image/png;base64, {{hotelLogo.logo}}" onerror="this.src = '/dist/img/error.jpg'">
               </div>
               <div class="crop"  ng-if="$flow.files[0] != null">
                 <img flow-img="$flow.files[0]">

@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('main')
-    .service('SoftwareService', function ($http) {
+    .service('WorkerService', function ($http) {
 
-        var urlBase = '/soft';
+        var urlBase = '/worker';
 
         this.getAll = function () {
             return $http.get(urlBase, { 
@@ -19,12 +19,12 @@
             return $http.get(urlBase + '/' + id);
         };
 
-        this.new = function (software) {
-            return $http.post(urlBase, software);
+        this.new = function (worker) {
+            return $http.post(urlBase, worker);
         };
 
-        this.update = function (software) {
-            return $http.put(urlBase, software)
+        this.update = function (worker) {
+            return $http.put(urlBase, worker)
         };
 
         this.delete = function (id) {
@@ -35,15 +35,14 @@
                 }); 
         };
 
-        this.getPage = function (currentPage, size, name, release, devName, licName) {
+        this.getPage = function (currentPage, size, fullName, post, date) {
             return $http.get(urlBase, { 
                     params: { 
                         page: currentPage, 
                         size: size,
-                        name: name,
-                        release: release,
-                        devName: devName,
-                        licName: licName
+                        fullName: fullName,
+                        post: post,
+                        date: date
                     }
             });
         };

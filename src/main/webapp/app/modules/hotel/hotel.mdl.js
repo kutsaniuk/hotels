@@ -16,7 +16,7 @@
 			template: '<div ui-view="content"></div>'
 		})
 		.state('main.hotel.list', {
-			url: '',
+			url: '/list',
 			views: {
 				'content@main.hotel': {
 					templateUrl: '/app/modules/hotel/list/hotel.list.view.html',
@@ -29,7 +29,7 @@
 			}
 		})
 		.state('main.hotel.table', {
-			url: '/table',
+			url: '',
 			views: {
 				'content@main.hotel': {
 					templateUrl: '/app/shared/table/table.view.html',
