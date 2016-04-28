@@ -1,5 +1,6 @@
 package hotels.business.worker.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import hotels.business.hotel.domain.Hotel;
 
 import javax.persistence.*;
@@ -43,6 +44,10 @@ public class Worker implements Serializable {
     @ManyToOne
     @JoinColumn( name = "hotels_id", nullable = false )
     private Hotel hotel;
+
+    @JsonIgnore
+    @Column( name = "logo", length = 3000000 )
+    private String logo;
 
     public Worker() {
     }
@@ -133,6 +138,14 @@ public class Worker implements Serializable {
 
     public void setHotel( Hotel hotel ) {
         this.hotel = hotel;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo( String logo ) {
+        this.logo = logo;
     }
 
 }

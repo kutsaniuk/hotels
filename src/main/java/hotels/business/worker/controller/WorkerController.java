@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Created by NicholasG on 08.04.2016.
@@ -78,6 +79,27 @@ public class WorkerController {
     )
     public ResponseEntity<Worker> getOne( @PathVariable Long id ) {
         return ResponseEntity.ok( workerRepository.findOne( id ) );
+    }
+
+    @RequestMapping(
+            value = "/logo",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<String> getLogo( @RequestParam( "id" ) Long id ) {
+        LOG.info( "Getting logo for worker id='{}'", id );
+        return workerService.getLogo( id );
+    }
+
+    @RequestMapping(
+            value = "/logo",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Void> updateLogo( @RequestParam( "id" ) Long id,
+                                            @RequestParam( "file" ) MultipartFile logo ) {
+        LOG.info( "Updating logo for worker id='{}'", id );
+        return workerService.updateLogo( id, logo );
     }
 
 }

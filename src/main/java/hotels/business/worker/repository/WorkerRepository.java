@@ -8,11 +8,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.sql.Date;
+import java.util.Optional;
 
 /**
  * Created by kutsaniuk on 11.03.16.
  */
 public interface WorkerRepository extends JpaRepository<Worker, Long> {
+
+    Optional<Worker> findOneById( Long id );
 
     @Query( "SELECT w FROM Worker w " +
             "WHERE LOWER(w.fullName) LIKE LOWER(:fullName) " +
