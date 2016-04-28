@@ -7,7 +7,9 @@
 		<div class="col-lg-2 col-md-2 col-xs-6 no-padding worker-all" ng-repeat="worker in workers | filter:{ hotel: hotel }">
 			<div class="item">
 				<div class="item-container">
-					<a href="#/worker/{{worker.id}}" ng-click="closeThisDialog(true)"><img src="/dist/img/hotel.profile.director.svg"></a>
+					<a href="#/worker/{{worker.id}}" ng-click="closeThisDialog(true)">
+						<img ng-src="data:image/png;base64, {{worker.logo}}" onerror="this.src = '/dist/img/hotel.profile.director.svg'" align="left">
+					</a>
 					<div class="name"><a href="#/worker/{{worker.id}}" ng-click="closeThisDialog(true)">{{worker.fullName}}</a></div>
 					<div class="post">{{worker.post}}</div>
 				</div>

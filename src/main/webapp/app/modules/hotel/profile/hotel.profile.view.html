@@ -39,7 +39,9 @@
                 </table>
               </div>
               <div class="col-lg-6 col-md-6 col-xs-6 no-padding sub-title worker" ng-repeat="worker in workers | limitTo: 1 | filter:{ post: 'DIRECTOR' }">
-                <a href="#/worker/{{worker.id}}"><img class="crop" src="/dist/img/hotel.profile.director.svg" align="left"></a>
+                <a href="#/worker/{{worker.id}}">
+                  <img class="crop" ng-src="data:image/png;base64, {{worker.logo}}" onerror="this.src = '/dist/img/hotel.profile.director.svg'" align="left">
+                </a>
                 <div class="info">
                   <a href="#/worker/{{worker.id}}">{{worker.fullName}}</a><br>
                   {{profile.directorPhoneNumber}}
@@ -59,7 +61,7 @@
               <div class="count-label">workers</div>
             </div>
             <div class="count-container">
-              <div class="count">15</div>
+              <div class="count">{{images.length}}</div>
               <div class="count-label">photos</div>
             </div>
             </center>
@@ -138,7 +140,7 @@
                 </div>
               </span>
             </div>
-            <div class="row" >
+            <!-- <div class="row" >
               <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 image-gallery" ng-repeat-start="image in images" ng-init="removeImageShow = false">
                 <div class="thumbnail crop" ng-mouseover="removeImageShow = true" ng-mouseleave="removeImageShow = false">
                   <center>
@@ -149,13 +151,13 @@
               </div>
               <div class="clearfix" ng-if="$index%3==3"></div>
               <div ng-repeat-end=""></div>
-            </div>
+            </div> -->
           </div>
-          <div class="col-lg-3 col-md-3 col-xs-12 no-padding room" ng-repeat="room in _rooms = (rooms | filter:{ hotel: hotel }) | limitTo: 8">
+          <div class="col-lg-3 col-md-3 col-xs-12 no-padding room" ng-repeat="image in images">
             <div class="item">
               <div class="item-container">
-                <div class="crop" style="border-radius: 0; width: 100%" ng-click="openImageById(room.id)">
-                  <img ng-src="/dist/img/room.item{{room.id}}.jpg" alt="">
+                <div class="crop" style="border-radius: 0; width: 100%" ng-click="openImageById(image.id)">
+                  <img ng-src="data:image/png;base64, {{image.decodedImage}}" onerror="this.src = '/dist/img/no_image.gif'" ng-click="openImageById($index)" >
                 </div>
               </div>
             </div>
@@ -171,8 +173,8 @@
     <div class="panel-body">
       <ul class="worker-list">
         <li ng-repeat="worker in _workers = (workers | filter:{ hotel: hotel }) | limitTo: 5 ">
-          <a href="#/worker/{{worker.id}}"><img class="crop" src="/dist/img/hotel.profile.director.svg" align="left"></a>
-          <!-- <a href="#/worker/{{worker.id}}"><img class="crop" ng-src="data:image/png;base64, {{getLogoWorker(worker.id)}}" align="left"></a> -->
+          <!-- <a href="#/worker/{{worker.id}}"><img class="crop" src="/dist/img/hotel.profile.director.svg" align="left"></a> -->
+          <a href="#/worker/{{worker.id}}"><img class="crop" ng-src="data:image/png;base64, {{worker.logo}}" onerror="this.src = '/dist/img/hotel.profile.director.svg'" align="left"></a>
           <div class="info">
             <a href="#/worker/{{worker.id}}">{{worker.fullName}}</a><br>
             <span class="post">{{worker.post}}</span>

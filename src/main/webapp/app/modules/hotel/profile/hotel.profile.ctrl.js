@@ -11,17 +11,18 @@
 
 		sc.id = $stateParams.id;
 
+		sc.targetImages = { 
+				target: '/hotel/images?id=' + $stateParams.id,
+				testChunks: false
+			};
+
 		sc.targetLogo = { 
 				target: '/hotel/logo?id=' + $stateParams.id,
 				testChunks: false,
 				singleFile: true
 			};
 
-		sc.targetImages = { 
-				target: '/hotel/images?id=1' + $stateParams.id,
-				testChunks: false
-			};
-
+		
 		HotelService.get($stateParams.id)
 	  		.success( function (data) {
 	  			sc.profile = data;
@@ -92,6 +93,7 @@
 		}
 
 	  	sc.getLogoById(sc.id);
+	  	sc.getImages(sc.id);
 
 	};
 })();
