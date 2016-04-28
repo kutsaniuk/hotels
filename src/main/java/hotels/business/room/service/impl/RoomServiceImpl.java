@@ -58,35 +58,46 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Page<Room> search( Pageable pageable, String roomType, String bedType, String breakfast ) {
-        if (roomType == null && bedType == null && breakfast == null) {
-            return repository.getAll(pageable);
+        if ( roomType == null && bedType == null && breakfast == null ) {
+            return repository.getAll( pageable );
         }
-        if ((roomType == null || roomType.equals("")) && (bedType != null && !bedType.equals("")) && (breakfast != null && !breakfast.equals(""))) {
-            Room.BedType bt = Room.BedType.valueOf(bedType.toUpperCase());
-            Room.Breakfast br = Room.Breakfast.valueOf(breakfast.toUpperCase());
-            return repository.findAllByBedTypeAndBreakfast(pageable, bt, br);
-        } else if ((roomType == null || roomType.equals("")) && (bedType == null || bedType.equals("")) && (breakfast != null || !breakfast.equals(""))) {
-            Room.Breakfast br = Room.Breakfast.valueOf(breakfast.toUpperCase());
-            return repository.findAllByBreakfast(pageable, br);
-        } else if ((breakfast == null || breakfast.equals("")) && (bedType == null || bedType.equals("")) && (roomType != null)) {
-            Room.RoomType type = Room.RoomType.valueOf(roomType.toUpperCase());
-            return repository.findAllByRoomType(pageable, type);
-        } else if ((roomType == null || roomType.equals("")) && (breakfast == null || breakfast.equals("")) && (bedType != null && !bedType.equals(""))) {
-            Room.BedType bt = Room.BedType.valueOf(bedType.toUpperCase());
-            return repository.findAllByBedType(pageable, bt);
-        } else if ((breakfast == null || breakfast.equals("")) && (roomType != null) && (bedType != null)) {
-            Room.RoomType type = Room.RoomType.valueOf(roomType.toUpperCase());
-            Room.BedType bt = Room.BedType.valueOf(bedType.toUpperCase());
-            return repository.findAllByRoomTypeAndBedType(pageable, type, bt);
-        } else if ((bedType == null || bedType.equals("")) && (roomType != null) && (breakfast != null)) {
-            Room.RoomType type = Room.RoomType.valueOf(roomType.toUpperCase());
-            Room.Breakfast br = Room.Breakfast.valueOf(breakfast.toUpperCase());
-            return repository.findAllByRoomTypeAndBreakfast(pageable, type, br);
-        } else if (roomType != null && bedType != null && breakfast != null) {
-            Room.RoomType type = Room.RoomType.valueOf(roomType.toUpperCase());
-            Room.BedType bt = Room.BedType.valueOf(bedType.toUpperCase());
-            Room.Breakfast br = Room.Breakfast.valueOf(breakfast.toUpperCase());
-            return repository.findAllByRoomTypeAndBedTypeAndBreakfast(pageable, type, bt, br);
+        if ( (roomType == null || roomType.equals( "" ))
+                && (bedType != null && !bedType.equals( "" ))
+                && (breakfast != null && !breakfast.equals( "" )) ) {
+            Room.BedType bt = Room.BedType.valueOf( bedType.toUpperCase() );
+            Room.Breakfast br = Room.Breakfast.valueOf( breakfast.toUpperCase() );
+            return repository.findAllByBedTypeAndBreakfast( pageable, bt, br );
+        } else if ( (roomType == null || roomType.equals( "" ))
+                && (bedType == null || bedType.equals( "" ))
+                && (breakfast != null || !breakfast.equals( "" )) ) {
+            Room.Breakfast br = Room.Breakfast.valueOf( breakfast.toUpperCase() );
+            return repository.findAllByBreakfast( pageable, br );
+        } else if ( (breakfast == null || breakfast.equals( "" ))
+                && (bedType == null || bedType.equals( "" ))
+                && (roomType != null) ) {
+            Room.RoomType type = Room.RoomType.valueOf( roomType.toUpperCase() );
+            return repository.findAllByRoomType( pageable, type );
+        } else if ( (roomType == null || roomType.equals( "" ))
+                && (breakfast == null || breakfast.equals( "" ))
+                && (bedType != null && !bedType.equals( "" )) ) {
+            Room.BedType bt = Room.BedType.valueOf( bedType.toUpperCase() );
+            return repository.findAllByBedType( pageable, bt );
+        } else if ( (breakfast == null || breakfast.equals( "" ))
+                && (roomType != null)
+                && (bedType != null) ) {
+            Room.RoomType type = Room.RoomType.valueOf( roomType.toUpperCase() );
+            Room.BedType bt = Room.BedType.valueOf( bedType.toUpperCase() );
+            return repository.findAllByRoomTypeAndBedType( pageable, type, bt );
+        } else if ( (bedType == null || bedType.equals( "" ))
+                && roomType != null ) {
+            Room.RoomType type = Room.RoomType.valueOf( roomType.toUpperCase() );
+            Room.Breakfast br = Room.Breakfast.valueOf( breakfast.toUpperCase() );
+            return repository.findAllByRoomTypeAndBreakfast( pageable, type, br );
+        } else if ( roomType != null ) {
+            Room.RoomType type = Room.RoomType.valueOf( roomType.toUpperCase() );
+            Room.BedType bt = Room.BedType.valueOf( bedType.toUpperCase() );
+            Room.Breakfast br = Room.Breakfast.valueOf( breakfast.toUpperCase() );
+            return repository.findAllByRoomTypeAndBedTypeAndBreakfast( pageable, type, bt, br );
         } else
             return null;
     }
