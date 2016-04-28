@@ -46,19 +46,16 @@
             }); 
         };
 
-        this.uploadImage = function (file, id) {
-            var fd = new FormData();
-            fd.append('file', file);
-
-            return $http.post(urlBase + '/upload', fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined },
-                params: { id: id }
+        this.getLogo = function (id) {
+            return $http.get(urlBase + '/logo', { 
+                    params: { 
+                        id: id
+                    }
             });
         }
 
-        this.getLogo = function (id) {
-            return $http.get(urlBase + '/logo', { 
+        this.getImages = function (id) {
+            return $http.get(urlBase + '/images', { 
                     params: { 
                         id: id
                     }

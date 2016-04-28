@@ -59,14 +59,16 @@
 		};
 
 		sc.loadPage = function(currentPage, roomType, bedType, breakfast) {
+
 			RoomService.getPage(currentPage - 1, 10, roomType, bedType, breakfast)
-			.success(function (data){
-				sc.main = data;
-			});
+				.success(function (data){
+					sc.main = data;
+				});
 
 			sc.roomType = roomType;
 			sc.bedType = bedType;
 			sc.breakfast = breakfast;
+			sc.currentPage = currentPage;
 		};
 
 		sc.loadPage(1); 

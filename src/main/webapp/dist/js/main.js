@@ -75,7 +75,6 @@
 		[ 
 		'name', 
 		'city',
-		'address',
 		'fullDirectorName',
 		'email',
 		'directorPhoneNumber',
@@ -242,19 +241,16 @@
             }); 
         };
 
-        this.uploadImage = function (file, id) {
-            var fd = new FormData();
-            fd.append('file', file);
-
-            return $http.post(urlBase + '/upload', fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined },
-                params: { id: id }
+        this.getLogo = function (id) {
+            return $http.get(urlBase + '/logo', { 
+                    params: { 
+                        id: id
+                    }
             });
         }
 
-        this.getLogo = function (id) {
-            return $http.get(urlBase + '/logo', { 
+        this.getImages = function (id) {
+            return $http.get(urlBase + '/images', { 
                     params: { 
                         id: id
                     }
@@ -325,14 +321,16 @@
 		};
 
 		sc.loadPage = function(currentPage, roomType, bedType, breakfast) {
+
 			RoomService.getPage(currentPage - 1, 10, roomType, bedType, breakfast)
-			.success(function (data){
-				sc.main = data;
-			});
+				.success(function (data){
+					sc.main = data;
+				});
 
 			sc.roomType = roomType;
 			sc.bedType = bedType;
 			sc.breakfast = breakfast;
+			sc.currentPage = currentPage;
 		};
 
 		sc.loadPage(1); 
@@ -384,7 +382,7 @@
         var urlBase = '/room';
 
         this.getAll = function () {
-            return $http.get(urlBase);
+            return $http.get(urlBase); 
         };
 
         this.get = function (id) {
@@ -486,13 +484,14 @@
 			}
 
 			WorkerService.getPage(currentPage - 1, 10, fullName, post, date)
-			.success(function (data){
-				sc.main = data;
-			});
+				.success(function (data){
+					sc.main = data;
+				});
 
 			sc.fullName = fullName;
 			sc.post = post;
 			sc.date = date;
+			sc.currentPage = currentPage;
 		};
 
 		sc.devName = {};
@@ -603,8 +602,8 @@
             });
         };
 
-        this.getImages = function (id) {
-            return $http.get(urlBase + '/images', { 
+        this.getLogo = function (id) {
+            return $http.get(urlBase + '/logo', { 
                     params: { 
                         id: id
                     }
@@ -917,9 +916,10 @@
                 'fullDirectorName': sc.fullDirectorName,
                 'email': sc.email,
                 'directorPhoneNumber': sc.directorPhoneNumber,
-                'orderPhoneNumber': sc.orderPhoneNumber,
-                'rooms': {"id": 6, "roomType": "PRESIDENT", "roomCount": 5, "bedType": false, "breakfast": true},
-                'workers': {"id":5,"fullName":"worker5","post":"post5","birthday":"1996-11-08","sex":"MALE","experience":10,"previousPost":"previous_post5","dateOfEmployment":"2010-12-05"}
+                'orderPhoneNumber': sc.orderPhoneNumber
+
+                // 'rooms': {"id": 6, "roomType": "PRESIDENT", "roomCount": 5, "bedType": false, "breakfast": true},
+                // 'workers': {"id":5,"fullName":"worker5","post":"post5","birthday":"1996-11-08","sex":"MALE","experience":10,"previousPost":"previous_post5","dateOfEmployment":"2010-12-05"}
             };
 
             if (sc.formValid) HotelService.new(sc.hotel)
@@ -939,28 +939,50 @@
 	.module('main')
 	.controller('HotelProfileCtrl', HotelProfileCtrl);
 
-	function HotelProfileCtrl ($scope, $state, $stateParams, ngDialog, HotelService) {
+	function HotelProfileCtrl ($scope, $state, $stateParams, ngDialog, HotelService, WorkerService, RoomService) {
 		var sc = $scope;
 		sc.table = 'hotel';
 
 		sc.id = $stateParams.id;
 
-		sc.target = { 
+		sc.targetLogo = { 
 				target: '/hotel/logo?id=' + $stateParams.id,
 				testChunks: false,
 				singleFile: true
 			};
 
+		sc.targetImages = { 
+				target: '/hotel/images?id=1' + $stateParams.id,
+				testChunks: false
+			};
+
 		HotelService.get($stateParams.id)
 	  		.success( function (data) {
 	  			sc.profile = data;
+	  			sc.hotel = data;
+	  		});
+
+	  	WorkerService.getAll()
+	  		.success( function (data) {
+	  			sc.workers = data.content;
+	  		});
+
+	  	RoomService.getAll()
+	  		.success( function (data) {
+	  			sc.rooms = data.content;
 	  		});
 
 	  	sc.getLogoById = function (id) {
 	  		HotelService.getLogo(id)
 	  		.success( function (data) {
-	  			sc.hotelLogo = '';
 	  			sc.hotelLogo = data;
+	  		});
+	  	}
+
+	  	sc.getImages = function (id) {
+	  		HotelService.getImages(id)
+	  		.success( function (data) {
+	  			sc.images = data;
 	  		});
 	  	}
 
@@ -1017,21 +1039,21 @@
 
 	function RoomDeleteCtrl ($scope, $state, $location, RoomService) {
 		var sc = $scope;
-		var licName;
+		var roomName;
 
 		RoomService.get(sc.id)
 	  		.success( function (data) {
-	  			licName = data.name;
-				sc.log = 'Are you sure you want to remove sicense ' + licName + '?';
+	  			roomName = data.roomType;
+				sc.log = 'Are you sure you want to remove room ' + roomName + '?';
 	  		});
 
 		sc.delete = function () {
 			RoomService.delete(sc.id)
 			.then(function successCallback(response) {
 				sc.closeThisDialog(true);
-				sc.loadPage(1);
+				sc.loadPage(sc.currentPage);
 			  }, function errorCallback(response) {
-			    	sc.log = 'License "'+ licName +'" could not be deleted because is in use yet';
+			    	sc.log = 'Room "'+ roomName +'" could not be deleted because is in use yet';
 			  }); 
 
 		}
@@ -1045,7 +1067,7 @@
 	.module('main')
 	.controller('RoomEditCtrl', RoomEditCtrl);
 
-	function RoomEditCtrl ($scope, $state, $location, RoomService) {
+	function RoomEditCtrl ($scope, $state, $location, RoomService, HotelService) {
 		var sc = $scope;
 		sc.action = 'edit';
 
@@ -1060,12 +1082,18 @@
 			sc.breakfast = sc.room.breakfast;
 			sc.hotel = sc.room.hotel;
 
+			sc.selHotel = sc.room.hotel;
+
+			HotelService.getAll().success( function (data) {
+				sc.hotels = data.content;
+			}); 
+
 			sc.checkForm = function () {
 	            if (sc.roomType != '' 
 					&& sc.roomCount != ''
 					&& sc.roomCount != null
 					&& sc.bedType != ''
-					&& sc.breakfast != ''
+					&& sc.selHotel != ''
 	                && sc.roomForm.$valid
 	            ) sc.formValid = true;
 	            else sc.formValid = false;
@@ -1073,9 +1101,10 @@
 
 			sc.save = function () {
 				sc.room = {
+					'id': sc.id,
 					'roomType': sc.roomType,
 					'roomCount': sc.roomCount,
-					'bedType': true,
+					'bedType': sc.bedType,
 					'breakfast': sc.breakfast,
 					'hotel': sc.selHotel
 				}
@@ -1107,7 +1136,7 @@
 		sc.roomType = '';
 		sc.roomCount = '';
 		sc.bedType = '';
-		sc.breakfast = '';
+		sc.breakfast = true;
 
 		sc.selHotel = '';
 
@@ -1120,7 +1149,7 @@
 				&& sc.roomCount != ''
 				&& sc.roomCount != null
 				&& sc.bedType != ''
-				&& sc.breakfast != ''
+				&& sc.selHotel != ''
                 && sc.roomForm.$valid
             ) sc.formValid = true;
             else sc.formValid = false;
@@ -1130,7 +1159,7 @@
 			sc.room = {
 				'roomType': sc.roomType,
 				'roomCount': sc.roomCount,
-				'bedType': true,
+				'bedType': sc.bedType,
 				'breakfast': sc.breakfast,
 				'hotel': sc.selHotel
 			}
@@ -1214,6 +1243,7 @@
 
 			sc.save = function () {
 				sc.soft = {
+					'id': sc.id,
 					'fullName': sc.fullName,
 					'post': sc.post,
 					'birthday': sc.birthday.getFullYear() + '-' + sc.birthday.getMonth() + '-' + sc.birthday.getDate(),
@@ -1226,8 +1256,8 @@
 
 				if (sc.formValid) WorkerService.update(sc.soft)
 					.success(function (data) {
-						sc.loadPage(1);
-						sc.soft = null;
+						sc.loadPage(sc.currentPage);
+						sc.closeThisDialog(true);
 					});
 			}
 		});
@@ -1277,7 +1307,7 @@
 
 		sc.save = function () {
 
-			sc.soft = {
+			sc.worker = {
 				'fullName': sc.fullName,
 				'post': sc.post,
 				'birthday': sc.birthday.getFullYear() + '-' + sc.birthday.getMonth() + '-' + sc.birthday.getDate(),
@@ -1288,10 +1318,9 @@
 				'hotel': sc.selHotel
 			}
 
-			if (sc.formValid) WorkerService.new(sc.soft)
+			if (sc.formValid) WorkerService.new(sc.worker)
 				.success(function (data) {
 					sc.loadPage(sc.currentPage);
-					sc.soft = null;
 					sc.closeThisDialog(true);
 				});
 		}
@@ -1303,38 +1332,46 @@
 
 	angular
 	.module('main')
-	.controller('SoftwareProfileCtrl', SoftwareProfileCtrl);
+	.controller('WorkerProfileCtrl', WorkerProfileCtrl);
 
-	function SoftwareProfileCtrl ($scope, $state, $stateParams, SoftwareService, DeveloperService, ngDialog) {
+	function WorkerProfileCtrl ($scope, $state, $stateParams, WorkerService, HotelService, ngDialog) {
 		var sc = $scope;
-		sc.table = 'software';
+		sc.table = 'worker';
 		sc.imgIndex = 0;
 
+		sc.id = $stateParams.id;
+
 		sc.target = { 
-				target: '/soft/images?id=' + $stateParams.id,
+				target: '/worker/logo?id=' + $stateParams.id,
 				testChunks: false
 			};
 
-		sc.getImage = function (index) {
-			sc.imgIndex = index;
+		sc.getLogo = function (id) {
+			WorkerService.getLogo(id)
+		  		.success( function (data) { 
+		  			sc.logo = data.logo;
+		  		});
 		}
 
 		sc.getImageId = function (index) {
 			return sc.images[sc.imgIndex].id;
 		}
  
-		SoftwareService.get($stateParams.id)
+		WorkerService.get($stateParams.id)
 	  		.success( function (data) {
 	  			sc.profile = data;
 
-	  			DeveloperService.getLogo(data.developer.id)
-	  			.success( function (data) {
-	  				sc.devLogo = data.logo;
-	  			});
+	  			HotelService.getLogo(data.hotel.id)
+			  		.success( function (data) {
+			  			sc.hotelLogo = '';
+			  			sc.hotelLogo = data;
+			  		});
+
+			  	sc.getLogo(sc.id);
 	  		});
 
 	  	sc.getImages = function () {
-	  		SoftwareService.getImages($stateParams.id)
+	  		WorkerService.getImages($stateParams.id)
 	  		.success( function (data) {
 	  			sc.images = data;
 				if (sc.images != '') sc.currentImage = sc.images[0].image;
@@ -1352,7 +1389,7 @@
 		};
 
 		sc.deleteImage = function (id) {
-			SoftwareService.deleteImageById(id).success( function (data) {
+			WorkerService.deleteImageById(id).success( function (data) {
 	  			sc.getImages();
 	  		});	 
 		}
@@ -1375,8 +1412,6 @@
 				scope: $scope
 			});
 		};
-
-	  	sc.getImages();
 	};
 })();
 

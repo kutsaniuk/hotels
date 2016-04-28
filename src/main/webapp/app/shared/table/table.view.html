@@ -24,8 +24,7 @@
           <tbody ng-switch="table">
             <tr ng-switch-when="hotel" ng-repeat="row in data = (main.content | filter: filterField | orderBy: fieldName:reverse)" ng-dblclick="openEdit(row.id)">
               <td><a ng-href="#/hotel/{{row.id}}">{{row.name}}</a></td>
-              <td>{{row.city}}</td>
-              <td>{{row.address}}</td>
+              <td><span uib-popover="{{row.address}}" popover-trigger="mouseenter">{{row.city}}</span></td>
               <td>{{row.fullDirectorName}}</td>
               <td>{{row.email}}</td>
               <td>{{row.directorPhoneNumber | phone}}</td>
@@ -35,13 +34,12 @@
                 <i class="glyphicon glyphicon-remove action" ng-click="openDelete(row.id)" uib-tooltip="Remove"></i>
               </td>
             </tr>
-            <!-- <pre><div ng-repeat="hotelDataItem in hotelData">{{hotelDataItem.toString() | json}}</div></pre> -->
             <tr ng-switch-when="room" ng-repeat="row in data = (main.content | filter: filterField | orderBy: fieldName:reverse)" ng-dblclick="openEdit(row.id)">
               <td>{{row.roomType}}</td>
               <td>{{row.roomCount}}</td>
               <td>
-                <span ng-show="row.bedType" class="label label-primary">single</span>
-                <span ng-show="!row.bedType" class="label label-success">double</span>
+                <span ng-if="row.bedType == 'SINGLE'" class="label label-primary">single</span>
+                <span ng-if="row.bedType == 'DOUBLE'" class="label label-success">double</span>
             </td>
               <td><span ng-show="row.breakfast" class="glyphicon glyphicon-ok"></span></td>
               <td>
@@ -50,7 +48,7 @@
               </td>
             </tr>
             <tr ng-switch-when="worker" ng-repeat="row in data = (main.content | filter: filterField | orderBy: fieldName:reverse)" ng-dblclick="openEdit(row.id)">
-              <td>{{row.fullName}}</td>
+              <td><a href="#/worker/{{row.id}}">{{row.fullName}}</a></td>
               <td>{{row.post}}</td>
               <td>{{row.birthday}}</td>
               <td>{{row.sex}}</td>

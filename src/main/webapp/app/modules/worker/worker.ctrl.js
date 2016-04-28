@@ -61,13 +61,14 @@
 			}
 
 			WorkerService.getPage(currentPage - 1, 10, fullName, post, date)
-			.success(function (data){
-				sc.main = data;
-			});
+				.success(function (data){
+					sc.main = data;
+				});
 
 			sc.fullName = fullName;
 			sc.post = post;
 			sc.date = date;
+			sc.currentPage = currentPage;
 		};
 
 		sc.devName = {};

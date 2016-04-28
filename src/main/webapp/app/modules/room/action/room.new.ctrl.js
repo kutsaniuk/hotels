@@ -14,7 +14,7 @@
 		sc.roomType = '';
 		sc.roomCount = '';
 		sc.bedType = '';
-		sc.breakfast = '';
+		sc.breakfast = true;
 
 		sc.selHotel = '';
 
@@ -27,7 +27,7 @@
 				&& sc.roomCount != ''
 				&& sc.roomCount != null
 				&& sc.bedType != ''
-				&& sc.breakfast != ''
+				&& sc.selHotel != ''
                 && sc.roomForm.$valid
             ) sc.formValid = true;
             else sc.formValid = false;
@@ -37,7 +37,7 @@
 			sc.room = {
 				'roomType': sc.roomType,
 				'roomCount': sc.roomCount,
-				'bedType': true,
+				'bedType': sc.bedType,
 				'breakfast': sc.breakfast,
 				'hotel': sc.selHotel
 			}

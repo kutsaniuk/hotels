@@ -8,11 +8,13 @@
 <label translate>bedType</label>
 <select class="form-control" ng-model="bedType" ng-change="loadPage(1, roomType, bedType, breakfast)">
 	<option value=""></option>
-	<option value="true" translate>single</option>
-	<option value="false" translate>double</option>
+	<option value="SINGLE" translate>single</option>
+	<option value="DOUBLE" translate>double</option>
 </select>
 <label translate>breakfast</label><br>
 <switch ng-model="breakfast" ng-change="loadPage(1, roomType, bedType, breakfast)"></switch>
+<br>
+<button class="btn btn-default full-width" ng-click="loadPage(currentPage)">clearFilter</button>
 <br>
 <br>
 <button class="btn btn-success full-width" ng-click="openAdd()"><i class="glyphicon glyphicon-plus"></i> <span translate>add</span></button>

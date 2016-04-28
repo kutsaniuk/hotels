@@ -16,13 +16,13 @@
       <input name="roomCount" ng-model="roomCount" type="number" class="form-control" min="1" ng-change="checkForm()">
       <label translate>bedType</label>
       <select class="form-control" ng-model="bedType" ng-change="checkForm()">
-        <option value=true translate>single</option>
-        <option value=false translate>double</option>
+        <option value="SINGLE" translate>single</option>
+        <option value="DOUBLE" translate>double</option>
       </select>
       <label translate>breakfast</label><br>
-      <switch ng-model="breakfast" ng-change="checkForm()"></switch>
+      <switch ng-model="breakfast"></switch>
       <label translate>hotel</label>
-      <select class="form-control" ng-options="hotel.name for hotel in hotels" ng-model="selHotel">
+      <select class="form-control" ng-options="hotel.name for hotel in hotels" ng-model="selHotel" ng-change="checkForm()">
         <option value="" disabled>{{hotel.name}}</option>
       </select>
     </div>

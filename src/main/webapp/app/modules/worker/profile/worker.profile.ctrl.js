@@ -3,38 +3,46 @@
 
 	angular
 	.module('main')
-	.controller('SoftwareProfileCtrl', SoftwareProfileCtrl);
+	.controller('WorkerProfileCtrl', WorkerProfileCtrl);
 
-	function SoftwareProfileCtrl ($scope, $state, $stateParams, SoftwareService, DeveloperService, ngDialog) {
+	function WorkerProfileCtrl ($scope, $state, $stateParams, WorkerService, HotelService, ngDialog) {
 		var sc = $scope;
-		sc.table = 'software';
+		sc.table = 'worker';
 		sc.imgIndex = 0;
 
+		sc.id = $stateParams.id;
+
 		sc.target = { 
-				target: '/soft/images?id=' + $stateParams.id,
+				target: '/worker/logo?id=' + $stateParams.id,
 				testChunks: false
 			};
 
-		sc.getImage = function (index) {
-			sc.imgIndex = index;
+		sc.getLogo = function (id) {
+			WorkerService.getLogo(id)
+		  		.success( function (data) { 
+		  			sc.logo = data.logo;
+		  		});
 		}
 
 		sc.getImageId = function (index) {
 			return sc.images[sc.imgIndex].id;
 		}
  
-		SoftwareService.get($stateParams.id)
+		WorkerService.get($stateParams.id)
 	  		.success( function (data) {
 	  			sc.profile = data;
 
-	  			DeveloperService.getLogo(data.developer.id)
-	  			.success( function (data) {
-	  				sc.devLogo = data.logo;
-	  			});
+	  			HotelService.getLogo(data.hotel.id)
+			  		.success( function (data) {
+			  			sc.hotelLogo = '';
+			  			sc.hotelLogo = data;
+			  		});
+
+			  	sc.getLogo(sc.id);
 	  		});
 
 	  	sc.getImages = function () {
-	  		SoftwareService.getImages($stateParams.id)
+	  		WorkerService.getImages($stateParams.id)
 	  		.success( function (data) {
 	  			sc.images = data;
 				if (sc.images != '') sc.currentImage = sc.images[0].image;
@@ -52,7 +60,7 @@
 		};
 
 		sc.deleteImage = function (id) {
-			SoftwareService.deleteImageById(id).success( function (data) {
+			WorkerService.deleteImageById(id).success( function (data) {
 	  			sc.getImages();
 	  		});	 
 		}
@@ -75,7 +83,5 @@
 				scope: $scope
 			});
 		};
-
-	  	sc.getImages();
 	};
 })();

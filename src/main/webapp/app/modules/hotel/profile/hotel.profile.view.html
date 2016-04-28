@@ -5,8 +5,8 @@
         <div class="panel-body no-padding">
           <div class="col-lg-12 top">
             <div class="avatar"
-              flow-init="target"
-              flow-file-added="$file.size < 2000000"
+              flow-init="targetLogo"
+              flow-file-added="$file.size < 512000"
               flow-file-success="getLogoById(id); $flow.files[0].cancel();"
               ng-init="imageUploadShow = false"
               ng-mouseover="imageUploadShow = true"
@@ -32,61 +32,30 @@
             <div class="title-container">
               <div class="title">{{profile.name}} <span class="city">{{profile.city}}</span></div>
               <div class="col-lg-6 col-md-6 col-xs-6 no-padding sub-title">
-                <!--   {{profile.email}} <br>
-                {{profile.address}} <br>
-                {{profile.orderPhoneNumber}} -->
                 <table>
                   <tr><td translate>address</td><td>{{profile.address}}</td></tr>
                   <tr><td translate>email</td><td>{{profile.email}}</td></tr>
                   <tr><td translate>phone</td><td>{{profile.orderPhoneNumber}}</td></tr>
                 </table>
               </div>
-              <div class="col-lg-6 col-md-6 col-xs-6 no-padding sub-title worker">
-                <a href="#/worker/undefined"><img class="crop" src="/dist/img/hotel.profile.director.svg" align="left"></a>
+              <div class="col-lg-6 col-md-6 col-xs-6 no-padding sub-title worker" ng-repeat="worker in workers | limitTo: 1 | filter:{ post: 'DIRECTOR' }">
+                <a href="#/worker/{{worker.id}}"><img class="crop" src="/dist/img/hotel.profile.director.svg" align="left"></a>
                 <div class="info">
-                  <a href="#/worker/undefined">{{profile.fullDirectorName}}</a><br>
+                  <a href="#/worker/{{worker.id}}">{{worker.fullName}}</a><br>
                   {{profile.directorPhoneNumber}}
                 </div>
               </div>
             </div>
-            <!-- <div class="col-lg-6">
-              <div
-                flow-init="target"
-                flow-file-added="$file.size < 2000000"
-                flow-file-success="getLogoById(id); $flow.files[0].cancel();"
-                flow-drop>
-                <div ng-init="imageUploadShow = false"
-                  ng-mouseover="imageUploadShow = true"
-                  ng-mouseleave="imageUploadShow = false">
-                  <img class="logo" ng-if="$flow.files[0] == null" class="avatar" ng-src="data:image/png;base64, {{devLogo.logo}}" onerror="this.src = '/dist/img/no_image.gif'">
-                  <div ng-if="$flow.files[0] != null">
-                    <uib-progressbar id="ownerProgressUpload" class="progress" value="$flow.files[0].progress() * 100" type="primary"></uib-progressbar>
-                    <img class="logo" flow-img="$flow.files[0]" width="100%">
-                    <i class="remove-image" ng-click="$flow.files[0].cancel();" uib-tooltip="Remove"></i>
-                  </div>
-                  <div ng-show="imageUploadShow" class="owner-image-upload full-width show-hide" flow-btn>
-                    <center>
-                    <div>
-                      <i class="glyphicon glyphicon-arrow-up"></i>
-                      <span ng-if="devLogo.logo != 'null'" translate>change</span>
-                      <span ng-if="devLogo.logo == 'null'" translate>add</span>
-                    </div>
-                    </center>
-                  </div>
-                </div>
-                <button ng-if="$flow.files[0] != null" type="submit" class="btn btn-primary full-width" ng-class="{'disabled': $flow.files[0] == null}" ng-click="$flow.upload();">apply</button>
-              </div>
-            </div> -->
           </div>
           <hr>
           <div class="counts">
             <center>
             <div class="count-container">
-              <div class="count">{{profile.rooms.length}}</div>
+              <div class="count">{{_rooms.length}}</div>
               <div class="count-label">rooms</div>
             </div>
             <div class="count-container" ng-click="openWorkers()">
-              <div class="count">{{profile.workers.length}}</div>
+              <div class="count">{{_workers.length}}</div>
               <div class="count-label">workers</div>
             </div>
             <div class="count-container">
@@ -104,24 +73,24 @@
       <div class="panel panel-default no-padding">
         <div class="panel-heading" translate>rooms</div>
         <div class="panel-body">
-          <div class="col-lg-3 col-md-3 col-xs-12 no-padding room" ng-repeat="room in profile.rooms">
+          <div class="col-lg-3 col-md-3 col-xs-12 no-padding room" ng-repeat="room in _rooms = (rooms | filter:{ hotel: hotel }) | limitTo: 8">
             <div class="item">
               <div class="item-container">
                 <div class="crop">
                   <img ng-src="/dist/img/room.item{{room.id}}.jpg" alt="">
                 </div>
-                  <div class="info show-hide">
-                    <b>{{room.roomType}}</b> <br>
-                    {{room.roomCount}} <span translate>rooms</span>
-                    <div class="bed">
-                      <span ng-show="room.bedType"><b>1</b></span>
-                      <span ng-show="!room.bedType"><b>2</b></span>
-                      <img src="/dist/img/bed.svg">
-                    </div>
-                    <div class="breakfast">
-                      <img ng-show="room.breakfast" src="/dist/img/breakfast.svg">
-                    </div>
+                <div class="info show-hide">
+                  <b>{{room.roomType}}</b> <br>
+                  {{room.roomCount}} <span translate>rooms</span>
+                  <div class="bed">
+                    <span ng-if="room.bedType == 'DOUBLE'"><b>1</b></span>
+                    <span ng-if="room.bedType == 'SINGLE'"><b>2</b></span>
+                    <img src="/dist/img/bed.svg">
                   </div>
+                  <div class="breakfast">
+                    <img ng-if="room.breakfast == 'PRESENT'" src="/dist/img/breakfast.svg">
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -129,13 +98,60 @@
       </div>
     </div>
   </div>
-
   <div class="row no-margin profile">
     <div class="col-lg-12">
       <div class="panel panel-default no-padding">
         <div class="panel-heading" translate>photos</div>
         <div class="panel-body">
-          <div class="col-lg-3 col-md-3 col-xs-12 no-padding room" ng-repeat="room in profile.rooms">
+          <div class="col-lg-12">
+            <div class="row">
+              <span
+                flow-init="targetImages"
+                flow-file-added="$file.size < 512000"
+                flow-file-success="getImages()"
+                >
+                <div class="col-lg-12">
+                  <br>
+                  <div class="thumbnail image-upload" flow-drop>
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6" ng-repeat-start="file in $flow.files">
+                        <div class="image-container crop">
+                          <img flow-img="file">
+                          <i class="remove-image" ng-click="$flow.files[$index].cancel();" uib-tooltip="Remove"></i>
+                        </div>
+                        <uib-progressbar class="progress" value="file.progress() * 100" type="primary"></uib-progressbar>
+                      </div>
+                      <div class="clearfix" ng-if="$index%3==5"></div>
+                      <div ng-repeat-end=""></div>
+                    </div>
+                    <center>
+                    <p ng-if="$flow.files[0] == null"><br>Drag and drop image here (limit 512KB)<br>
+                    or</p>
+                    </center>
+                    <br>
+                    <center>
+                    <button class="btn btn-default" flow-btn>Browse</button>
+                    <button type="submit" class="btn btn-primary" ng-class="{'disabled': $flow.files[0] == null}" ng-click="$flow.upload();"><i class="glyphicon glyphicon-arrow-up"></i> upload</button>
+                    </center>
+                    <br>
+                  </div>
+                </div>
+              </span>
+            </div>
+            <div class="row" >
+              <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 image-gallery" ng-repeat-start="image in images" ng-init="removeImageShow = false">
+                <div class="thumbnail crop" ng-mouseover="removeImageShow = true" ng-mouseleave="removeImageShow = false">
+                  <center>
+                  <img ng-src="data:image/png;base64, {{image.image}}" onerror="this.src = '/dist/img/no_image.gif'" ng-click="openImageById($index)" >
+                  </center>
+                  <i ng-show="removeImageShow" class="remove-image remove-image-gallery show-hide" ng-click="deleteImage(image.id)" uib-tooltip="Remove"></i>
+                </div>
+              </div>
+              <div class="clearfix" ng-if="$index%3==3"></div>
+              <div ng-repeat-end=""></div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-xs-12 no-padding room" ng-repeat="room in _rooms = (rooms | filter:{ hotel: hotel }) | limitTo: 8">
             <div class="item">
               <div class="item-container">
                 <div class="crop" style="border-radius: 0; width: 100%" ng-click="openImageById(room.id)">
@@ -154,10 +170,11 @@
     <div class="panel-heading" translate>workers</div>
     <div class="panel-body">
       <ul class="worker-list">
-        <li ng-repeat="worker in profile.workers | limitTo: 5">
-          <a href="#/worker/undefined"><img class="crop" src="/dist/img/hotel.profile.director.svg" align="left"></a>
+        <li ng-repeat="worker in _workers = (workers | filter:{ hotel: hotel }) | limitTo: 5 ">
+          <a href="#/worker/{{worker.id}}"><img class="crop" src="/dist/img/hotel.profile.director.svg" align="left"></a>
+          <!-- <a href="#/worker/{{worker.id}}"><img class="crop" ng-src="data:image/png;base64, {{getLogoWorker(worker.id)}}" align="left"></a> -->
           <div class="info">
-            <a href="#/worker/undefined">{{worker.fullName}}</a><br>
+            <a href="#/worker/{{worker.id}}">{{worker.fullName}}</a><br>
             <span class="post">{{worker.post}}</span>
           </div>
         </li>

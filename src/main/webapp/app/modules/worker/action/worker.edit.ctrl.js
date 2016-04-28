@@ -47,6 +47,7 @@
 
 			sc.save = function () {
 				sc.soft = {
+					'id': sc.id,
 					'fullName': sc.fullName,
 					'post': sc.post,
 					'birthday': sc.birthday.getFullYear() + '-' + sc.birthday.getMonth() + '-' + sc.birthday.getDate(),
@@ -59,8 +60,8 @@
 
 				if (sc.formValid) WorkerService.update(sc.soft)
 					.success(function (data) {
-						sc.loadPage(1);
-						sc.soft = null;
+						sc.loadPage(sc.currentPage);
+						sc.closeThisDialog(true);
 					});
 			}
 		});

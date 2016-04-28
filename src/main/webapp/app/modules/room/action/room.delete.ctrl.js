@@ -7,21 +7,21 @@
 
 	function RoomDeleteCtrl ($scope, $state, $location, RoomService) {
 		var sc = $scope;
-		var licName;
+		var roomName;
 
 		RoomService.get(sc.id)
 	  		.success( function (data) {
-	  			licName = data.name;
-				sc.log = 'Are you sure you want to remove sicense ' + licName + '?';
+	  			roomName = data.roomType;
+				sc.log = 'Are you sure you want to remove room ' + roomName + '?';
 	  		});
 
 		sc.delete = function () {
 			RoomService.delete(sc.id)
 			.then(function successCallback(response) {
 				sc.closeThisDialog(true);
-				sc.loadPage(1);
+				sc.loadPage(sc.currentPage);
 			  }, function errorCallback(response) {
-			    	sc.log = 'License "'+ licName +'" could not be deleted because is in use yet';
+			    	sc.log = 'Room "'+ roomName +'" could not be deleted because is in use yet';
 			  }); 
 
 		}

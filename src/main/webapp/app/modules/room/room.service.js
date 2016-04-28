@@ -7,7 +7,7 @@
         var urlBase = '/room';
 
         this.getAll = function () {
-            return $http.get(urlBase);
+            return $http.get(urlBase); 
         };
 
         this.get = function (id) {

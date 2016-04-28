@@ -5,28 +5,50 @@
 	.module('main')
 	.controller('HotelProfileCtrl', HotelProfileCtrl);
 
-	function HotelProfileCtrl ($scope, $state, $stateParams, ngDialog, HotelService) {
+	function HotelProfileCtrl ($scope, $state, $stateParams, ngDialog, HotelService, WorkerService, RoomService) {
 		var sc = $scope;
 		sc.table = 'hotel';
 
 		sc.id = $stateParams.id;
 
-		sc.target = { 
+		sc.targetLogo = { 
 				target: '/hotel/logo?id=' + $stateParams.id,
 				testChunks: false,
 				singleFile: true
 			};
 
+		sc.targetImages = { 
+				target: '/hotel/images?id=1' + $stateParams.id,
+				testChunks: false
+			};
+
 		HotelService.get($stateParams.id)
 	  		.success( function (data) {
 	  			sc.profile = data;
+	  			sc.hotel = data;
+	  		});
+
+	  	WorkerService.getAll()
+	  		.success( function (data) {
+	  			sc.workers = data.content;
+	  		});
+
+	  	RoomService.getAll()
+	  		.success( function (data) {
+	  			sc.rooms = data.content;
 	  		});
 
 	  	sc.getLogoById = function (id) {
 	  		HotelService.getLogo(id)
 	  		.success( function (data) {
-	  			sc.hotelLogo = '';
 	  			sc.hotelLogo = data;
+	  		});
+	  	}
+
+	  	sc.getImages = function (id) {
+	  		HotelService.getImages(id)
+	  		.success( function (data) {
+	  			sc.images = data;
 	  		});
 	  	}
 

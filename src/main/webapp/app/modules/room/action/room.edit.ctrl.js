@@ -5,7 +5,7 @@
 	.module('main')
 	.controller('RoomEditCtrl', RoomEditCtrl);
 
-	function RoomEditCtrl ($scope, $state, $location, RoomService) {
+	function RoomEditCtrl ($scope, $state, $location, RoomService, HotelService) {
 		var sc = $scope;
 		sc.action = 'edit';
 
@@ -20,12 +20,18 @@
 			sc.breakfast = sc.room.breakfast;
 			sc.hotel = sc.room.hotel;
 
+			sc.selHotel = sc.room.hotel;
+
+			HotelService.getAll().success( function (data) {
+				sc.hotels = data.content;
+			}); 
+
 			sc.checkForm = function () {
 	            if (sc.roomType != '' 
 					&& sc.roomCount != ''
 					&& sc.roomCount != null
 					&& sc.bedType != ''
-					&& sc.breakfast != ''
+					&& sc.selHotel != ''
 	                && sc.roomForm.$valid
 	            ) sc.formValid = true;
 	            else sc.formValid = false;
@@ -33,9 +39,10 @@
 
 			sc.save = function () {
 				sc.room = {
+					'id': sc.id,
 					'roomType': sc.roomType,
 					'roomCount': sc.roomCount,
-					'bedType': true,
+					'bedType': sc.bedType,
 					'breakfast': sc.breakfast,
 					'hotel': sc.selHotel
 				}

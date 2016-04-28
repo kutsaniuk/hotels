@@ -17,7 +17,6 @@
 		[ 
 		'name', 
 		'city',
-		'address',
 		'fullDirectorName',
 		'email',
 		'directorPhoneNumber',

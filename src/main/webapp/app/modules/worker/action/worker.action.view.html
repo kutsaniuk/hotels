@@ -31,7 +31,7 @@
       <div class="col-lg-6">
         <label translate>hotel</label>
         <select class="form-control" ng-options="hotel.name for hotel in hotels" ng-model="selHotel" ng-change="checkForm()">
-          <option value="" disabled>{{hotel.name}}</option>
+          <option value="" disabled>{{selHotel.name}}</option>
         </select>
         <label translate>experience</label>
         <input name="experience" ng-model="experience" type="number" class="form-control" min="1" ng-change="checkForm()">

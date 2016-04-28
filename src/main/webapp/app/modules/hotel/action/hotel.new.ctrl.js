@@ -62,9 +62,10 @@
                 'fullDirectorName': sc.fullDirectorName,
                 'email': sc.email,
                 'directorPhoneNumber': sc.directorPhoneNumber,
-                'orderPhoneNumber': sc.orderPhoneNumber,
-                'rooms': {"id": 6, "roomType": "PRESIDENT", "roomCount": 5, "bedType": false, "breakfast": true},
-                'workers': {"id":5,"fullName":"worker5","post":"post5","birthday":"1996-11-08","sex":"MALE","experience":10,"previousPost":"previous_post5","dateOfEmployment":"2010-12-05"}
+                'orderPhoneNumber': sc.orderPhoneNumber
+
+                // 'rooms': {"id": 6, "roomType": "PRESIDENT", "roomCount": 5, "bedType": false, "breakfast": true},
+                // 'workers': {"id":5,"fullName":"worker5","post":"post5","birthday":"1996-11-08","sex":"MALE","experience":10,"previousPost":"previous_post5","dateOfEmployment":"2010-12-05"}
             };
 
             if (sc.formValid) HotelService.new(sc.hotel)

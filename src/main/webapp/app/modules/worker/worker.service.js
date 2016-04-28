@@ -47,8 +47,8 @@
             });
         };
 
-        this.getImages = function (id) {
-            return $http.get(urlBase + '/images', { 
+        this.getLogo = function (id) {
+            return $http.get(urlBase + '/logo', { 
                     params: { 
                         id: id
                     }

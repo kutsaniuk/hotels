@@ -41,7 +41,7 @@
 
 		sc.save = function () {
 
-			sc.soft = {
+			sc.worker = {
 				'fullName': sc.fullName,
 				'post': sc.post,
 				'birthday': sc.birthday.getFullYear() + '-' + sc.birthday.getMonth() + '-' + sc.birthday.getDate(),
@@ -52,10 +52,9 @@
 				'hotel': sc.selHotel
 			}
 
-			if (sc.formValid) WorkerService.new(sc.soft)
+			if (sc.formValid) WorkerService.new(sc.worker)
 				.success(function (data) {
 					sc.loadPage(sc.currentPage);
-					sc.soft = null;
 					sc.closeThisDialog(true);
 				});
 		}
