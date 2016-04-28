@@ -22,10 +22,10 @@ import java.util.Set;
 /**
  * Created by kutsaniuk on 11.03.16.
  */
-@Component( "roomService" )
+@Component("roomService")
 public class RoomServiceImpl implements RoomService {
 
-    private static final Logger LOG = LoggerFactory.getLogger( RoomServiceImpl.class );
+    private static final Logger LOG = LoggerFactory.getLogger(RoomServiceImpl.class);
 
     @Autowired
     private RoomRepository repository;
@@ -34,40 +34,45 @@ public class RoomServiceImpl implements RoomService {
     private ImageRepository imageRepository;
 
     @Autowired
-    @Qualifier( "imageService" )
+    @Qualifier("imageService")
     private ImageService imageService;
 
     @Override
-    public ResponseEntity<Room> add( Room room ) {
-        LOG.info( "Room id='{}' has been added", room.getId() );
-        return ResponseEntity.ok( repository.saveAndFlush( room ) );
+    public ResponseEntity<Room> add(Room room) {
+        LOG.info("Room id='{}' has been added", room.getId());
+        return ResponseEntity.ok(repository.saveAndFlush(room));
     }
 
     @Override
-    public ResponseEntity<Room> edit( Room room ) {
-        LOG.info( "Room id='{}' has been edited", room.getId() );
-        return ResponseEntity.ok( repository.saveAndFlush( room ) );
+    public ResponseEntity<Room> edit(Room room) {
+        LOG.info("Room id='{}' has been edited", room.getId());
+        return ResponseEntity.ok(repository.saveAndFlush(room));
     }
 
     @Override
-    public ResponseEntity<Void> delete( Long id ) {
-        repository.delete( id );
-        LOG.info( "Room id='{}' has been deleted", id );
+    public ResponseEntity<Void> delete(Long id) {
+        repository.delete(id);
+        LOG.info("Room id='{}' has been deleted", id);
         return ResponseEntity.ok().build();
     }
 
     @Override
-    public Page<Room> search( Pageable pageable, String roomType, String bedType, String breakfast ) {
+    public Page<Room> search(Pageable pageable, String roomType, String bedType, String breakfast) {
+        boolean bf;
+        if (breakfast == null || breakfast.equals("")) bf = false;
+        else if (breakfast.toLowerCase().equals("true")) bf = true;
+        else if (breakfast.toLowerCase().equals("false")) bf = false;
+        else bf = false;
+
         if ((roomType == null || roomType.equals("")) && (bedType == null || bedType.equals("")) && (breakfast == null || breakfast.equals(""))) {
             return repository.getAll(pageable);
         }
+
         if ((roomType == null || roomType.equals("")) && (bedType != null && !bedType.equals("")) && (breakfast != null && !breakfast.equals(""))) {
             Room.BedType bt = Room.BedType.valueOf(bedType.toUpperCase());
-            Room.Breakfast br = Room.Breakfast.valueOf(breakfast.toUpperCase());
-            return repository.findAllByBedTypeAndBreakfast(pageable, bt, br);
+            return repository.findAllByBedTypeAndBreakfast(pageable, bt, bf);
         } else if ((roomType == null || roomType.equals("")) && (bedType == null || bedType.equals("")) && (breakfast != null || !breakfast.equals(""))) {
-            Room.Breakfast br = Room.Breakfast.valueOf(breakfast.toUpperCase());
-            return repository.findAllByBreakfast(pageable, br);
+            return repository.findAllByBreakfast(pageable, bf);
         } else if ((breakfast == null || breakfast.equals("")) && (bedType == null || bedType.equals("")) && (roomType != null || !roomType.equals(""))) {
             Room.RoomType type = Room.RoomType.valueOf(roomType.toUpperCase());
             return repository.findAllByRoomType(pageable, type);
@@ -80,48 +85,46 @@ public class RoomServiceImpl implements RoomService {
             return repository.findAllByRoomTypeAndBedType(pageable, type, bt);
         } else if ((bedType == null || bedType.equals("")) && (roomType != null || !roomType.equals("")) && (breakfast != null || !breakfast.equals(""))) {
             Room.RoomType type = Room.RoomType.valueOf(roomType.toUpperCase());
-            Room.Breakfast br = Room.Breakfast.valueOf(breakfast.toUpperCase());
-            return repository.findAllByRoomTypeAndBreakfast(pageable, type, br);
+            return repository.findAllByRoomTypeAndBreakfast(pageable, type, bf);
         } else if ((roomType != null && !roomType.equals("")) && (bedType != null || !bedType.equals("")) && (breakfast != null || !breakfast.equals(""))) {
             Room.RoomType type = Room.RoomType.valueOf(roomType.toUpperCase());
             Room.BedType bt = Room.BedType.valueOf(bedType.toUpperCase());
-            Room.Breakfast br = Room.Breakfast.valueOf(breakfast.toUpperCase());
-            return repository.findAllByRoomTypeAndBedTypeAndBreakfast(pageable, type, bt, br);
+            return repository.findAllByRoomTypeAndBedTypeAndBreakfast(pageable, type, bt, bf);
         } else
             return null;
     }
 
     @Override
-    public ResponseEntity<Set<Image>> getAllImages( Long id ) {
-        Set<hotels.business.image.domain.Image> images = repository.findOneById( id )
-                .map( Room::getImages )
-                .orElseGet( null );
-        Set<Image> decodedImages = imageService.decodeImages( images );
+    public ResponseEntity<Set<Image>> getAllImages(Long id) {
+        Set<hotels.business.image.domain.Image> images = repository.findOneById(id)
+                .map(Room::getImages)
+                .orElseGet(null);
+        Set<Image> decodedImages = imageService.decodeImages(images);
 
-        return ResponseEntity.ok( decodedImages );
+        return ResponseEntity.ok(decodedImages);
     }
 
     @Override
-    public ResponseEntity<Void> addImage( Long id, MultipartFile image ) {
-        return repository.findOneById( id )
-                .map( r -> {
+    public ResponseEntity<Void> addImage(Long id, MultipartFile image) {
+        return repository.findOneById(id)
+                .map(r -> {
                     Image img = null;
-                    img = imageService.encodeImage( image );
-                    img.setRoom( r );
+                    img = imageService.encodeImage(image);
+                    img.setRoom(r);
 
                     Set<Image> images = r.getImages();
-                    images.add( img );
-                    r.setImages( images );
-                    repository.saveAndFlush( r );
-                    LOG.info( "Image has been added" );
+                    images.add(img);
+                    r.setImages(images);
+                    repository.saveAndFlush(r);
+                    LOG.info("Image has been added");
                     return ResponseEntity.ok().build();
-                } )
-                .orElseGet( () -> new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR ) );
+                })
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
     @Override
-    public ResponseEntity<Void> removeImage( Long imageId ) {
-        imageRepository.delete( imageId );
+    public ResponseEntity<Void> removeImage(Long imageId) {
+        imageRepository.delete(imageId);
         return ResponseEntity.ok().build();
     }
 

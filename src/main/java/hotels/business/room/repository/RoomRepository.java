@@ -23,14 +23,14 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     Page<Room> findAllByRoomTypeAndBedTypeAndBreakfast(Pageable pageable,
                                                        @Param("roomType") Room.RoomType roomType,
                                                        @Param("bedType") Room.BedType bedType,
-                                                       @Param("breakfast") Room.Breakfast breakfast);
+                                                       @Param("breakfast") boolean breakfast);
 
     @Query("SELECT r FROM Room r " +
             "WHERE r.bedType = :bedType " +
             "AND r.breakfast = :breakfast")
     Page<Room> findAllByBedTypeAndBreakfast(Pageable pageable,
                                             @Param("bedType") Room.BedType bedType,
-                                            @Param("breakfast") Room.Breakfast breakfast);
+                                            @Param("breakfast") boolean breakfast);
 
     @Query("SELECT r FROM Room r " +
             "WHERE r.roomType = :roomType " +
@@ -44,7 +44,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
             "AND r.breakfast = :breakfast")
     Page<Room> findAllByRoomTypeAndBreakfast(Pageable pageable,
                                              @Param("roomType") Room.RoomType roomType,
-                                             @Param("breakfast") Room.Breakfast breakfast);
+                                             @Param("breakfast") boolean breakfast);
 
     @Query("SELECT r FROM Room r " +
             "WHERE r.roomType = :roomType")
@@ -59,7 +59,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query("SELECT r FROM Room r " +
             "where r.breakfast = :breakfast")
     Page<Room> findAllByBreakfast(Pageable pageable,
-                                  @Param("breakfast") Room.Breakfast breakfast);
+                                  @Param("breakfast") boolean breakfast);
 
     @Query("SELECT r FROM Room r")
     Page<Room> getAll(Pageable pageable);

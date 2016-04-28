@@ -50,22 +50,6 @@ public class Room implements Serializable {
         }
     }
 
-    public enum Breakfast {
-        PRESENT( "PRESENT" ),
-        MISSING( "MISSING" );
-
-        private final String breakfast;
-
-        Breakfast( String breakfast ) {
-            this.breakfast = breakfast;
-        }
-
-        @Override
-        public String toString() {
-            return breakfast;
-        }
-    }
-
     @Id
     @Column( name = "id" )
     @GeneratedValue
@@ -81,7 +65,7 @@ public class Room implements Serializable {
     private BedType bedType;
 
     @Column( name = "breakfast" )
-    private Breakfast breakfast;
+    private boolean breakfast;
 
     @ManyToOne
     @JoinColumn( name = "hotels_id", nullable = false )
@@ -95,7 +79,7 @@ public class Room implements Serializable {
 
     }
 
-    public Room( RoomType roomType, int roomCount, BedType bedType, Breakfast breakfast ) {
+    public Room( RoomType roomType, int roomCount, BedType bedType, boolean breakfast ) {
         this.roomType = roomType;
         this.roomCount = roomCount;
         this.bedType = bedType;
@@ -126,11 +110,11 @@ public class Room implements Serializable {
         this.roomCount = roomCount;
     }
 
-    public Breakfast getBreakfast() {
+    public boolean getBreakfast() {
         return breakfast;
     }
 
-    public void setBreakfast( Breakfast breakfast ) {
+    public void setBreakfast( boolean breakfast ) {
         this.breakfast = breakfast;
     }
 
