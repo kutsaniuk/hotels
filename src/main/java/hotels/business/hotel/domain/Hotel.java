@@ -1,6 +1,7 @@
 package hotels.business.hotel.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import hotels.business.image.domain.Image;
 import hotels.business.room.domain.Room;
 import hotels.business.worker.domain.Worker;
 
@@ -54,6 +55,10 @@ public class Hotel implements Serializable {
     @JsonIgnore
     @Column( name = "logo", length = 3000000 )
     private String logo;
+
+    @JsonIgnore
+    @OneToMany( targetEntity = Image.class, cascade = CascadeType.ALL, mappedBy = "hotel" )
+    private Set<Image> images = new HashSet<>();
 
     public Hotel() {
     }
@@ -160,6 +165,14 @@ public class Hotel implements Serializable {
 
     public void setLogo( String logo ) {
         this.logo = logo;
+    }
+
+    public Set<Image> getImages() {
+        return images;
+    }
+
+    public void setImages( Set<Image> images ) {
+        this.images = images;
     }
 
 }

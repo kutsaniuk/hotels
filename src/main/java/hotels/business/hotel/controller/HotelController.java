@@ -3,6 +3,7 @@ package hotels.business.hotel.controller;
 import hotels.business.hotel.domain.Hotel;
 import hotels.business.hotel.repository.HotelRepository;
 import hotels.business.hotel.service.HotelService;
+import hotels.business.image.domain.Image;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Set;
 
 /**
  * Created by NicholasG on 08.04.2016.
@@ -100,6 +103,31 @@ public class HotelController {
         LOG.info( "Updating hotel id='{}' image", id );
 
         return hotelService.updateLogo( id, image );
+    }
+
+    @RequestMapping(
+            value = "/images",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Set<Image>> getAllImages( @RequestParam( "id" ) Long id ) {
+        LOG.info( "Getting images for hotel id='{}'", id );
+        return hotelService.getAllImages( id );
+    }
+
+    @RequestMapping(
+            value = "/images",
+            method = RequestMethod.POST
+    )
+    public ResponseEntity<Void> addImage( @RequestParam( "id" ) Long id,
+                                          @RequestParam( "file" ) MultipartFile image ) {
+        LOG.info( "Adding an image for hotel id='{}'", id );
+        return hotelService.addImage( id, image );
+    }
+
+    public ResponseEntity<Void> removeImage( @RequestParam( "id" ) Long id ) {
+        LOG.info( "Deleting an image id='{}'", id );
+        return hotelService.removeImage( id );
     }
 
 }
