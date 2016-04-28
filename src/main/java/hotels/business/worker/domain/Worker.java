@@ -45,7 +45,6 @@ public class Worker implements Serializable {
     @JoinColumn( name = "hotels_id", nullable = false )
     private Hotel hotel;
 
-    @JsonIgnore
     @Column( name = "logo", length = 3000000 )
     private String logo;
 
@@ -58,7 +57,8 @@ public class Worker implements Serializable {
                    String sex,
                    int experience,
                    String previousPost,
-                   Date dateOfEmployment ) {
+                   Date dateOfEmployment,
+                   String logo) {
         this.fullName = fullName;
         this.post = post;
         this.birthday = birthday;
@@ -66,6 +66,7 @@ public class Worker implements Serializable {
         this.experience = experience;
         this.previousPost = previousPost;
         this.dateOfEmployment = dateOfEmployment;
+        this.logo = logo;
     }
 
     public Long getId() {

@@ -52,7 +52,6 @@ public class Hotel implements Serializable {
     @OneToMany( targetEntity = Worker.class, cascade = CascadeType.ALL, mappedBy = "hotel" )
     private Set<Worker> workers = new HashSet<>();
 
-    @JsonIgnore
     @Column( name = "logo", length = 3000000 )
     private String logo;
 
@@ -69,7 +68,8 @@ public class Hotel implements Serializable {
                   String fullDirectorName,
                   String email,
                   String directorPhoneNumber,
-                  String orderPhoneNumber ) {
+                  String orderPhoneNumber,
+                  String logo) {
         this.name = name;
         this.city = city;
         this.address = address;
@@ -77,6 +77,7 @@ public class Hotel implements Serializable {
         this.email = email;
         this.directorPhoneNumber = directorPhoneNumber;
         this.orderPhoneNumber = orderPhoneNumber;
+        this.logo = logo;
     }
 
     public Long getId() {
