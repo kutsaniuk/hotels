@@ -125,6 +125,10 @@ public class HotelController {
         return hotelService.addImage( id, image );
     }
 
+    @RequestMapping(
+            value = "/images",
+            method = RequestMethod.DELETE
+    )
     public ResponseEntity<Void> removeImage( @RequestParam( "id" ) Long id ) {
         LOG.info( "Deleting an image id='{}'", id );
         return hotelService.removeImage( id );
