@@ -12,7 +12,7 @@
               ng-mouseover="imageUploadShow = true"
               ng-mouseleave="imageUploadShow = false">
               <div class="crop"  ng-if="$flow.files[0] == null">
-                <img ng-src="data:image/png;base64, {{hotelLogo.background}}" onerror="this.src = '/dist/img/error.jpg'">
+                <img ng-src="data:image/png;base64, {{hotelLogo.logo}}" onerror="this.src = '/dist/img/error.jpg'">
               </div>
               <div class="crop"  ng-if="$flow.files[0] != null">
                 <img flow-img="$flow.files[0]">
@@ -23,8 +23,8 @@
                 <center>
                 <div>
                   <i class="glyphicon glyphicon-arrow-up"></i>
-                  <span ng-if="devLogo.background != 'null'" translate>change</span>
-                  <span ng-if="devLogo.background == 'null'" translate>add</span>
+                  <span ng-if="devLogo.logo != 'null'" translate>change</span>
+                  <span ng-if="devLogo.logo == 'null'" translate>add</span>
                 </div>
                 </center>
               </div>
@@ -40,7 +40,7 @@
               </div>
               <div class="col-lg-6 col-md-6 col-xs-6 no-padding sub-title worker" ng-repeat="worker in workers | limitTo: 1 | filter:{ post: 'DIRECTOR' }">
                 <a href="#/worker/{{worker.id}}">
-                  <img class="crop" ng-src="data:image/png;base64, {{worker.background}}" onerror="this.src = '/dist/img/hotel.profile.director.svg'" align="left">
+                  <img class="crop" ng-src="data:image/png;base64, {{worker.logo}}" onerror="this.src = '/dist/img/hotel.profile.director.svg'" align="left">
                 </a>
                 <div class="info">
                   <a href="#/worker/{{worker.id}}">{{worker.fullName}}</a><br>
@@ -174,7 +174,7 @@
       <ul class="worker-list">
         <li ng-repeat="worker in _workers = (workers | filter:{ hotel: hotel }) | limitTo: 5 ">
           <!-- <a href="#/worker/{{worker.id}}"><img class="crop" src="/dist/img/hotel.profile.director.svg" align="left"></a> -->
-          <a href="#/worker/{{worker.id}}"><img class="crop" ng-src="data:image/png;base64, {{worker.background}}" onerror="this.src = '/dist/img/hotel.profile.director.svg'" align="left"></a>
+          <a href="#/worker/{{worker.id}}"><img class="crop" ng-src="data:image/png;base64, {{worker.logo}}" onerror="this.src = '/dist/img/hotel.profile.director.svg'" align="left"></a>
           <div class="info">
             <a href="#/worker/{{worker.id}}">{{worker.fullName}}</a><br>
             <span class="post">{{worker.post}}</span>
