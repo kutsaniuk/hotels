@@ -12,7 +12,7 @@
               ng-mouseover="imageUploadShow = true"
               ng-mouseleave="imageUploadShow = false">
               <div class="crop"  ng-if="$flow.files[0] == null">
-                <img ng-src="data:image/png;base64, {{logo}}" onerror="this.src = '/dist/img/error.jpg'">
+                <img ng-src="data:image/png;base64, {{background}}" onerror="this.src = '/dist/img/error.jpg'">
               </div>
               <div class="crop"  ng-if="$flow.files[0] != null">
                 <img flow-img="$flow.files[0]">
@@ -23,8 +23,8 @@
                 <center>
                 <div>
                   <i class="glyphicon glyphicon-arrow-up"></i>
-                  <span ng-if="devLogo.logo != 'null'" translate>change</span>
-                  <span ng-if="devLogo.logo == 'null'" translate>add</span>
+                  <span ng-if="devLogo.background != 'null'" translate>change</span>
+                  <span ng-if="devLogo.background == 'null'" translate>add</span>
                 </div>
                 </center>
               </div> 
@@ -41,7 +41,7 @@
                 </table>
               </div>
               <div class="col-lg-6 col-md-6 col-xs-6 no-padding sub-title worker">
-                <a href="#/hotel/{{profile.hotel.id}}"><img class="crop" align="left" ng-src="data:image/png;base64, {{hotelLogo.logo}}" onerror="this.src = '/dist/img/error.jpg'"></a>
+                <a href="#/hotel/{{profile.hotel.id}}"><img class="crop" align="left" ng-src="data:image/png;base64, {{hotelLogo.background}}" onerror="this.src = '/dist/img/error.jpg'"></a>
                 <div class="info">
                   <a href="#/hotel/{{profile.hotel.id}}">{{profile.hotel.name}}</a><br>
                   {{profile.hotel.orderPhoneNumber}}

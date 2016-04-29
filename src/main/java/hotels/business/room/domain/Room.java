@@ -67,8 +67,8 @@ public class Room implements Serializable {
     @Column( name = "breakfast" )
     private boolean breakfast;
 
-    @Column( name = "logo", length = 3000000)
-    private String logo;
+    @Column( name = "background", length = 3000000)
+    private String background;
 
     @ManyToOne
     @JoinColumn( name = "hotels_id", nullable = false )
@@ -82,12 +82,12 @@ public class Room implements Serializable {
 
     }
 
-    public Room( RoomType roomType, int roomCount, BedType bedType, boolean breakfast, String logo ) {
+    public Room( RoomType roomType, int roomCount, BedType bedType, boolean breakfast, String background) {
         this.roomType = roomType;
         this.roomCount = roomCount;
         this.bedType = bedType;
         this.breakfast = breakfast;
-        this.logo = logo;
+        this.background = background;
     }
 
     public Long getId() {
@@ -150,11 +150,11 @@ public class Room implements Serializable {
         return breakfast;
     }
 
-    public String getLogo() {
-        return logo;
+    public String getBackground() {
+        return background;
     }
 
-    public void setLogo(String logo) {
-        this.logo = logo;
+    public void setBackground(String background) {
+        this.background = background;
     }
 }

@@ -57,14 +57,14 @@ public class RoomController {
     }
 
     @RequestMapping(
-            value = "/logo",
+            value = "/background",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateLogo( @RequestParam( "id" ) Long id,
                                                      @RequestParam( "file" ) MultipartFile image ) {
         LOG.info( "Updating room id='{}' image", id );
-        return roomService.updateLogo(id, image);
+        return roomService.updateBackground(id, image);
     }
 
 

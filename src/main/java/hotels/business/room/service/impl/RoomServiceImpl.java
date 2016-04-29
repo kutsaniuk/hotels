@@ -132,11 +132,11 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public ResponseEntity<Void> updateLogo(Long id, MultipartFile image) {
+    public ResponseEntity<Void> updateBackground(Long id, MultipartFile image) {
         return repository.findOneById( id )
                 .map( h -> {
                     try {
-                        h.setLogo( Base64Utils.encodeToString(image.getBytes()) );
+                        h.setBackground(Base64Utils.encodeToString(image.getBytes()));
                     } catch ( IOException e ) {
                         LOG.warn( Arrays.toString(e.getStackTrace()) );
                     }

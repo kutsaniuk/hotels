@@ -28,5 +28,5 @@ public interface RoomService {
 
     ResponseEntity<Void> removeImage( Long imageId );
 
-    ResponseEntity<Void> updateLogo( Long id, MultipartFile image );
+    ResponseEntity<Void> updateBackground( Long id, MultipartFile image );
 }
