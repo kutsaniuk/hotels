@@ -146,4 +146,11 @@ public class RoomServiceImpl implements RoomService {
                 } )
                 .orElseGet( () -> new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR ) );
     }
+
+    @Override
+    public ResponseEntity<String> getBackground(Long id) {
+        return repository.findOneById(id)
+        .map( h -> ResponseEntity.ok( ("{\"background\": " + '"' + h.getBackground() + '"' + "}") ) )
+                .orElseGet( () -> new ResponseEntity<>( HttpStatus.NOT_FOUND ) );
+    }
 }

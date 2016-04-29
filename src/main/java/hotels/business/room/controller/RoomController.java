@@ -58,9 +58,17 @@ public class RoomController {
 
     @RequestMapping(
             value = "/background",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<String> getBackground( @RequestParam( "id" ) Long id ) {
+        return roomService.getBackground(id);
+    }
+
+    @RequestMapping(
+            value = "/background",
             method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateLogo( @RequestParam( "id" ) Long id,
                                                      @RequestParam( "file" ) MultipartFile image ) {
         LOG.info( "Updating room id='{}' image", id );

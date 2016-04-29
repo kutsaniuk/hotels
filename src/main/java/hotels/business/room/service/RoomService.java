@@ -29,4 +29,6 @@ public interface RoomService {
     ResponseEntity<Void> removeImage( Long imageId );
 
     ResponseEntity<Void> updateBackground( Long id, MultipartFile image );
+
+    ResponseEntity<String> getBackground(Long id);
 }
