@@ -16,7 +16,7 @@
 			abstract: true,
 			template: '<div ui-view="content"></div>'
 		})
-		.state('main.room.table', {
+		.state('main.room.table', { 
 			url: '', 
 			views: {
 				'content@main.room': {
@@ -25,6 +25,15 @@
 				},
 				'filter@main.room.table': {
 					templateUrl: '/app/modules/room/filter/room.filter.view.html'
+				}
+			}
+		})
+		.state('main.room.profile', { 
+			url: '/:id',
+			views: {
+				'content@main.room': {
+					templateUrl: '/app/modules/room/profile/room.profile.view.html',
+					controller: 'RoomProfileCtrl'
 				}
 			}
 		});

@@ -42,6 +42,22 @@
             });
         };
 
+        this.getImages = function (id) {
+            return $http.get(urlBase + '/images', { 
+                    params: { 
+                        id: id
+                    }
+            });
+        }
+
+        this.getBackground = function (id) {
+            return $http.get(urlBase + '/background', { 
+                    params: { 
+                        id: id
+                    }
+            });
+        }
+
     });
 
 })();

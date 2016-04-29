@@ -12,7 +12,7 @@
         <div ng-mouseover="hotelInfoShow = true" ng-mouseleave="hotelInfoShow = false">
           <div class="col-lg-12 no-padding" >
             <div class="crop" >
-              <img src="data:image/png;base64" onerror="this.src='/dist/img/error.jpg'">
+              <img ng-src="data:image/png;base64, {{row.logo}}" onerror="this.src='/dist/img/error.jpg'">
             </div>
             <div ng-if="hotelInfoSwitchShow == false" class="info show-hide" ng-show="hotelInfoShow">
               {{row.address}} <br>

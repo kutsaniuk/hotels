@@ -356,7 +356,7 @@
 			abstract: true,
 			template: '<div ui-view="content"></div>'
 		})
-		.state('main.room.table', {
+		.state('main.room.table', { 
 			url: '', 
 			views: {
 				'content@main.room': {
@@ -365,6 +365,15 @@
 				},
 				'filter@main.room.table': {
 					templateUrl: '/app/modules/room/filter/room.filter.view.html'
+				}
+			}
+		})
+		.state('main.room.profile', { 
+			url: '/:id',
+			views: {
+				'content@main.room': {
+					templateUrl: '/app/modules/room/profile/room.profile.view.html',
+					controller: 'RoomProfileCtrl'
 				}
 			}
 		});
@@ -416,6 +425,22 @@
                     }
             });
         };
+
+        this.getImages = function (id) {
+            return $http.get(urlBase + '/images', { 
+                    params: { 
+                        id: id
+                    }
+            });
+        }
+
+        this.getBackground = function (id) {
+            return $http.get(urlBase + '/background', { 
+                    params: { 
+                        id: id
+                    }
+            });
+        }
 
     });
 
@@ -1173,6 +1198,86 @@
 				sc.closeThisDialog(true);
 			});
 		}
+	};
+})();
+
+(function () {
+	'use strict';
+
+	angular
+	.module('main')
+	.controller('RoomProfileCtrl', RoomProfileCtrl);
+
+	function RoomProfileCtrl ($scope, $state, $stateParams, ngDialog, HotelService, WorkerService, RoomService) {
+		var sc = $scope;
+		sc.table = 'room';
+
+		sc.id = $stateParams.id;
+
+		sc.targetImages = { 
+				target: '/room/images?id=' + $stateParams.id,
+				testChunks: false
+			};
+
+		sc.targetBackground = { 
+				target: '/room/background?id=' + $stateParams.id,
+				testChunks: false,
+				singleFile: true
+			};
+
+		
+		RoomService.get($stateParams.id)
+	  		.success( function (data) {
+	  			sc.profile = data;
+	  			sc.hotel = data;
+	  		});
+
+	  	sc.getImages = function (id) {
+	  		RoomService.getImages(id)
+	  		.success( function (data) {
+	  			sc.images = data;
+	  		});
+	  	}
+
+	  	sc.getBackground = function (id) {
+	  		RoomService.getBackground(id)
+	  		.success( function (data) {
+	  			sc.background = data.background;
+	  		});
+	  	}
+
+	  	sc.openLogoUpload = function () {
+	  		ngDialog.open({ 
+				template: '/app/modules/hotel/profile/hotel.logo.upload.view.html', 
+				className: 'ngdialog-theme-default',
+				showClose: true,
+				scope: $scope
+			});
+	  	}
+
+	  	sc.openImageById = function (index) {
+			ngDialog.open({ 
+				template: '/app/shared/image/image.fullsreen.view.html', 
+				className: 'ngdialog-theme-image-view',
+				showClose: false,
+				scope: $scope
+			});
+			sc.imgIndex = index;
+		};
+
+		sc.previousImage = function () {
+			if (sc.imgIndex == 0) sc.imgIndex = sc.images.length;
+			sc.imgIndex --;
+		}
+
+		sc.nextImage = function () {
+			sc.imgIndex ++;
+			if (sc.imgIndex == sc.images.length) sc.imgIndex = 0;
+		}
+
+	  	sc.getImages(sc.id);
+	  	sc.getBackground(sc.id);
+
 	};
 })();
 

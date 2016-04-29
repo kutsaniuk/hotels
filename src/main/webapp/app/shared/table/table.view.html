@@ -35,7 +35,7 @@
               </td>
             </tr>
             <tr ng-switch-when="room" ng-repeat="row in data = (main.content | filter: filterField | orderBy: fieldName:reverse)" ng-dblclick="openEdit(row.id)">
-              <td>{{row.roomType}}</td>
+              <td><a href="#/room/{{row.id}}">{{row.roomType}}</a></td>
               <td>{{row.roomCount}}</td>
               <td>
                 <span ng-if="row.bedType == 'SINGLE'" class="label label-primary">single</span>
