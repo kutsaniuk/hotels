@@ -15,7 +15,6 @@
 		padding: 2.5px 2.5px 10px 10px
 		color: #848484
 		font-size: 13px
-		cursor: pointer
 
 		span
 			margin-right: 25px
@@ -26,13 +25,35 @@
 .arrow
 	height: 500px
 	margin: 0 auto
-	img
-		margin-top: 125%
-		width: 35px
+	color: rgba(132,132,132,0.8)
+	font-size: 36px
+	cursor: pointer
+	transition: .2s
+	padding: 15% 86px 86px 86px
+	&:hover
+		color: #eee
 
-#close
-	width: 25px
+.icon-arrowlefth::before
+    content: '\e900'
+
+.icon-arrowrighth::before
+    content: "\e901"
+
+.icon-imageclose::before 
+    content: "\e902"
+
+.close-image
 	position: fixed
 	right: 0
 	top: 0
-	margin: 25px
+	color: rgba(132,132,132,0.8)
+	font-size: 25px
+	cursor: pointer
+	transition: .2s
+	&:hover
+		color: #eee
+
+.close-image
+    height: 180px
+.close-image
+    padding: 25px 25px 25px 200px

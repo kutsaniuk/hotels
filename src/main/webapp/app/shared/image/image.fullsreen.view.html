@@ -1,17 +1,13 @@
-<div class="col-lg-2 col-md-2 col-xs-2 arrow" ng-click="previousImage()"><center><img src="/dist/img/arrow.left.svg" alt=""></center></div>
+<div class="col-lg-2 col-md-2 col-xs-2 arrow icon-arrowlefth" ng-click="previousImage()"></div>
 <div class="col-lg-8 col-md-8 col-xs-8">
 	<div class="image-view">
-		<!-- <img ng-src="data:image/png;base64, {{images[imgIndex].image}}"> -->
-		<img ng-src="/dist/img/room.item{{imgIndex}}.jpg" alt="" ng-click="nextImage()">
+		<img ng-src="data:image/png;base64, {{images[imgIndex].decodedImage}}" ng-click="nextImage()">
+		<!-- <img ng-src="/dist/img/room.item{{imgIndex}}.jpg" alt="" ng-click="nextImage()"> -->
 		<div class="tool">
 			{{imgIndex + 1}} in {{images.length}}
 			<span class="right" ng-click="deleteImage(getImageId(imgIndex))">delete</span>
 		</div>
 	</div>
 </div>
-<div class="col-lg-2 col-md-2 col-xs-2 arrow" ng-click="nextImage()">
-	<center>
-		<img src="/dist/img/arrow.right.svg" alt="">
-		<img id="close" src="/dist/img/image.close.svg" alt="" ng-click="closeThisDialog(true)">
-	</center>
-</div>
+<div class="col-lg-2 col-md-2 col-xs-2 arrow icon-arrowrighth" ng-click="nextImage()"></div>
+<div class="close-image icon-imageclose" ng-click="closeThisDialog(true)"></div>
