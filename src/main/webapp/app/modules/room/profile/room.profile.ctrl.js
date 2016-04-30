@@ -29,7 +29,7 @@
 	  			sc.hotel = data;
 	  		});
 
-	  	sc.getImages = function (id) {
+	  	sc.getImages = function (id) { 
 	  		RoomService.getImages(id)
 	  		.success( function (data) {
 	  			sc.images = data;
