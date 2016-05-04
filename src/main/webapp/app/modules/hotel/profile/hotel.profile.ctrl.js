@@ -8,6 +8,7 @@
 	function HotelProfileCtrl ($scope, $state, $stateParams, ngDialog, HotelService, WorkerService, RoomService) {
 		var sc = $scope;
 		sc.table = 'hotel';
+		sc.imageUploadShow = false;
 
 		sc.id = $stateParams.id;
 
@@ -50,6 +51,7 @@
 	  		HotelService.getImages(id)
 	  		.success( function (data) {
 	  			sc.images = data;
+	  			if (data == '') sc.imageUploadShow = true;
 	  		});
 	  	}
 
@@ -81,6 +83,22 @@
 				disableAnimation: true
 			});
 		};
+
+		sc.openRooms = function () {
+			ngDialog.open({ 
+				template: '/app/modules/hotel/profile/hotel.room.view.html',
+				className: 'ngdialog-theme-dev',
+				showClose: false,
+				scope: $scope,
+				disableAnimation: true
+			});
+		};
+
+		sc.deleteImage = function (id) {
+			HotelService.deleteImageById(id).success( function (data) {
+	  			sc.getImages(sc.id); 
+	  		});	 
+		}
 
 		sc.previousImage = function () {
 			if (sc.imgIndex == 0) sc.imgIndex = sc.images.length;

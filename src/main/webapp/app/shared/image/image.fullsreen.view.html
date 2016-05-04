@@ -5,7 +5,7 @@
 		<!-- <img ng-src="/dist/img/room.item{{imgIndex}}.jpg" alt="" ng-click="nextImage()"> -->
 		<div class="tool">
 			{{imgIndex + 1}} in {{images.length}}
-			<span class="right" ng-click="deleteImage(getImageId(imgIndex))">delete</span>
+			<span class="right" ng-click="deleteImage(images[imgIndex].id)">delete</span>
 		</div>
 	</div>
 </div>

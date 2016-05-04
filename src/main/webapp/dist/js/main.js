@@ -155,7 +155,7 @@
 			template: '<div ui-view="content"></div>'
 		})
 		.state('main.hotel.list', {
-			url: '/list',
+			url: '',
 			views: {
 				'content@main.hotel': {
 					templateUrl: '/app/modules/hotel/list/hotel.list.view.html',
@@ -168,7 +168,7 @@
 			}
 		})
 		.state('main.hotel.table', {
-			url: '',
+			url: '/table',
 			views: {
 				'content@main.hotel': {
 					templateUrl: '/app/shared/table/table.view.html',
@@ -251,6 +251,14 @@
 
         this.getImages = function (id) {
             return $http.get(urlBase + '/images', { 
+                    params: { 
+                        id: id
+                    }
+            });
+        }
+
+        this.deleteImageById = function (id) {
+            return $http.delete(urlBase + '/images', { 
                     params: { 
                         id: id
                     }
@@ -436,6 +444,14 @@
 
         this.getBackground = function (id) {
             return $http.get(urlBase + '/background', { 
+                    params: { 
+                        id: id
+                    }
+            });
+        }
+
+        this.deleteImageById = function (id) {
+            return $http.delete(urlBase + '/images', { 
                     params: { 
                         id: id
                     }
@@ -967,6 +983,7 @@
 	function HotelProfileCtrl ($scope, $state, $stateParams, ngDialog, HotelService, WorkerService, RoomService) {
 		var sc = $scope;
 		sc.table = 'hotel';
+		sc.imageUploadShow = false;
 
 		sc.id = $stateParams.id;
 
@@ -1009,6 +1026,7 @@
 	  		HotelService.getImages(id)
 	  		.success( function (data) {
 	  			sc.images = data;
+	  			if (data == '') sc.imageUploadShow = true;
 	  		});
 	  	}
 
@@ -1040,6 +1058,22 @@
 				disableAnimation: true
 			});
 		};
+
+		sc.openRooms = function () {
+			ngDialog.open({ 
+				template: '/app/modules/hotel/profile/hotel.room.view.html',
+				className: 'ngdialog-theme-dev',
+				showClose: false,
+				scope: $scope,
+				disableAnimation: true
+			});
+		};
+
+		sc.deleteImage = function (id) {
+			HotelService.deleteImageById(id).success( function (data) {
+	  			sc.getImages(sc.id); 
+	  		});	 
+		}
 
 		sc.previousImage = function () {
 			if (sc.imgIndex == 0) sc.imgIndex = sc.images.length;
@@ -1211,6 +1245,7 @@
 	function RoomProfileCtrl ($scope, $state, $stateParams, ngDialog, HotelService, WorkerService, RoomService) {
 		var sc = $scope;
 		sc.table = 'room';
+		sc.imageUploadShow = false;
 
 		sc.id = $stateParams.id;
 
@@ -1232,10 +1267,11 @@
 	  			sc.hotel = data;
 	  		});
 
-	  	sc.getImages = function (id) {
+	  	sc.getImages = function (id) { 
 	  		RoomService.getImages(id)
 	  		.success( function (data) {
 	  			sc.images = data;
+	  			if (data == '') sc.imageUploadShow = true;
 	  		});
 	  	}
 
@@ -1264,6 +1300,12 @@
 			});
 			sc.imgIndex = index;
 		};
+
+		sc.deleteImage = function (id) {
+			RoomService.deleteImageById(id).success( function (data) {
+	  			sc.getImages(sc.id); 
+	  		});	 
+		}
 
 		sc.previousImage = function () {
 			if (sc.imgIndex == 0) sc.imgIndex = sc.images.length;

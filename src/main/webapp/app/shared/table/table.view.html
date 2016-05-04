@@ -15,7 +15,7 @@
       </div>
       <div class="table-responsive" ng-controller="TableCtrl">
         <table class="table table-hover table-striped">
-          <thead>
+          <thead ng-show="main.content != ''">
             <tr>
               <th ng-repeat="column in tableHeader" ng-click="sort(column)"><i ng-class = "{'glyphicon glyphicon-arrow-up':isSortUp(column), 'glyphicon glyphicon-arrow-down':isSortDown(column)}"></i><span translate>{{column}}</span></th>
               <th translate>action</th>
@@ -24,7 +24,7 @@
           <tbody ng-switch="table">
             <tr ng-switch-when="hotel" ng-repeat="row in data = (main.content | filter: filterField | orderBy: fieldName:reverse)" ng-dblclick="openEdit(row.id)">
               <td><a ng-href="#/hotel/{{row.id}}">{{row.name}}</a></td>
-              <td><span uib-popover="{{row.address}}" popover-trigger="mouseenter">{{row.city}}</span></td>
+              <td><div uib-tooltip="{{row.address}}" popover-trigger="mouseenter">{{row.city}}</div></td>
               <td>{{row.fullDirectorName}}</td>
               <td>{{row.email}}</td>
               <td>{{row.directorPhoneNumber | phone}}</td>
@@ -40,7 +40,7 @@
               <td>
                 <span ng-if="row.bedType == 'SINGLE'" class="label label-primary">single</span>
                 <span ng-if="row.bedType == 'DOUBLE'" class="label label-success">double</span>
-            </td>
+              </td>
               <td><span ng-show="row.breakfast" class="glyphicon glyphicon-ok"></span></td>
               <td>
                 <i class="glyphicon glyphicon-pencil action" ng-click="openEdit(row.id)"></i>
@@ -62,12 +62,21 @@
             </tr>
           </tbody>
         </table>
+        <div ng-if="main.content == ''" class="col-lg-12">
+          <center>
+          <h3>Немає результатів</h3>
+          <p>
+            Змініть параметри пошуку
+          </p>
+          </center>
+        </div>
         <center>
         <uib-pagination
         total-items="main.totalElements"
         ng-model="currentPage"
         max-size="main.totalElements"
         ng-change="loadPage(currentPage, name)"
+        ng-show="main.content != ''"
         class="pagination-sm">
         </uib-pagination>
         </center>

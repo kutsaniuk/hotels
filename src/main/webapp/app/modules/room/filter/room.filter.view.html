@@ -14,7 +14,8 @@
 <label translate>breakfast</label><br>
 <switch ng-model="breakfast" ng-change="loadPage(1, roomType, bedType, breakfast)"></switch>
 <br>
-<button class="btn btn-default full-width" ng-click="loadPage(currentPage)">clearFilter</button>
+<br>
+<button class="btn btn-default full-width" ng-click="loadPage(currentPage); roomType = null; bedType = null; breakfast = null">clearFilter</button>
 <br>
 <br>
 <button class="btn btn-success full-width" ng-click="openAdd()"><i class="glyphicon glyphicon-plus"></i> <span translate>add</span></button>

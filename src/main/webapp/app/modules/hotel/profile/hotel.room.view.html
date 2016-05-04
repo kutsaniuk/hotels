@@ -1,0 +1,31 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title" translate>rooms</h3>
+		<i class="glyphicon glyphicon-remove action action-close right" ng-click="closeThisDialog(true)"></i>
+	</div>
+	<div class="panel-body">
+		<div class="col-lg-3 col-md-3 col-xs-12 no-padding room" ng-repeat="room in _rooms = (rooms | filter:{ hotel: hotel })">
+			<a href="#/room/{{room.id}}" ng-click="closeThisDialog(true)">
+				<div class="item">
+					<div class="item-container">
+						<div class="crop">
+							<img ng-src="data:image/png;base64, {{room.background}}" onerror="this.src = '/dist/img/error.jpg'">
+						</div>
+						<div class="info-room show-hide">
+							<b>{{room.roomType}}</b> <br>
+							{{room.roomCount}} <span translate>rooms</span>
+							<div class="bed">
+								<span ng-if="room.bedType == 'DOUBLE'"><b>1</b></span>
+								<span ng-if="room.bedType == 'SINGLE'"><b>2</b></span>
+								<img src="/dist/img/bed.svg">
+							</div>
+							<div class="breakfast">
+								<img ng-show="room.breakfast" src="/dist/img/breakfast.svg">
+							</div>
+						</div>
+					</div>
+				</div>
+			</a>
+		</div>
+	</div>
+</div>

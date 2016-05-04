@@ -8,6 +8,7 @@
 	function RoomProfileCtrl ($scope, $state, $stateParams, ngDialog, HotelService, WorkerService, RoomService) {
 		var sc = $scope;
 		sc.table = 'room';
+		sc.imageUploadShow = false;
 
 		sc.id = $stateParams.id;
 
@@ -33,6 +34,7 @@
 	  		RoomService.getImages(id)
 	  		.success( function (data) {
 	  			sc.images = data;
+	  			if (data == '') sc.imageUploadShow = true;
 	  		});
 	  	}
 
@@ -61,6 +63,12 @@
 			});
 			sc.imgIndex = index;
 		};
+
+		sc.deleteImage = function (id) {
+			RoomService.deleteImageById(id).success( function (data) {
+	  			sc.getImages(sc.id); 
+	  		});	 
+		}
 
 		sc.previousImage = function () {
 			if (sc.imgIndex == 0) sc.imgIndex = sc.images.length;
